@@ -3,10 +3,12 @@
     #include <iostream>
 
     using namespace std;
-    #define YYSTYPE string
     #define YYERROR_VERBOSE 1
+    #define YYSTYPE string
     #define DEBUG
 
+    extern FILE *yyin;
+    extern int yylineno;
 
     int  wrapRet = 1;
 
@@ -17,7 +19,7 @@
         }
     }
     void yyerror(const char *str) {
-        cout << "Parser: " << str << endl;
+        cout << "Parser: " << str << " on line " << yylineno << endl;
         exit(1);
     }
 
@@ -40,23 +42,39 @@
 %token OTHER SPACE
 
 
-%token BOOL U8 I8 U16 I16 U32 I32 STRING_T
-%token IMPORT STRUCT VAR FUNC RETURN IF ELSE FOR BREAK CONTINUE STRUCT
+%token BOOL U8 I8 U16 I16 U32 I32 STRING_T VOID
+%token IMPORT STRUCT VAR FUNC RETURN IF ELSE FOR BREAK CONTINUE
 
 
 %start input
 
 %%
+
 input: /* empty */
      | input  error
-     | input stmt0
+     | input program
 
 ;
+
+type: BOOL
+    | U8
+    | I8
+    | U16
+    | I16
+    | U32
+    | I32
+    | STRING_T
+    | ID
+    | VOID
+    | type MUL
+    | type LBRACKET RBRACKET
+    ;
+
 
 primary_expr: ID { }
     | CHAR {}
     | NUMBER { }
-    | STRING {}
+    | STRING {};
 
     // '(' expr ')'
 postfix_expr: ID {cout << "prim_expr " << endl;}
@@ -64,7 +82,7 @@ postfix_expr: ID {cout << "prim_expr " << endl;}
     | postfix_expr LPAREN args_expr_list RPAREN {cout << "func call " << endl;}
     | postfix_expr DOT ID {cout << "member " << endl;}
     | postfix_expr INC {cout << "inc " << endl;}
-    | postfix_expr DEC {cout << "dec " << endl;}
+    | postfix_expr DEC {cout << "dec " << endl;} ;
 
 args_expr_list: operand_expr {}
     | args_expr_list COMMA operand_expr {}
@@ -77,6 +95,8 @@ unary_operator: MUL
     | ADD
     | SUB
     | NOT
+    | MUL
+    | AND
     ;
 
 unary_expr: operand_expr { }
@@ -164,46 +184,15 @@ stmt0:
     | struct_def_stmt {}
 
 
+import_stmt: IMPORT AT ID SEMI {cout << "import stmt" << endl;}
+
+program: import_stmt { }
+    | stmt0 { cout << "stmt0" << endl; }
+    | program {}
 
 
 
-type: BOOL
-    | U8
-    | I8
-    | U16
-    | I16
-    | U32
-    | I32
-    | STRING_T
-    | ID
-    | type LBRACKET RBRACKET
-    ;
 
-/*operand: constant {}
-    | id_expr {}
-
-unary_expr: id_expr {}
-    | INC id_expr { cout << "pre inc" << endl; }
-    | DEC id_expr { cout << "pre dec" << endl; }
-    | MUL id_expr { cout << "pointer" << endl; }
-*/
-/*expr: term | term op expr {
-        cout << "n1 - " << $1 << endl;
-        cout << "op- " << $2 << endl;
-        cout << "n2 - " << $3 << endl;
-    }
-
-
-op: MINUS | PLUS{
-        $$ = $1;
-    }
-term: factor | factor MUL term | factor DIV term{
-        cout << "f - " << $1 << endl;
-        cout << "t - " << $3 << endl;
-    }
-factor: expr | NUM {
-        cout << "e - " << $1 << endl;
-    }*/
 
 
 %%

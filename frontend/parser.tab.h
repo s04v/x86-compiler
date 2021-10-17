@@ -104,16 +104,17 @@ extern int yydebug;
     U32 = 310,
     I32 = 311,
     STRING_T = 312,
-    IMPORT = 313,
-    STRUCT = 314,
-    VAR = 315,
-    FUNC = 316,
-    RETURN = 317,
-    IF = 318,
-    ELSE = 319,
-    FOR = 320,
-    BREAK = 321,
-    CONTINUE = 322
+    VOID = 313,
+    IMPORT = 314,
+    STRUCT = 315,
+    VAR = 316,
+    FUNC = 317,
+    RETURN = 318,
+    IF = 319,
+    ELSE = 320,
+    FOR = 321,
+    BREAK = 322,
+    CONTINUE = 323
   };
 #endif
 

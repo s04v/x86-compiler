@@ -7,6 +7,7 @@
     #define YYSTYPE string
     #include "parser.tab.h"
 %}
+%option yylineno
 
 identifier      [_a-zA-Z][_a-zA-Z0-9]*
 quote1          "\'"[^'\\]*"\'"
@@ -22,6 +23,8 @@ quote2          "\""[^"\\]*"\""
                     yylval = yytext;
                     return NUMBER;
                 }
+L?\"(\\.|[^\\"\n])*\"	{ yylval = yytext; return STRING; }
+
 '([^\r^\n^']|\\0)' { yylval = yytext; return CHAR; } // fix thiss
 
 ":"                 yylval = yytext; return COLON;
@@ -75,16 +78,19 @@ quote2          "\""[^"\\]*"\""
 "u32"               yylval = yytext; return U32;
 "i32"               yylval = yytext; return I32;
 "string"            yylval = yytext; return STRING_T;
+"void"              yylval = yytext; return VOID;
 
-"import "           yylval = yytext; return DEC;
+
+"import "           yylval = yytext; return IMPORT;
 "struct"            yylval = yytext; return STRUCT;
-"var "              yylval = yytext; return VAR;
-"if "               yylval = yytext; return DEC;
-"func "             yylval = yytext; return FUNC;
-"else"              yylval = yytext; return DEC;
-"for "              yylval = yytext; return DEC;
-"break"             yylval = yytext; return DEC;
-"continue"          yylval = yytext; return DEC;
+"var"               yylval = yytext; return VAR;
+"func"              yylval = yytext; return FUNC;
+"return"            yylval = yytext; return RETURN;
+"if "               yylval = yytext; return IF;
+"else"              yylval = yytext; return ELSE;
+"for "              yylval = yytext; return FOR;
+"break"             yylval = yytext; return BREAK;
+"continue"          yylval = yytext; return CONTINUE;
 
 {identifier}    {
                     yylval = yytext;

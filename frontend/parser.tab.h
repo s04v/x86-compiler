@@ -43,6 +43,13 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
+/* "%code requires" blocks.  */
+#line 29 "parser.y"
+
+    #include <string>
+    #include "../ast/ast.h"
+
+#line 53 "parser.tab.h"
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -120,7 +127,20 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+union YYSTYPE
+{
+#line 52 "parser.y"
+
+    string* val;
+    VarDef* varDef;
+    FuncDef* funcDef;
+    ASTNode* astNode;
+    ASTNode* prog;
+
+#line 141 "parser.tab.h"
+
+};
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

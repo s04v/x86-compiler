@@ -2,9 +2,10 @@
 
     #include <iostream>
 
+    
+
     using namespace std;
     #define YYERROR_VERBOSE 1
-    #define YYSTYPE string
     #define DEBUG
 
     extern FILE *yyin;
@@ -23,10 +24,12 @@
         exit(1);
     }
 
-    int main();
-
 %}
 
+%code requires {
+    #include <string>
+    #include "../ast/ast.h"
+}
 %token ID NUMBER STRING CHAR
 %token PTR_T
 %token INC DEC
@@ -46,13 +49,26 @@
 %token IMPORT STRUCT VAR FUNC RETURN IF ELSE FOR BREAK CONTINUE
 
 
+%union {
+    string* val;
+    VarDef* varDef;
+    FuncDef* funcDef;
+    ASTNode* astNode;
+    ASTNode* prog;
+}
+
+%type <varDef> var_def
+%type <funcDef> func_def
+%type <prog> program
+%type <astNode> stmt0
+
 %start input
 
 %%
 
 input: /* empty */
-     | input  error
-     | input program
+     | input error
+     | input program { cout << $2->type << endl;}
 
 ;
 
@@ -75,16 +91,17 @@ primary_expr: ID { }
     | CHAR {}
     | NUMBER { }
     | STRING {};
-
+    | LPAREN ternary_expr RPAREN
     // '(' expr ')'
 postfix_expr: ID {cout << "prim_expr " << endl;}
     | postfix_expr LBRACKET operand_expr RBRACKET {cout << "array " << endl;}
     | postfix_expr LPAREN args_expr_list RPAREN {cout << "func call " << endl;}
-    | postfix_expr DOT ID {cout << "member " << endl;}
+    | postfix_expr DOT postfix_expr {cout << "member " << endl;}
     | postfix_expr INC {cout << "inc " << endl;}
     | postfix_expr DEC {cout << "dec " << endl;} ;
 
-args_expr_list: operand_expr {}
+args_expr_list: 
+    | operand_expr {}
     | args_expr_list COMMA operand_expr {}
 
 operand_expr: {}
@@ -144,19 +161,19 @@ assignment_operator: ASSIGN
     | OR_ASSIGN
     ;
 
-assign_expr: ternary_expr {}
-    | operand_expr assignment_operator ternary_expr {}
+assign_expr: operand_expr assignment_operator ternary_expr {}
 
-expr: assign_expr {}
+expr: ternary_expr {}
+    | assign_expr {}
 
 expr_stmt: expr SEMI {}
 
 
 // Variable
-var_def_stmt: VAR ID COLON type ASSIGN ternary_expr SEMI {cout << "variable definition" << endl;}
+var_def: VAR ID COLON type ASSIGN ternary_expr SEMI {cout << "variable definition" << endl;}
 
 //Function
-func_def_stmt: FUNC ID LPAREN func_def_args_list RPAREN COLON type LBRACE func_stmt RBRACE { cout << "function definition" << endl;}
+func_def: FUNC ID LPAREN func_def_args_list RPAREN COLON type LBRACE block_stmt RBRACE { cout << "function definition" << endl;}
 
 def_arg: ID COLON type {}
 
@@ -166,9 +183,10 @@ def_args_list: def_arg {}
 func_def_args_list:
     | def_args_list {}
 
-func_stmt:
-    | var_def_stmt {}
-    | expr_stmt {}
+block_stmt:
+    | block_stmt expr {}
+    | block_stmt var_def {}
+    | block_stmt expr_stmt {}
 
 //Struct
 struct_def_stmt: STRUCT ID LBRACE struct_def RBRACE { cout << "struct definition" << endl;}
@@ -179,16 +197,16 @@ struct_def: struct_field {}
 struct_field: ID COLON type SEMI {}
 
 stmt0:
-    var_def_stmt {}
-    | func_def_stmt {}
+    var_def { $$ = new VarDef(9); }
+    | func_def { $$ = new FuncDef(3); }
     | struct_def_stmt {}
 
 
 import_stmt: IMPORT AT ID SEMI {cout << "import stmt" << endl;}
 
-program: import_stmt { }
-    | stmt0 { cout << "stmt0" << endl; }
-    | program {}
+program: import_stmt {}
+    | stmt0 { $$ = $1; }
+    | program { cout << "Test" << endl;}
 
 
 

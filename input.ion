@@ -1,7 +1,0 @@
-import @id;
-
-var foo: u8 = 123 ;
-
-func bar(name: string, age: u8) : void {
-    print(name, age);
-}

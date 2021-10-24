@@ -123,6 +123,33 @@ compiler/fast:
 	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/build
 .PHONY : compiler/fast
 
+ast/ast.o: ast/ast.cpp.o
+
+.PHONY : ast/ast.o
+
+# target to build an object file
+ast/ast.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/ast/ast.cpp.o
+.PHONY : ast/ast.cpp.o
+
+ast/ast.i: ast/ast.cpp.i
+
+.PHONY : ast/ast.i
+
+# target to preprocess a source file
+ast/ast.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/ast/ast.cpp.i
+.PHONY : ast/ast.cpp.i
+
+ast/ast.s: ast/ast.cpp.s
+
+.PHONY : ast/ast.s
+
+# target to generate assembly for a file
+ast/ast.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/ast/ast.cpp.s
+.PHONY : ast/ast.cpp.s
+
 frontend/lex.yy.o: frontend/lex.yy.c.o
 
 .PHONY : frontend/lex.yy.o
@@ -213,6 +240,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... compiler"
+	@echo "... ast/ast.o"
+	@echo "... ast/ast.i"
+	@echo "... ast/ast.s"
 	@echo "... frontend/lex.yy.o"
 	@echo "... frontend/lex.yy.i"
 	@echo "... frontend/lex.yy.s"

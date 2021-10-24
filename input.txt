@@ -1,0 +1,11 @@
+import @io;
+
+
+var bar : i8 = 20;
+func bar(name: string, age:u8 ) : void {
+    var foo : u8* = (((10 + 2)) * 3;
+    foo = 20;
+    foo += 25;
+
+    foo.bar(12,2);
+}

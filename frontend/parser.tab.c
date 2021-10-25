@@ -1523,7 +1523,7 @@ yyreduce:
     {
   case 4:
 #line 71 "parser.y"
-                     { cout << (yyvsp[0].prog)->type << endl;}
+                     { }
 #line 1528 "parser.tab.c"
     break;
 
@@ -1865,13 +1865,13 @@ yyreduce:
 
   case 92:
 #line 200 "parser.y"
-            { (yyval.astNode) = new VarDef(9); }
+            { }
 #line 1870 "parser.tab.c"
     break;
 
   case 93:
 #line 201 "parser.y"
-               { (yyval.astNode) = new FuncDef(3); }
+               {  }
 #line 1876 "parser.tab.c"
     break;
 
@@ -1895,7 +1895,7 @@ yyreduce:
 
   case 97:
 #line 208 "parser.y"
-            { (yyval.prog) = (yyvsp[0].astNode); }
+            {  }
 #line 1900 "parser.tab.c"
     break;
 

@@ -4,8 +4,8 @@
 using namespace std;
 
 enum NodeType {
-    var,
-    func
+    Var_t,
+    Func_t
 };
 
 class ASTNode {

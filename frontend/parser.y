@@ -68,7 +68,7 @@
 
 input: /* empty */
      | input error
-     | input program { cout << $2->type << endl;}
+     | input program { }
 
 ;
 
@@ -92,7 +92,7 @@ primary_expr: ID { }
     | NUMBER { }
     | STRING {};
     | LPAREN ternary_expr RPAREN
-    // '(' expr ')'
+
 postfix_expr: ID {cout << "prim_expr " << endl;}
     | postfix_expr LBRACKET operand_expr RBRACKET {cout << "array " << endl;}
     | postfix_expr LPAREN args_expr_list RPAREN {cout << "func call " << endl;}
@@ -197,15 +197,15 @@ struct_def: struct_field {}
 struct_field: ID COLON type SEMI {}
 
 stmt0:
-    var_def { $$ = new VarDef(9); }
-    | func_def { $$ = new FuncDef(3); }
+    var_def { }
+    | func_def {  }
     | struct_def_stmt {}
 
 
 import_stmt: IMPORT AT ID SEMI {cout << "import stmt" << endl;}
 
 program: import_stmt {}
-    | stmt0 { $$ = $1; }
+    | stmt0 {  }
     | program { cout << "Test" << endl;}
 
 

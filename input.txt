@@ -1,7 +1,12 @@
-var foo : i8 = 20;
+func main() : void {
+    var foo :u8 = 10;
+    if foo < 10 {
+        foo = 10;
+        var foo :u8 = 10;
+        if foo != True {
 
-
-func bar(arg1: string, arg2: u8 ) : void {
-    var foo : u8 = 10 + 2 * 3;
-    
+        var foo :u8 = 10;
+        }
+        
+    }
 }

@@ -48,8 +48,12 @@ extern int yydebug;
 
     #include <string>
     #include "../ast/ast.h"
+    #include "../ast/operand.h"
+    #include "../ast/constant.h"
 
-#line 53 "parser.tab.h"
+
+
+#line 57 "parser.tab.h"
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -129,15 +133,18 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 50 "parser.y"
+#line 54 "parser.y"
 
     string* val;
+    char cval;
     VarDef* varDef;
     FuncDef* funcDef;
     ASTNode* astNode;
     ASTNode* prog;
+    Constant* constant;
+    Operand* operand;
 
-#line 141 "parser.tab.h"
+#line 148 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

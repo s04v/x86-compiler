@@ -27,6 +27,10 @@
 %code requires {
     #include <string>
     #include "../ast/ast.h"
+    #include "../ast/operand.h"
+    #include "../ast/constant.h"
+
+
 }
 %token ID NUMBER STRING CHAR
 %token PTR_T
@@ -49,16 +53,21 @@
 
 %union {
     string* val;
+    char cval;
     VarDef* varDef;
     FuncDef* funcDef;
     ASTNode* astNode;
     ASTNode* prog;
+    Constant* constant;
+    Operand* operand;
 }
 
 %type <varDef> var_def
 %type <funcDef> func_def
 %type <prog> program
 %type <astNode> stmt0
+%type <operand> primary_expr
+%type <val> CHAR
 
 %start input
 
@@ -147,7 +156,6 @@ unary_operator: MUL
     | ADD
     | SUB
     | NOT
-    | MUL
     | AND
 
 operand_expr: primary_expr 
@@ -164,10 +172,10 @@ args_expr_list:
     | operand_expr 
     | args_expr_list COMMA operand_expr
 
-primary_expr: ID 
-    | CHAR 
-    | NUMBER 
-    | STRING 
+primary_expr: ID { }
+    | CHAR { $$ = new Constant(ConstType::Char, *$1); }
+    | NUMBER {}
+    | STRING {}
     | LPAREN ternary_expr RPAREN
 
 type: BOOL

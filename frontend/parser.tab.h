@@ -47,13 +47,16 @@ extern int yydebug;
 #line 27 "parser.y"
 
     #include <string>
-    #include "../ast/ast.h"
+    #include <vector>
     #include "../ast/operand.h"
     #include "../ast/constant.h"
+    #include "../ast/id.h"
+    #include "../ast/exprOp.h"
 
 
 
-#line 57 "parser.tab.h"
+
+#line 60 "parser.tab.h"
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -133,14 +136,11 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 54 "parser.y"
+#line 57 "parser.y"
 
     string* val;
-    char cval;
-    VarDef* varDef;
-    FuncDef* funcDef;
-    ASTNode* astNode;
-    ASTNode* prog;
+    vector<ExprOp*>* exprVec;
+
     Constant* constant;
     Operand* operand;
 

@@ -4,4 +4,4 @@ project(compiler)
 set(CMAKE_CPP_COMPILER g++)
 set(CMAKE_C_COMPILER g++)
 
-add_executable(compiler main.cpp frontend/lex.yy.c frontend/parser.tab.c ast/ast.cpp ast/constant.cpp) 
+add_executable(compiler main.cpp frontend/lex.yy.c frontend/parser.tab.c  ast/constant.cpp) 

@@ -26,9 +26,12 @@
 
 %code requires {
     #include <string>
-    #include "../ast/ast.h"
+    #include <vector>
     #include "../ast/operand.h"
     #include "../ast/constant.h"
+    #include "../ast/id.h"
+    #include "../ast/exprOp.h"
+
 
 
 }
@@ -53,21 +56,18 @@
 
 %union {
     string* val;
-    char cval;
-    VarDef* varDef;
-    FuncDef* funcDef;
-    ASTNode* astNode;
-    ASTNode* prog;
+    vector<ExprOp*>* exprVec;
+
     Constant* constant;
     Operand* operand;
 }
 
-%type <varDef> var_def
-%type <funcDef> func_def
-%type <prog> program
-%type <astNode> stmt0
-%type <operand> primary_expr
-%type <val> CHAR
+
+%type <operand> unary_expr operand_expr postfix_expr primary_expr  
+%type <exprVec> args_expr_list
+
+%type <val> ID CHAR NUMBER STRING
+
 
 %start input
 
@@ -98,14 +98,14 @@ stmt_block:
     | stmt_block stmt
 
 stmt: expr SEMI
+    | assign_stmt SEMI
     | variable_def
     | if_stmt
+    
 
 expr: ternary_expr 
-    | assign_expr
 
-
-assign_expr: operand_expr assignment_operator ternary_expr
+assign_stmt: operand_expr assignment_operator ternary_expr
 
 assignment_operator: ASSIGN
     | MUL_ASSIGN
@@ -158,22 +158,24 @@ unary_operator: MUL
     | NOT
     | AND
 
-operand_expr: primary_expr 
-    | postfix_expr 
 
-postfix_expr: ID {cout << "prim_expr " << endl;}
-    | postfix_expr LBRACKET operand_expr RBRACKET {cout << "array " << endl;}
-    | postfix_expr LPAREN args_expr_list RPAREN {cout << "func call " << endl;}
-    | postfix_expr DOT postfix_expr {cout << "member " << endl;}
-    | postfix_expr INC {cout << "post inc" << endl;}
-    | postfix_expr DEC {cout << "post dec " << endl;} 
+operand_expr: primary_expr 
+    | postfix_expr { $$ = $1; }
+
+postfix_expr: ID {  $$ = new Operand(*$1);
+                    cout << "ID = " << *$1 << " or " << *yylval.val << endl; }
+    | postfix_expr LBRACKET operand_expr RBRACKET {cout << "array " << endl; }
+    | postfix_expr LPAREN args_expr_list RPAREN {cout << "func call " << $3->size() << endl; }
+    | postfix_expr DOT postfix_expr {cout << "member " << endl; }
+    | postfix_expr INC {cout << "post inc" << endl; }
+    | postfix_expr DEC {cout << "post dec " << endl; } 
 
 args_expr_list: 
-    | operand_expr 
-    | args_expr_list COMMA operand_expr
+    | operand_expr { cout << "[operand_expr] " << $1->val << endl;
+                     $$ = new vector<ExprOp*>(); $$->push_back($1); }
+    | args_expr_list COMMA operand_expr { $1->push_back($3); }
 
-primary_expr: ID { }
-    | CHAR { $$ = new Constant(ConstType::Char, *$1); }
+primary_expr: CHAR { }
     | NUMBER {}
     | STRING {}
     | LPAREN ternary_expr RPAREN

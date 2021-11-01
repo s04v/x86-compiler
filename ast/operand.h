@@ -1,5 +1,10 @@
 #pragma once
 
+#include "exprOp.h"
+#include <string>
+#include <iostream>
+using namespace std;
+
 enum OpType{
     NONE,
     CONSTANT_T,
@@ -24,7 +29,6 @@ struct Prefix_mod {
 
 typedef Prefix_mod::Type Prefix;
 
-
 struct Postfix_mod {
     enum Type {
         NONE,
@@ -36,11 +40,17 @@ struct Postfix_mod {
 typedef Postfix_mod::Type Postfix;
 
 
-class Operand {
+class Operand : public ExprOp{
 public:
     OpType opType;
     Prefix prefix;
     Postfix postfix;
     
+    //debug
+    string val;
+    Operand () {}
+    Operand (const string &v ) { val = v;}
+
+
     virtual ~Operand() = default;
 };

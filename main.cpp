@@ -2,6 +2,7 @@
 #include "frontend/parser.tab.h"
 
 
+using namespace std;
 
 extern FILE* yyin;
 int main(int argc,char* argv[])
@@ -13,7 +14,6 @@ int main(int argc,char* argv[])
         exit(1);
     }
 
-  
-
-    return yyparse();
+    yyparse();
+    return 1;
 }

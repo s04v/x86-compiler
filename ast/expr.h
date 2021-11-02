@@ -33,7 +33,7 @@ public:
     ExprOp* right;
 
     Expr()
-    Expr(ExprType t, ExprOp* l, ExprOp* r);
+    Expr(ExprType t, ExprOp* l, ExprOp* r) : type(t), left(l), right(r);
 
     virtual ~Expr();
 }

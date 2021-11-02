@@ -9,7 +9,6 @@
 
     extern FILE *yyin;
     extern int yylineno;
-
     
     int yylex(void);
     extern "C" {
@@ -31,8 +30,8 @@
     #include "../ast/constant.h"
     #include "../ast/id.h"
     #include "../ast/exprOp.h"
-
-
+    #include "../ast/call.h"
+    #include "../ast/expr.h"
 
 }
 %token ID NUMBER STRING CHAR
@@ -56,8 +55,10 @@
 
 %union {
     string* val;
-    vector<ExprOp*>* exprVec;
+    Prefix prefix;
+    ExprType exprType;
 
+    vector<ExprOp*>* exprVec;
     Constant* constant;
     Operand* operand;
 }
@@ -66,6 +67,9 @@
 %type <operand> unary_expr operand_expr postfix_expr primary_expr  
 %type <exprVec> args_expr_list
 
+
+%type <exprType> mul_op add_op compare_op equal_op
+%type <prefix> unary_operator
 %type <val> ID CHAR NUMBER STRING
 
 
@@ -119,66 +123,74 @@ assignment_operator: ASSIGN
 if_stmt: IF or_or_expr LBRACE stmt_block RBRACE
 
 
-ternary_expr: or_or_expr
+ternary_expr: or_or_expr { $$ = $1; }
     | or_or_expr QUESTION expr COLON ternary_expr
 
-or_or_expr: and_and_expr
-    | or_or_expr AND_AND and_and_expr
+or_or_expr: and_and_expr { $$ = $1; }
+    | or_or_expr AND_AND and_and_expr { $$ = new Expr(ExprType::OR_OR, $1, $3); }
 
-and_and_expr: equal_expr
-    | and_and_expr AND_AND equal_expr
+and_and_expr: equal_expr { $$ = $1; }
+    | and_and_expr AND_AND equal_expr { $$ = new Expr(ExprType::AND_AND, $1, $3); }
 
-equal_expr: relation_expr
-    | equal_expr EQ relation_expr
-    | equal_expr NEQ relation_expr
+equal_expr: compare_expr { $$ = $1; }
+    | equal_expr equal_op compare_expr { $$ = new Expr($2, $1, $3); }
 
-relation_expr: add_expr 
-    | relation_expr LT add_expr 
-    | relation_expr GT add_expr 
-    | relation_expr LTEQ add_expr 
-    | relation_expr GTEQ add_expr
+equal_op: EQ { $$ = ExprType::EQ; }
+    | NEQ { $$ = ExprType::NEQ; }
 
-add_expr: mul_expr 
-    | add_expr ADD mul_expr
-    | add_expr SUB mul_expr
+compare_expr: add_expr { $$ = $1; }
+    | compare_expr compare_op add_expr { $$ = new Expr($2, $1, $3); }
 
-mul_expr: unary_expr
-    | mul_expr MUL unary_expr
-    | mul_expr DIV unary_expr
-    | mul_expr MOD unary_expr 
+compare_op: LT { $$ = ExprType::LT; }
+    | GT { $$ = ExprType::GT; }
+    | LTEQ { $$ = ExprType::LTEQ; }
+    | GTEQ { $$ = ExprType::GTEQ; }
 
-unary_expr: operand_expr 
-    | INC unary_expr { cout << "pre inc " << endl; }
-    | DEC unary_expr { cout << "pre dec " << endl; }
-    | unary_operator unary_expr  { cout << "unary op " << endl; }
+add_expr: mul_expr { $$ = $1; }
+    | add_expr add_op mul_expr  { $$ = new Expr($2, $1, $3); }
 
-unary_operator: MUL
-    | ADD
-    | SUB
-    | NOT
-    | AND
+add_op: ADD { $$ = ExprType::ADD; } 
+    | SUB { $$ = ExprType::SUB; } 
+    
+mul_expr: unary_expr { $$ = $1; }
+    | mul_expr mod_op unary_expr { $$ = new Expr($2, $1, $3); }
+
+mod_op: MUL { $$ = ExprType::MUL; } 
+    | DIV { $$ = ExprType::DIV; }
+    | MOD { $$ = ExprType::MOD; } 
+
+
+unary_expr: operand_expr { $$ = $1; }
+    | unary_operator unary_expr  { $2->prefix = $1; $$ = $2;}
+
+unary_operator: MUL { $$ = Prefix::MUL; }
+    | ADD { $$ = Prefix::ADD; }
+    | SUB { $$ = Prefix::SUB; }
+    | NOT { $$ = Prefix::NOT; }
+    | AND { $$ = Prefix::AND; }
+    | INC { $$ = Prefix::INC; }
+    | DEC { $$ = Prefix::DEC; }
 
 
 operand_expr: primary_expr 
     | postfix_expr { $$ = $1; }
 
-postfix_expr: ID {  $$ = new Operand(*$1);
+postfix_expr: ID {  $$ = new Operand();
                     cout << "ID = " << *$1 << " or " << *yylval.val << endl; }
     | postfix_expr LBRACKET operand_expr RBRACKET {cout << "array " << endl; }
-    | postfix_expr LPAREN args_expr_list RPAREN {cout << "func call " << $3->size() << endl; }
+    | postfix_expr LPAREN args_expr_list RPAREN { $$ = new Call($1, $3); }
     | postfix_expr DOT postfix_expr {cout << "member " << endl; }
-    | postfix_expr INC {cout << "post inc" << endl; }
-    | postfix_expr DEC {cout << "post dec " << endl; } 
+    | postfix_expr INC { $1->postfix = Postfix::INC; }
+    | postfix_expr DEC { $1->postfix = Postfix::DEC; } 
 
 args_expr_list: 
-    | operand_expr { cout << "[operand_expr] " << $1->val << endl;
-                     $$ = new vector<ExprOp*>(); $$->push_back($1); }
+    | operand_expr { $$ = new vector<ExprOp*>(); $$->push_back($1); }
     | args_expr_list COMMA operand_expr { $1->push_back($3); }
 
-primary_expr: CHAR { }
-    | NUMBER {}
-    | STRING {}
-    | LPAREN ternary_expr RPAREN
+primary_expr: CHAR { $$ = new Constant(ConstType::CHAR, *$1); }
+    | NUMBER { $$ = new Constant(ConstType::NUMBER, *$1);}
+    | STRING { $$ = new Constant(ConstType::STRING, *$1); }
+    | LPAREN ternary_expr RPAREN 
 
 type: BOOL
     | U8

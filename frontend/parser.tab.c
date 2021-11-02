@@ -78,7 +78,6 @@
 
     extern FILE *yyin;
     extern int yylineno;
-
     
     int yylex(void);
     extern "C" {
@@ -92,7 +91,7 @@
     }
 
 
-#line 96 "parser.tab.c"
+#line 95 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -135,7 +134,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 27 "parser.y"
+#line 26 "parser.y"
 
     #include <string>
     #include <vector>
@@ -143,11 +142,9 @@ extern int yydebug;
     #include "../ast/constant.h"
     #include "../ast/id.h"
     #include "../ast/exprOp.h"
+    #include "../ast/call.h"
 
-
-
-
-#line 151 "parser.tab.c"
+#line 148 "parser.tab.c"
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -227,7 +224,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 57 "parser.y"
+#line 54 "parser.y"
 
     string* val;
     vector<ExprOp*>* exprVec;
@@ -235,7 +232,7 @@ union YYSTYPE
     Constant* constant;
     Operand* operand;
 
-#line 239 "parser.tab.c"
+#line 236 "parser.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -617,15 +614,15 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    76,    76,    77,    78,    80,    82,    83,    85,    87,
-      89,    91,    92,    94,    95,    97,    98,   100,   101,   102,
-     103,   106,   108,   110,   111,   112,   113,   114,   115,   116,
-     117,   119,   122,   123,   125,   126,   128,   129,   131,   132,
-     133,   135,   136,   137,   138,   139,   141,   142,   143,   145,
-     146,   147,   148,   150,   151,   152,   153,   155,   156,   157,
-     158,   159,   162,   163,   165,   167,   168,   169,   170,   171,
-     173,   174,   176,   178,   179,   180,   181,   183,   184,   185,
-     186,   187,   188,   189,   190,   191,   192,   193,   194
+       0,    73,    73,    74,    75,    77,    79,    80,    82,    84,
+      86,    88,    89,    91,    92,    94,    95,    97,    98,    99,
+     100,   103,   105,   107,   108,   109,   110,   111,   112,   113,
+     114,   116,   119,   120,   122,   123,   125,   126,   128,   129,
+     130,   132,   133,   134,   135,   136,   138,   139,   140,   142,
+     143,   144,   145,   147,   148,   149,   150,   152,   153,   154,
+     155,   156,   159,   160,   162,   164,   165,   166,   167,   168,
+     170,   171,   172,   174,   175,   176,   177,   179,   180,   181,
+     182,   183,   184,   185,   186,   187,   188,   189,   190
 };
 #endif
 
@@ -1518,99 +1515,98 @@ yyreduce:
   switch (yyn)
     {
   case 54:
-#line 151 "parser.y"
+#line 148 "parser.y"
                      { cout << "pre inc " << endl; }
-#line 1524 "parser.tab.c"
+#line 1521 "parser.tab.c"
     break;
 
   case 55:
-#line 152 "parser.y"
+#line 149 "parser.y"
                      { cout << "pre dec " << endl; }
-#line 1530 "parser.tab.c"
+#line 1527 "parser.tab.c"
     break;
 
   case 56:
-#line 153 "parser.y"
+#line 150 "parser.y"
                                  { cout << "unary op " << endl; }
-#line 1536 "parser.tab.c"
+#line 1533 "parser.tab.c"
     break;
 
   case 63:
-#line 163 "parser.y"
+#line 160 "parser.y"
                    { (yyval.operand) = (yyvsp[0].operand); }
-#line 1542 "parser.tab.c"
+#line 1539 "parser.tab.c"
     break;
 
   case 64:
-#line 165 "parser.y"
-                 {  (yyval.operand) = new Operand(*(yyvsp[0].val));
+#line 162 "parser.y"
+                 {  (yyval.operand) = new Operand();
                     cout << "ID = " << *(yyvsp[0].val) << " or " << *yylval.val << endl; }
-#line 1549 "parser.tab.c"
+#line 1546 "parser.tab.c"
     break;
 
   case 65:
-#line 167 "parser.y"
+#line 164 "parser.y"
                                                   {cout << "array " << endl; }
-#line 1555 "parser.tab.c"
+#line 1552 "parser.tab.c"
     break;
 
   case 66:
-#line 168 "parser.y"
-                                                {cout << "func call " << (yyvsp[-1].exprVec)->size() << endl; }
-#line 1561 "parser.tab.c"
+#line 165 "parser.y"
+                                                { (yyval.operand) = new Call((yyvsp[-3].operand), (yyvsp[-1].exprVec)); }
+#line 1558 "parser.tab.c"
     break;
 
   case 67:
-#line 169 "parser.y"
+#line 166 "parser.y"
                                     {cout << "member " << endl; }
-#line 1567 "parser.tab.c"
+#line 1564 "parser.tab.c"
     break;
 
   case 68:
-#line 170 "parser.y"
-                       {cout << "post inc" << endl; }
-#line 1573 "parser.tab.c"
+#line 167 "parser.y"
+                       { (yyvsp[-1].operand)->postfix = Postfix::INC; }
+#line 1570 "parser.tab.c"
     break;
 
   case 69:
-#line 171 "parser.y"
-                       {cout << "post dec " << endl; }
-#line 1579 "parser.tab.c"
+#line 168 "parser.y"
+                       { (yyvsp[-1].operand)->postfix = Postfix::DEC; }
+#line 1576 "parser.tab.c"
     break;
 
   case 71:
-#line 174 "parser.y"
-                   { cout << "[operand_expr] " << (yyvsp[0].operand)->val << endl;
-                     (yyval.exprVec) = new vector<ExprOp*>(); (yyval.exprVec)->push_back((yyvsp[0].operand)); }
-#line 1586 "parser.tab.c"
+#line 171 "parser.y"
+                   { (yyval.exprVec) = new vector<ExprOp*>(); (yyval.exprVec)->push_back((yyvsp[0].operand)); }
+#line 1582 "parser.tab.c"
     break;
 
   case 72:
-#line 176 "parser.y"
+#line 172 "parser.y"
                                         { (yyvsp[-2].exprVec)->push_back((yyvsp[0].operand)); }
-#line 1592 "parser.tab.c"
+#line 1588 "parser.tab.c"
     break;
 
   case 73:
-#line 178 "parser.y"
-                   { }
-#line 1598 "parser.tab.c"
+#line 174 "parser.y"
+                   { (yyval.operand) = new Constant(ConstType::CHAR, *(yyvsp[0].val)); }
+#line 1594 "parser.tab.c"
     break;
 
   case 74:
-#line 179 "parser.y"
-             {}
-#line 1604 "parser.tab.c"
+#line 175 "parser.y"
+             { (yyval.operand) = new Constant(ConstType::NUMBER, *(yyvsp[0].val));}
+#line 1600 "parser.tab.c"
     break;
 
   case 75:
-#line 180 "parser.y"
-             {}
-#line 1610 "parser.tab.c"
+#line 176 "parser.y"
+             { (yyval.operand) = new Constant(ConstType::STRING, *(yyvsp[0].val)); }
+#line 1606 "parser.tab.c"
     break;
 
 
-#line 1614 "parser.tab.c"
+#line 1610 "parser.tab.c"
 
       default: break;
     }
@@ -1842,6 +1838,6 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 197 "parser.y"
+#line 193 "parser.y"
 
 

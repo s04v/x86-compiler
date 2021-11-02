@@ -44,7 +44,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 27 "parser.y"
+#line 26 "parser.y"
 
     #include <string>
     #include <vector>
@@ -52,11 +52,9 @@ extern int yydebug;
     #include "../ast/constant.h"
     #include "../ast/id.h"
     #include "../ast/exprOp.h"
+    #include "../ast/call.h"
 
-
-
-
-#line 60 "parser.tab.h"
+#line 58 "parser.tab.h"
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -136,7 +134,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 57 "parser.y"
+#line 54 "parser.y"
 
     string* val;
     vector<ExprOp*>* exprVec;
@@ -144,7 +142,7 @@ union YYSTYPE
     Constant* constant;
     Operand* operand;
 
-#line 148 "parser.tab.h"
+#line 146 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

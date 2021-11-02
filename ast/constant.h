@@ -5,11 +5,15 @@
 
 using namespace std;
 
-enum ConstType {
-    NUMBER_C,
-    STRINR_C,
-    CHAR_C
+struct ConstType_t {
+    enum Type {
+        NUMBER,
+        STRING,
+        CHAR
+    };
 };
+
+typedef ConstType_t::Type ConstType;
 
 class Constant : public Operand {
 public:

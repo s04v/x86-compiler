@@ -5,14 +5,18 @@
 #include <iostream>
 using namespace std;
 
-enum OpType{
-    NONE,
-    CONSTANT_T,
-    ID_T,
-    CALL_T,
-    ARRAY_T,
-    MEMBER_t
+struct OpType_t {
+    enum Type {
+        NONE,
+        CONSTANT,
+        ID,
+        CALL,
+        ARRAY,
+        MEMBER_t
+    };
 };
+
+typedef OpType_t::Type OpType;
 
 struct Prefix_mod {
     enum Type {
@@ -45,11 +49,8 @@ public:
     OpType opType;
     Prefix prefix;
     Postfix postfix;
-    
-    //debug
-    string val;
+
     Operand () {}
-    Operand (const string &v ) { val = v;}
 
 
     virtual ~Operand() = default;

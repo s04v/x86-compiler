@@ -20,7 +20,7 @@ struct Expr_t{
         AND_AND,
         OR_OR,
 
-    }
+    };
 };
 
 typedef Expr_t::Type ExprType;
@@ -32,8 +32,8 @@ public:
     ExprOp* left;
     ExprOp* right;
 
-    Expr()
-    Expr(ExprType t, ExprOp* l, ExprOp* r) : type(t), left(l), right(r);
+    Expr() {};
+    Expr(ExprType t, ExprOp* l, ExprOp* r) : type(t), left(l), right(r) {};
 
-    virtual ~Expr();
-}
+    virtual ~Expr() = default;
+};

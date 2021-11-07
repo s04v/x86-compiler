@@ -1,10 +1,15 @@
 #include <iostream>
+#include <vector>
 #include "frontend/parser.tab.h"
+#include "ast/stmt.h"
+#include "ast/if.h"
 
 
 using namespace std;
 
 extern FILE* yyin;
+extern vector<Stmt*>* root;
+
 int main(int argc,char* argv[])
 {
    
@@ -15,5 +20,6 @@ int main(int argc,char* argv[])
     }
 
     yyparse();
-    return 1;
+    cout << root->size();
+    return 0;
 }

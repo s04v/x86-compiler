@@ -20,7 +20,6 @@ public:
     ConstType type;
     std::string val;
 
-    Constant();
-    Constant(ConstType t, std::string v);
-    void toString();
+    Constant() {};
+    Constant(ConstType t, std::string v) : type(t), val(v) {};
 };

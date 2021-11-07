@@ -16,9 +16,8 @@ struct VarDef_t {
         U32,
         I32,
         STRING_T,
-        ID,
         VOID
-    }
+    };
 };
 
 typedef VarDef_t::Type VarType;
@@ -26,9 +25,9 @@ typedef VarDef_t::Type VarType;
 class VarDef : public Stmt {
 public:
     VarType varType;
-    Operand* left;
-    ExprOp* value;
+    string left;
+    ExprOp* right;
 
     VarDef();
-    VarDef(VarType t, Operand* l, ExprOp* v);
-}
+    VarDef(VarType t, string l, ExprOp* r) : varType(t), left(l), right(r) {} ;
+};

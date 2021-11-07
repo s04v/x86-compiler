@@ -1,5 +1,7 @@
 #pragma once 
 
+#include "stmt.h"
+
 struct ExprOp_t {
     enum Type {
         OPERAND,
@@ -9,9 +11,10 @@ struct ExprOp_t {
 
 typedef ExprOp_t::Type ExprOpType;
 
-class ExprOp {
+class ExprOp : public Stmt{
 public:
     ExprOpType type;
+
     ExprOp() {}
     
     virtual ~ExprOp() = default;

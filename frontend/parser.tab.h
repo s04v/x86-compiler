@@ -44,7 +44,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 26 "parser.y"
+#line 30 "parser.y"
 
     #include <string>
     #include <vector>
@@ -53,8 +53,16 @@ extern int yydebug;
     #include "../ast/id.h"
     #include "../ast/exprOp.h"
     #include "../ast/call.h"
+    #include "../ast/expr.h"
+    #include "../ast/stmt.h"
+    #include "../ast/assign.h"
+    #include "../ast/varDef.h"
+    #include "../ast/if.h"
+    #include "../ast/funcArg.h"
+    #include "../ast/funcDef.h"
 
-#line 58 "parser.tab.h"
+
+#line 66 "parser.tab.h"
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -134,15 +142,33 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 54 "parser.y"
+#line 66 "parser.y"
 
     string* val;
-    vector<ExprOp*>* exprVec;
+
+    VarType varType;
+    Prefix prefix;
+    ExprType exprType;
+    AssignOperation assignOp;
 
     Constant* constant;
     Operand* operand;
+    Expr* expr;
+    ExprOp* exprOp;
 
-#line 146 "parser.tab.h"
+    Assign* assign;
+    VarDef* varDef;
+    If* ifType;
+    FuncArg* funcArg;
+    FuncDef* funcDef;
+    Stmt* stmt;
+
+
+    vector<ExprOp*>* exprVec;
+    vector<Stmt*>* stmtVec;
+    vector<FuncArg*>* argVec;
+
+#line 172 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

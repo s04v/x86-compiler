@@ -1,7 +1,9 @@
 %{
 
     #include <iostream>
-
+    #include <vector>
+    #include "../ast/stmt.h"
+    
     using namespace std;
 
     #define YYERROR_VERBOSE 1
@@ -10,15 +12,17 @@
     extern FILE *yyin;
     extern int yylineno;
     
+    vector<Stmt*>* root;
+ 
     int yylex(void);
     extern "C" {
         int yywrap(void) {
             return 1;
         }
-    }
-    void yyerror(const char *str) {
-        cout << "Parser: " << str << " on line " << yylineno << endl;
-        exit(1);
+        void yyerror(const char *str) {
+            cout << "Parser: " << str << " on line " << yylineno << endl;
+            exit(1);
+        }
     }
 
 %}
@@ -32,6 +36,12 @@
     #include "../ast/exprOp.h"
     #include "../ast/call.h"
     #include "../ast/expr.h"
+    #include "../ast/stmt.h"
+    #include "../ast/assign.h"
+    #include "../ast/varDef.h"
+    #include "../ast/if.h"
+    #include "../ast/funcArg.h"
+    #include "../ast/funcDef.h"
 
 }
 %token ID NUMBER STRING CHAR
@@ -55,76 +65,94 @@
 
 %union {
     string* val;
+
+    VarType varType;
     Prefix prefix;
     ExprType exprType;
+    AssignOperation assignOp;
 
-    vector<ExprOp*>* exprVec;
     Constant* constant;
     Operand* operand;
+    Expr* expr;
+    ExprOp* exprOp;
+
+    Assign* assign;
+    VarDef* varDef;
+    If* ifType;
+    FuncArg* funcArg;
+    FuncDef* funcDef;
+    Stmt* stmt;
+
+
+    vector<ExprOp*>* exprVec;
+    vector<Stmt*>* stmtVec;
+    vector<FuncArg*>* argVec;
 }
 
+%type <assignOp> assignment_operator
+%type <assign> assign_stmt
+%type <varDef> variable_def
+%type <ifType> if_stmt
 
-%type <operand> unary_expr operand_expr postfix_expr primary_expr  
+%type <funcArg> def_arg
+%type <argVec> def_args_list
+%type <funcDef> function_def
+
+%type <stmt> stmt
+%type <stmtVec> definition stmt_block 
+
+%type <operand> unary_expr operand_expr postfix_expr primary_expr
+%type <exprOp> or_or_expr and_and_expr equal_expr compare_expr add_expr mul_expr
+%type <exprType> mul_op add_op compare_op equal_op
+
 %type <exprVec> args_expr_list
 
 
-%type <exprType> mul_op add_op compare_op equal_op
 %type <prefix> unary_operator
 %type <val> ID CHAR NUMBER STRING
+%type <varType> type
 
-
-%start input
+%start program
 
 %%
 
-input: 
-     | input error
-     | input program 
+program: definition { root = $1; cout << "size - " << root->size() << endl;}
 
-program: definition
-
-definition: variable_def
-    | function_def
+definition: { $$ = new vector<Stmt*>(); }
+    | definition variable_def  { $2->stmtType = StmtType::VAR_DEF; $1->push_back($2); cout << "var" << endl;}
+    | definition function_def { $2->stmtType = StmtType::FUNC_DEF; $1->push_back($2);  cout << "func" << endl; }
     
-variable_def: VAR ID COLON type ASSIGN ternary_expr SEMI
+variable_def: VAR ID COLON type ASSIGN or_or_expr SEMI { $$ = new VarDef($4, *$2, $6); }
 
-function_def: FUNC ID LPAREN func_def_args_list RPAREN COLON type LBRACE stmt_block RBRACE
+function_def: FUNC ID LPAREN def_args_list RPAREN COLON type LBRACE stmt_block RBRACE { $$ = new FuncDef(*$2, $7, $4, $9); }
 
-def_arg: ID COLON type 
+def_arg: ID COLON type  { $$ = new FuncArg(*$1, $3); }
 
-def_args_list: def_arg 
-    | def_args_list COMMA def_arg 
+def_args_list: { $$ = new vector<FuncArg*>(); }
+    | def_arg { $$ = new vector<FuncArg*>(); $$->push_back($1); }
+    | def_args_list COMMA def_arg { $1->push_back($3); }
 
-func_def_args_list:
-    | def_args_list 
+if_stmt: IF or_or_expr LBRACE stmt_block RBRACE { $$ = new If($2, $4); }
 
-stmt_block:
-    | stmt_block stmt
+stmt_block: { $$ = new vector<Stmt*>();  }
+    | stmt { $$ = new vector<Stmt*>(); $$->push_back($1); }
+    | stmt_block stmt { $1->push_back($2); }
 
-stmt: expr SEMI
-    | assign_stmt SEMI
-    | variable_def
-    | if_stmt
-    
+stmt: or_or_expr SEMI { $1->stmtType = StmtType::EXPR; $$ = $1; }
+    | assign_stmt SEMI { $1->stmtType = StmtType::ASSIGN; $$ = $1; }
+    | variable_def { $1->stmtType = StmtType::VAR_DEF, $$ = $1; }
+    | if_stmt { $1->stmtType = StmtType::IF, $$ = $1; }
 
-expr: ternary_expr 
+assign_stmt: operand_expr assignment_operator or_or_expr { $$ = new Assign($2, $1, $3);}
 
-assign_stmt: operand_expr assignment_operator ternary_expr
-
-assignment_operator: ASSIGN
-    | MUL_ASSIGN
-    | DIV_ASSIGN
-    | MOD_ASSIGN
-    | ADD_ASSIGN
-    | SUB_ASSIGN
-    | AND_ASSIGN
-    | OR_ASSIGN
-
-if_stmt: IF or_or_expr LBRACE stmt_block RBRACE
-
-
-ternary_expr: or_or_expr { $$ = $1; }
-    | or_or_expr QUESTION expr COLON ternary_expr
+assignment_operator: ASSIGN { $$ = AssignOperation::ASSIGN; }
+    | MUL_ASSIGN { $$ = AssignOperation::MUL_ASSIGN; }
+    | DIV_ASSIGN { $$ = AssignOperation::DIV_ASSIGN; }
+    | MOD_ASSIGN { $$ = AssignOperation::MOD_ASSIGN; }
+    | ADD_ASSIGN { $$ = AssignOperation::ADD_ASSIGN; }
+    | SUB_ASSIGN { $$ = AssignOperation::SUB_ASSIGN; }
+    | AND_ASSIGN { $$ = AssignOperation::AND_ASSIGN; }
+    | OR_ASSIGN { $$ = AssignOperation::OR_ASSIGN; }
 
 or_or_expr: and_and_expr { $$ = $1; }
     | or_or_expr AND_AND and_and_expr { $$ = new Expr(ExprType::OR_OR, $1, $3); }
@@ -153,12 +181,11 @@ add_op: ADD { $$ = ExprType::ADD; }
     | SUB { $$ = ExprType::SUB; } 
     
 mul_expr: unary_expr { $$ = $1; }
-    | mul_expr mod_op unary_expr { $$ = new Expr($2, $1, $3); }
+    | mul_expr mul_op unary_expr { $$ = new Expr($2, $1, $3); }
 
-mod_op: MUL { $$ = ExprType::MUL; } 
+mul_op: MUL { $$ = ExprType::MUL; } 
     | DIV { $$ = ExprType::DIV; }
     | MOD { $$ = ExprType::MOD; } 
-
 
 unary_expr: operand_expr { $$ = $1; }
     | unary_operator unary_expr  { $2->prefix = $1; $$ = $2;}
@@ -171,40 +198,32 @@ unary_operator: MUL { $$ = Prefix::MUL; }
     | INC { $$ = Prefix::INC; }
     | DEC { $$ = Prefix::DEC; }
 
-
-operand_expr: primary_expr 
+operand_expr: primary_expr { $$ = $1; } 
     | postfix_expr { $$ = $1; }
 
 postfix_expr: ID {  $$ = new Operand();
                     cout << "ID = " << *$1 << " or " << *yylval.val << endl; }
-    | postfix_expr LBRACKET operand_expr RBRACKET {cout << "array " << endl; }
     | postfix_expr LPAREN args_expr_list RPAREN { $$ = new Call($1, $3); }
-    | postfix_expr DOT postfix_expr {cout << "member " << endl; }
     | postfix_expr INC { $1->postfix = Postfix::INC; }
     | postfix_expr DEC { $1->postfix = Postfix::DEC; } 
 
-args_expr_list: 
+args_expr_list: { $$ = new vector<ExprOp*>();  }
     | operand_expr { $$ = new vector<ExprOp*>(); $$->push_back($1); }
     | args_expr_list COMMA operand_expr { $1->push_back($3); }
 
 primary_expr: CHAR { $$ = new Constant(ConstType::CHAR, *$1); }
     | NUMBER { $$ = new Constant(ConstType::NUMBER, *$1);}
     | STRING { $$ = new Constant(ConstType::STRING, *$1); }
-    | LPAREN ternary_expr RPAREN 
+    | LPAREN or_or_expr RPAREN 
 
-type: BOOL
-    | U8
-    | I8
-    | U16
-    | I16
-    | U32
-    | I32
-    | STRING_T
-    | ID
-    | VOID
-    | type MUL
-    | type LBRACKET RBRACKET
-    
-
+type: BOOL { $$ = VarType::BOOL; }
+    | U8 { $$ = VarType::U8; }
+    | I8 { $$ = VarType::I8; }
+    | U16 { $$ = VarType::U16; }
+    | I16 { $$ = VarType::I16; }
+    | U32 { $$ = VarType::U32; }
+    | I32 { $$ = VarType::I32; }
+    | STRING_T { $$ = VarType::STRING_T; }
+    | VOID { $$ = VarType::VOID; }
 %%
 

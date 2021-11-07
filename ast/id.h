@@ -8,5 +8,5 @@ using namespace std;
 class Id : public Operand {
 public:
     string name;
-
+    Id(string n) : name(n) {}; 
 };

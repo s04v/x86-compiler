@@ -5,4 +5,4 @@ set (CMAKE_CXX_FLAGS "-g")
 set(CMAKE_CPP_COMPILER g++)
 set(CMAKE_C_COMPILER g++)
 
-add_executable(compiler main.cpp frontend/lex.yy.c frontend/parser.tab.c ) 
+add_executable(compiler main.cpp frontend/lex.yy.c frontend/parser.tab.c backend/x86/emmiter.cpp backend/x86/reg.cpp) 

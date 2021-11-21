@@ -123,6 +123,60 @@ compiler/fast:
 	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/build
 .PHONY : compiler/fast
 
+backend/x86/emmiter.o: backend/x86/emmiter.cpp.o
+
+.PHONY : backend/x86/emmiter.o
+
+# target to build an object file
+backend/x86/emmiter.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/emmiter.cpp.o
+.PHONY : backend/x86/emmiter.cpp.o
+
+backend/x86/emmiter.i: backend/x86/emmiter.cpp.i
+
+.PHONY : backend/x86/emmiter.i
+
+# target to preprocess a source file
+backend/x86/emmiter.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/emmiter.cpp.i
+.PHONY : backend/x86/emmiter.cpp.i
+
+backend/x86/emmiter.s: backend/x86/emmiter.cpp.s
+
+.PHONY : backend/x86/emmiter.s
+
+# target to generate assembly for a file
+backend/x86/emmiter.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/emmiter.cpp.s
+.PHONY : backend/x86/emmiter.cpp.s
+
+backend/x86/reg.o: backend/x86/reg.cpp.o
+
+.PHONY : backend/x86/reg.o
+
+# target to build an object file
+backend/x86/reg.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/reg.cpp.o
+.PHONY : backend/x86/reg.cpp.o
+
+backend/x86/reg.i: backend/x86/reg.cpp.i
+
+.PHONY : backend/x86/reg.i
+
+# target to preprocess a source file
+backend/x86/reg.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/reg.cpp.i
+.PHONY : backend/x86/reg.cpp.i
+
+backend/x86/reg.s: backend/x86/reg.cpp.s
+
+.PHONY : backend/x86/reg.s
+
+# target to generate assembly for a file
+backend/x86/reg.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/reg.cpp.s
+.PHONY : backend/x86/reg.cpp.s
+
 frontend/lex.yy.o: frontend/lex.yy.c.o
 
 .PHONY : frontend/lex.yy.o
@@ -213,6 +267,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... compiler"
+	@echo "... backend/x86/emmiter.o"
+	@echo "... backend/x86/emmiter.i"
+	@echo "... backend/x86/emmiter.s"
+	@echo "... backend/x86/reg.o"
+	@echo "... backend/x86/reg.i"
+	@echo "... backend/x86/reg.s"
 	@echo "... frontend/lex.yy.o"
 	@echo "... frontend/lex.yy.i"
 	@echo "... frontend/lex.yy.s"

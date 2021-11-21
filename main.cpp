@@ -3,7 +3,7 @@
 #include "frontend/parser.tab.h"
 #include "ast/stmt.h"
 #include "ast/if.h"
-
+#include "backend/x86/emmiter.h"
 
 using namespace std;
 
@@ -20,6 +20,21 @@ int main(int argc,char* argv[])
     }
 
     yyparse();
-    cout << root->size();
+    
+    Emmiter emit;
+    cout << emit.mov_reg_reg(2,0);
+    cout << emit.mov_reg_imm(10,4);    
+    cout << emit.mov_reg_mem(0,1); 
+
+    cout << emit.add_reg_reg(2,0);
+    cout << emit.add_reg_imm(10,4);    
+    cout << emit.add_reg_mem(0,1);    
+    cout << emit.sub_reg_reg(2,0);
+    cout << emit.sub_reg_imm(10,4);    
+    cout << emit.sub_reg_mem(0,1);
+    cout << emit.sub_mem_reg(0,1);    
+    cout << emit.sub_mem_imm(0,200);    
+
+
     return 0;
 }

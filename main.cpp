@@ -28,9 +28,6 @@ int main(int argc,char* argv[])
     cout << emit.mov_reg_imm(10,4);    
     cout << emit.mov_reg_mem(0,1,-4);
     cout << emit.mov_reg_mem(0,1,4);
-
-
-
     cout << emit.add_reg_reg(2,0);
     cout << emit.add_reg_imm(10,4);    
     cout << emit.add_reg_mem(0,1);    
@@ -40,6 +37,7 @@ int main(int argc,char* argv[])
     cout << emit.sub_mem_reg(0,1);    
     cout << emit.sub_mem_imm(0,200);   
     cout << emit.idiv_mem(0);
+    cout << emit.leave();
 
 
 

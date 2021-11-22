@@ -11,7 +11,7 @@ struct Reg_t {
         ECX, CX, CH, CL,
         EDX, DX, DH, DL,
         ESP, SP, SPL,
-        EBP, BP, B0PL
+        EBP, BP, BPL
     };
 };
 

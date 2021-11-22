@@ -22,9 +22,9 @@ int main(int argc,char* argv[])
 
     yyparse();
 
-    Emitter emit;
+    x86::Emitter emit;
     
-    cout << emit.mov_reg_reg(2,0);
+    cout << emit.mov_reg_reg(x86::EBX,x86::EAX);
     cout << emit.mov_reg_imm(10,4);    
     cout << emit.mov_reg_mem(0,1,-4);
     cout << emit.mov_reg_mem(0,1,4);
@@ -38,7 +38,7 @@ int main(int argc,char* argv[])
     cout << emit.sub_mem_imm(0,200);   
     cout << emit.idiv_mem(0);
     cout << emit.leave();
-
+    cout << x86::EBX << endl;
 
 
 

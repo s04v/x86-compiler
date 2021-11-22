@@ -4,6 +4,7 @@
 #include "reg.h"
 
 using namespace std;
+namespace x86{
 
 #define DEF_INST(name) \
     string name();
@@ -79,7 +80,5 @@ public:
 
     DEF_INST(leave)
     DEF_INST(ret)
-
-
-
 };
+}

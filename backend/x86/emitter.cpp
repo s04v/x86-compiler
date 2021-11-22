@@ -7,6 +7,8 @@
 
 using namespace std;
 
+namespace x86 {
+
 #define toString(x) int2str(x).c_str()
 
 #define INST(name) \
@@ -110,3 +112,5 @@ INST_MEM(idiv)
 INST_REG(push)
 INST(leave)
 INST(ret)
+
+}

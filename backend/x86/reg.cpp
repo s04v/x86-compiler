@@ -3,6 +3,7 @@
 
 using namespace std;
 
+namespace x86 {
 
 int Register::alloc8l() 
 {
@@ -15,6 +16,7 @@ int Register::alloc8l()
         }
     }
 }
+
 int Register::alloc8h() 
 {
     for (int i = 2; i < 16; i += 4)
@@ -34,4 +36,7 @@ char* Register::getName(int r)
 {
     return (char*)name[r].c_str();
 }
+
 void Register::free(int r) {}
+
+}

@@ -4,18 +4,18 @@
 
 using namespace std;
 
-struct Reg_t {
-    enum Name {
-        EAX, AX, AH, AL,
-        EBX, BX, BH, BL,
-        ECX, CX, CH, CL,
-        EDX, DX, DH, DL,
-        ESP, SP, SPL,
-        EBP, BP, BPL
-    };
+namespace x86{
+
+enum Reg {
+    EAX, AX, AH, AL,
+    EBX, BX, BH, BL,
+    ECX, CX, CH, CL,
+    EDX, DX, DH, DL,
+    ESP, SP, SPL,
+    EBP, BP, BPL
 };
 
-typedef Reg_t::Name Reg;
+    
 
 class Register {
 private:
@@ -52,3 +52,4 @@ public:
     char* getName(int r);
     void free(int r);
 };
+}

@@ -60,7 +60,7 @@ char* Register::getName(int r)
 
 void Register::free(int r) 
 {
-    reg[i] = 1;
+    reg[r] = 1;
 }
 
 }

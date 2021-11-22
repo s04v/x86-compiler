@@ -29,14 +29,38 @@ int Register::alloc8h()
     }
 } 
 
-int Register::alloc16() {}
-int Register::alloc32() {}
+int Register::alloc16() 
+{
+    for (int i = 1; i < 16; i += 4)
+    {
+        if(reg[i])
+        {
+            reg[i] = 0;
+            return i;     
+        }
+    }
+}
+
+int Register::alloc32() 
+{
+    for (int i = 0; i < 16; i += 4)
+    {
+        if(reg[i])
+        {
+            reg[i] = 0;
+            return i;     
+        }
+    }
+}
 
 char* Register::getName(int r) 
 {
     return (char*)name[r].c_str();
 }
 
-void Register::free(int r) {}
+void Register::free(int r) 
+{
+    reg[i] = 1;
+}
 
 }

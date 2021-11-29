@@ -28,12 +28,12 @@ typedef Expr_t::Type ExprType;
 
 class Expr : public ExprOp {
 public:
-    ExprType type;
+    ExprType exprType;
     ExprOp* left;
     ExprOp* right;
 
     Expr() {};
-    Expr(ExprType t, ExprOp* l, ExprOp* r) : type(t), left(l), right(r) {};
+    Expr(ExprType t, ExprOp* l, ExprOp* r) : exprType(t), left(l), right(r) {};
 
     virtual ~Expr() = default;
 };

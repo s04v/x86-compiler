@@ -123,6 +123,33 @@ compiler/fast:
 	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/build
 .PHONY : compiler/fast
 
+backend/x86/compiler.o: backend/x86/compiler.cpp.o
+
+.PHONY : backend/x86/compiler.o
+
+# target to build an object file
+backend/x86/compiler.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/compiler.cpp.o
+.PHONY : backend/x86/compiler.cpp.o
+
+backend/x86/compiler.i: backend/x86/compiler.cpp.i
+
+.PHONY : backend/x86/compiler.i
+
+# target to preprocess a source file
+backend/x86/compiler.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/compiler.cpp.i
+.PHONY : backend/x86/compiler.cpp.i
+
+backend/x86/compiler.s: backend/x86/compiler.cpp.s
+
+.PHONY : backend/x86/compiler.s
+
+# target to generate assembly for a file
+backend/x86/compiler.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/compiler.cpp.s
+.PHONY : backend/x86/compiler.cpp.s
+
 backend/x86/emitter.o: backend/x86/emitter.cpp.o
 
 .PHONY : backend/x86/emitter.o
@@ -267,6 +294,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... compiler"
+	@echo "... backend/x86/compiler.o"
+	@echo "... backend/x86/compiler.i"
+	@echo "... backend/x86/compiler.s"
 	@echo "... backend/x86/emitter.o"
 	@echo "... backend/x86/emitter.i"
 	@echo "... backend/x86/emitter.s"

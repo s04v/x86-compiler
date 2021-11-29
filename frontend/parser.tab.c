@@ -650,9 +650,9 @@ static const yytype_uint8 yyrline[] =
      158,   160,   161,   163,   164,   166,   167,   169,   170,   172,
      173,   174,   175,   177,   178,   180,   181,   183,   184,   186,
      187,   188,   190,   191,   193,   194,   195,   196,   197,   198,
-     199,   201,   202,   204,   206,   207,   208,   210,   211,   212,
-     214,   215,   216,   217,   219,   220,   221,   222,   223,   224,
-     225,   226,   227
+     199,   201,   202,   204,   205,   206,   207,   209,   210,   211,
+     213,   214,   215,   216,   218,   219,   220,   221,   222,   223,
+     224,   225,   226
 };
 #endif
 
@@ -1538,7 +1538,7 @@ yyreduce:
     {
   case 2:
 #line 119 "parser.y"
-                    { root = (yyvsp[0].stmtVec); cout << "size - " << root->size() << endl;}
+                    { root = (yyvsp[0].stmtVec); }
 #line 1543 "parser.tab.c"
     break;
 
@@ -1550,13 +1550,13 @@ yyreduce:
 
   case 4:
 #line 122 "parser.y"
-                               { (yyvsp[0].varDef)->stmtType = StmtType::VAR_DEF; (yyvsp[-1].stmtVec)->push_back((yyvsp[0].varDef)); cout << "var" << endl;}
+                               { (yyvsp[0].varDef)->stmtType = StmtType::VAR_DEF; (yyvsp[-1].stmtVec)->push_back((yyvsp[0].varDef)); }
 #line 1555 "parser.tab.c"
     break;
 
   case 5:
 #line 123 "parser.y"
-                              { (yyvsp[0].funcDef)->stmtType = StmtType::FUNC_DEF; (yyvsp[-1].stmtVec)->push_back((yyvsp[0].funcDef));  cout << "func" << endl; }
+                              { (yyvsp[0].funcDef)->stmtType = StmtType::FUNC_DEF; (yyvsp[-1].stmtVec)->push_back((yyvsp[0].funcDef)); }
 #line 1561 "parser.tab.c"
     break;
 
@@ -1904,121 +1904,120 @@ yyreduce:
 
   case 63:
 #line 204 "parser.y"
-                 {  (yyval.operand) = new Operand();
-                    cout << "ID = " << *(yyvsp[0].val) << " or " << *yylval.val << endl; }
-#line 1910 "parser.tab.c"
+                 { (yyval.operand) = new Operand(); }
+#line 1909 "parser.tab.c"
     break;
 
   case 64:
-#line 206 "parser.y"
+#line 205 "parser.y"
                                                 { (yyval.operand) = new Call((yyvsp[-3].operand), (yyvsp[-1].exprVec)); }
-#line 1916 "parser.tab.c"
+#line 1915 "parser.tab.c"
     break;
 
   case 65:
-#line 207 "parser.y"
+#line 206 "parser.y"
                        { (yyvsp[-1].operand)->postfix = Postfix::INC; }
-#line 1922 "parser.tab.c"
+#line 1921 "parser.tab.c"
     break;
 
   case 66:
-#line 208 "parser.y"
+#line 207 "parser.y"
                        { (yyvsp[-1].operand)->postfix = Postfix::DEC; }
-#line 1928 "parser.tab.c"
+#line 1927 "parser.tab.c"
     break;
 
   case 67:
-#line 210 "parser.y"
+#line 209 "parser.y"
                 { (yyval.exprVec) = new vector<ExprOp*>();  }
-#line 1934 "parser.tab.c"
+#line 1933 "parser.tab.c"
     break;
 
   case 68:
-#line 211 "parser.y"
+#line 210 "parser.y"
                    { (yyval.exprVec) = new vector<ExprOp*>(); (yyval.exprVec)->push_back((yyvsp[0].operand)); }
-#line 1940 "parser.tab.c"
+#line 1939 "parser.tab.c"
     break;
 
   case 69:
-#line 212 "parser.y"
+#line 211 "parser.y"
                                         { (yyvsp[-2].exprVec)->push_back((yyvsp[0].operand)); }
-#line 1946 "parser.tab.c"
+#line 1945 "parser.tab.c"
     break;
 
   case 70:
-#line 214 "parser.y"
+#line 213 "parser.y"
                    { (yyval.operand) = new Constant(ConstType::CHAR, *(yyvsp[0].val)); }
-#line 1952 "parser.tab.c"
+#line 1951 "parser.tab.c"
     break;
 
   case 71:
-#line 215 "parser.y"
+#line 214 "parser.y"
              { (yyval.operand) = new Constant(ConstType::NUMBER, *(yyvsp[0].val));}
-#line 1958 "parser.tab.c"
+#line 1957 "parser.tab.c"
     break;
 
   case 72:
-#line 216 "parser.y"
+#line 215 "parser.y"
              { (yyval.operand) = new Constant(ConstType::STRING, *(yyvsp[0].val)); }
-#line 1964 "parser.tab.c"
+#line 1963 "parser.tab.c"
     break;
 
   case 74:
-#line 219 "parser.y"
+#line 218 "parser.y"
            { (yyval.varType) = VarType::BOOL; }
-#line 1970 "parser.tab.c"
+#line 1969 "parser.tab.c"
     break;
 
   case 75:
-#line 220 "parser.y"
+#line 219 "parser.y"
          { (yyval.varType) = VarType::U8; }
-#line 1976 "parser.tab.c"
+#line 1975 "parser.tab.c"
     break;
 
   case 76:
-#line 221 "parser.y"
+#line 220 "parser.y"
          { (yyval.varType) = VarType::I8; }
-#line 1982 "parser.tab.c"
+#line 1981 "parser.tab.c"
     break;
 
   case 77:
-#line 222 "parser.y"
+#line 221 "parser.y"
           { (yyval.varType) = VarType::U16; }
-#line 1988 "parser.tab.c"
+#line 1987 "parser.tab.c"
     break;
 
   case 78:
-#line 223 "parser.y"
+#line 222 "parser.y"
           { (yyval.varType) = VarType::I16; }
-#line 1994 "parser.tab.c"
+#line 1993 "parser.tab.c"
     break;
 
   case 79:
-#line 224 "parser.y"
+#line 223 "parser.y"
           { (yyval.varType) = VarType::U32; }
-#line 2000 "parser.tab.c"
+#line 1999 "parser.tab.c"
     break;
 
   case 80:
-#line 225 "parser.y"
+#line 224 "parser.y"
           { (yyval.varType) = VarType::I32; }
-#line 2006 "parser.tab.c"
+#line 2005 "parser.tab.c"
     break;
 
   case 81:
-#line 226 "parser.y"
+#line 225 "parser.y"
                { (yyval.varType) = VarType::STRING_T; }
-#line 2012 "parser.tab.c"
+#line 2011 "parser.tab.c"
     break;
 
   case 82:
-#line 227 "parser.y"
+#line 226 "parser.y"
            { (yyval.varType) = VarType::VOID; }
-#line 2018 "parser.tab.c"
+#line 2017 "parser.tab.c"
     break;
 
 
-#line 2022 "parser.tab.c"
+#line 2021 "parser.tab.c"
 
       default: break;
     }
@@ -2250,6 +2249,6 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 228 "parser.y"
+#line 227 "parser.y"
 
 

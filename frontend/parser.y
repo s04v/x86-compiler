@@ -116,11 +116,11 @@
 
 %%
 
-program: definition { root = $1; cout << "size - " << root->size() << endl;}
+program: definition { root = $1; }
 
 definition: { $$ = new vector<Stmt*>(); }
-    | definition variable_def  { $2->stmtType = StmtType::VAR_DEF; $1->push_back($2); cout << "var" << endl;}
-    | definition function_def { $2->stmtType = StmtType::FUNC_DEF; $1->push_back($2);  cout << "func" << endl; }
+    | definition variable_def  { $2->stmtType = StmtType::VAR_DEF; $1->push_back($2); }
+    | definition function_def { $2->stmtType = StmtType::FUNC_DEF; $1->push_back($2); }
     
 variable_def: VAR ID COLON type ASSIGN or_or_expr SEMI { $$ = new VarDef($4, *$2, $6); }
 
@@ -201,8 +201,7 @@ unary_operator: MUL { $$ = Prefix::MUL; }
 operand_expr: primary_expr { $$ = $1; } 
     | postfix_expr { $$ = $1; }
 
-postfix_expr: ID {  $$ = new Operand();
-                    cout << "ID = " << *$1 << " or " << *yylval.val << endl; }
+postfix_expr: ID { $$ = new Operand(); }
     | postfix_expr LPAREN args_expr_list RPAREN { $$ = new Call($1, $3); }
     | postfix_expr INC { $1->postfix = Postfix::INC; }
     | postfix_expr DEC { $1->postfix = Postfix::DEC; } 

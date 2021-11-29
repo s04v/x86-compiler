@@ -22,4 +22,5 @@ public:
 
     Constant() {};
     Constant(ConstType t, std::string v) : type(t), val(v) {};
+ 
 };

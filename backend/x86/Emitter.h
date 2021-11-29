@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "reg.h"
+#include "Reg.h"
 
 using namespace std;
 namespace x86{

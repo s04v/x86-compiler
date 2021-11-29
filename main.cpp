@@ -2,14 +2,14 @@
 #include <vector>
 
 #include "frontend/parser.tab.h"
-#include "ast/stmt.h"
-#include "ast/if.h"
-#include "ast/expr.h"
-#include "ast/constant.h"
+#include "ast/Stmt.h"
+#include "ast/If.h"
+#include "ast/Expr.h"
+#include "ast/Constant.h"
 
-#include "backend/x86/emitter.h"
-#include "backend/x86/reg.h"
-#include "backend/x86/compiler.h"
+#include "backend/x86/Emitter.h"
+#include "backend/x86/Reg.h"
+#include "backend/x86/Compiler.h"
 
 #include "utils/int2str.h"
 

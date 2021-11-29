@@ -1,9 +1,9 @@
 #pragma once 
 
 #include <string>
-#include "exprOp.h"
-#include "stmt.h"
-#include "operand.h" 
+#include "ExprOp.h"
+#include "Stmt.h"
+#include "Operand.h" 
 
 using namespace std;
 

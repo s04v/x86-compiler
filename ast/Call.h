@@ -2,9 +2,9 @@
 
 #include <vector>
 #include <string>
-#include "operand.h"
-#include "exprOp.h"
-#include "id.h"
+#include "Operand.h"
+#include "ExprOp.h"
+#include "Id.h"
 
 using namespace std;
 

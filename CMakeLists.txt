@@ -6,4 +6,4 @@ set(CMAKE_CPP_COMPILER g++)
 set(CMAKE_C_COMPILER g++)
 
 
-add_executable(compiler main.cpp frontend/lex.yy.c frontend/parser.tab.c backend/x86/emitter.cpp backend/x86/reg.cpp backend/x86/compiler.cpp) 
+add_executable(compiler main.cpp frontend/lex.yy.c frontend/parser.tab.c backend/x86/Emitter.cpp backend/x86/Reg.cpp backend/x86/Compiler.cpp) 

@@ -1,11 +1,11 @@
 #pragma once 
 
 #include <string>
-#include "../../ast/expr.h"
-#include "../../ast/exprOp.h"
-#include "../../ast/operand.h"
-#include "emitter.h"
-#include "reg.h"
+#include "../../ast/Expr.h"
+#include "../../ast/ExprOp.h"
+#include "../../ast/Operand.h"
+#include "Emitter.h"
+#include "Reg.h"
 
 using namespace std;
 

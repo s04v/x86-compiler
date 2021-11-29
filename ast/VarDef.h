@@ -1,8 +1,8 @@
 #pragma once 
 
 #include <string>
-#include "exprOp.h"
-#include "operand.h" 
+#include "ExprOp.h"
+#include "Operand.h" 
 
 using namespace std;
 

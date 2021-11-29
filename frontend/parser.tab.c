@@ -71,7 +71,7 @@
 
     #include <iostream>
     #include <vector>
-    #include "../ast/stmt.h"
+    #include "../ast/Stmt.h"
     
     using namespace std;
 
@@ -142,18 +142,18 @@ extern int yydebug;
 
     #include <string>
     #include <vector>
-    #include "../ast/operand.h"
-    #include "../ast/constant.h"
-    #include "../ast/id.h"
-    #include "../ast/exprOp.h"
-    #include "../ast/call.h"
-    #include "../ast/expr.h"
-    #include "../ast/stmt.h"
-    #include "../ast/assign.h"
-    #include "../ast/varDef.h"
-    #include "../ast/if.h"
-    #include "../ast/funcArg.h"
-    #include "../ast/funcDef.h"
+    #include "../ast/Operand.h"
+    #include "../ast/Constant.h"
+    #include "../ast/Id.h"
+    #include "../ast/ExprOp.h"
+    #include "../ast/Call.h"
+    #include "../ast/Expr.h"
+    #include "../ast/Stmt.h"
+    #include "../ast/Assign.h"
+    #include "../ast/VarDef.h"
+    #include "../ast/If.h"
+    #include "../ast/FuncArg.h"
+    #include "../ast/FuncDef.h"
 
 
 #line 160 "parser.tab.c"

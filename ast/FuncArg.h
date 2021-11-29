@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "varDef.h"
+#include "VarDef.h"
 
 using namespace std;
 

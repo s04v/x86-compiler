@@ -123,86 +123,86 @@ compiler/fast:
 	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/build
 .PHONY : compiler/fast
 
-backend/x86/compiler.o: backend/x86/compiler.cpp.o
+backend/x86/Compiler.o: backend/x86/Compiler.cpp.o
 
-.PHONY : backend/x86/compiler.o
-
-# target to build an object file
-backend/x86/compiler.cpp.o:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/compiler.cpp.o
-.PHONY : backend/x86/compiler.cpp.o
-
-backend/x86/compiler.i: backend/x86/compiler.cpp.i
-
-.PHONY : backend/x86/compiler.i
-
-# target to preprocess a source file
-backend/x86/compiler.cpp.i:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/compiler.cpp.i
-.PHONY : backend/x86/compiler.cpp.i
-
-backend/x86/compiler.s: backend/x86/compiler.cpp.s
-
-.PHONY : backend/x86/compiler.s
-
-# target to generate assembly for a file
-backend/x86/compiler.cpp.s:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/compiler.cpp.s
-.PHONY : backend/x86/compiler.cpp.s
-
-backend/x86/emitter.o: backend/x86/emitter.cpp.o
-
-.PHONY : backend/x86/emitter.o
+.PHONY : backend/x86/Compiler.o
 
 # target to build an object file
-backend/x86/emitter.cpp.o:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/emitter.cpp.o
-.PHONY : backend/x86/emitter.cpp.o
+backend/x86/Compiler.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Compiler.cpp.o
+.PHONY : backend/x86/Compiler.cpp.o
 
-backend/x86/emitter.i: backend/x86/emitter.cpp.i
+backend/x86/Compiler.i: backend/x86/Compiler.cpp.i
 
-.PHONY : backend/x86/emitter.i
+.PHONY : backend/x86/Compiler.i
 
 # target to preprocess a source file
-backend/x86/emitter.cpp.i:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/emitter.cpp.i
-.PHONY : backend/x86/emitter.cpp.i
+backend/x86/Compiler.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Compiler.cpp.i
+.PHONY : backend/x86/Compiler.cpp.i
 
-backend/x86/emitter.s: backend/x86/emitter.cpp.s
+backend/x86/Compiler.s: backend/x86/Compiler.cpp.s
 
-.PHONY : backend/x86/emitter.s
+.PHONY : backend/x86/Compiler.s
 
 # target to generate assembly for a file
-backend/x86/emitter.cpp.s:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/emitter.cpp.s
-.PHONY : backend/x86/emitter.cpp.s
+backend/x86/Compiler.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Compiler.cpp.s
+.PHONY : backend/x86/Compiler.cpp.s
 
-backend/x86/reg.o: backend/x86/reg.cpp.o
+backend/x86/Emitter.o: backend/x86/Emitter.cpp.o
 
-.PHONY : backend/x86/reg.o
+.PHONY : backend/x86/Emitter.o
 
 # target to build an object file
-backend/x86/reg.cpp.o:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/reg.cpp.o
-.PHONY : backend/x86/reg.cpp.o
+backend/x86/Emitter.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Emitter.cpp.o
+.PHONY : backend/x86/Emitter.cpp.o
 
-backend/x86/reg.i: backend/x86/reg.cpp.i
+backend/x86/Emitter.i: backend/x86/Emitter.cpp.i
 
-.PHONY : backend/x86/reg.i
+.PHONY : backend/x86/Emitter.i
 
 # target to preprocess a source file
-backend/x86/reg.cpp.i:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/reg.cpp.i
-.PHONY : backend/x86/reg.cpp.i
+backend/x86/Emitter.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Emitter.cpp.i
+.PHONY : backend/x86/Emitter.cpp.i
 
-backend/x86/reg.s: backend/x86/reg.cpp.s
+backend/x86/Emitter.s: backend/x86/Emitter.cpp.s
 
-.PHONY : backend/x86/reg.s
+.PHONY : backend/x86/Emitter.s
 
 # target to generate assembly for a file
-backend/x86/reg.cpp.s:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/reg.cpp.s
-.PHONY : backend/x86/reg.cpp.s
+backend/x86/Emitter.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Emitter.cpp.s
+.PHONY : backend/x86/Emitter.cpp.s
+
+backend/x86/Reg.o: backend/x86/Reg.cpp.o
+
+.PHONY : backend/x86/Reg.o
+
+# target to build an object file
+backend/x86/Reg.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Reg.cpp.o
+.PHONY : backend/x86/Reg.cpp.o
+
+backend/x86/Reg.i: backend/x86/Reg.cpp.i
+
+.PHONY : backend/x86/Reg.i
+
+# target to preprocess a source file
+backend/x86/Reg.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Reg.cpp.i
+.PHONY : backend/x86/Reg.cpp.i
+
+backend/x86/Reg.s: backend/x86/Reg.cpp.s
+
+.PHONY : backend/x86/Reg.s
+
+# target to generate assembly for a file
+backend/x86/Reg.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Reg.cpp.s
+.PHONY : backend/x86/Reg.cpp.s
 
 frontend/lex.yy.o: frontend/lex.yy.c.o
 
@@ -294,15 +294,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... compiler"
-	@echo "... backend/x86/compiler.o"
-	@echo "... backend/x86/compiler.i"
-	@echo "... backend/x86/compiler.s"
-	@echo "... backend/x86/emitter.o"
-	@echo "... backend/x86/emitter.i"
-	@echo "... backend/x86/emitter.s"
-	@echo "... backend/x86/reg.o"
-	@echo "... backend/x86/reg.i"
-	@echo "... backend/x86/reg.s"
+	@echo "... backend/x86/Compiler.o"
+	@echo "... backend/x86/Compiler.i"
+	@echo "... backend/x86/Compiler.s"
+	@echo "... backend/x86/Emitter.o"
+	@echo "... backend/x86/Emitter.i"
+	@echo "... backend/x86/Emitter.s"
+	@echo "... backend/x86/Reg.o"
+	@echo "... backend/x86/Reg.i"
+	@echo "... backend/x86/Reg.s"
 	@echo "... frontend/lex.yy.o"
 	@echo "... frontend/lex.yy.i"
 	@echo "... frontend/lex.yy.s"

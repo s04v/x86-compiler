@@ -1,8 +1,8 @@
 #include <string>
 #include <iostream>
 #include <stdarg.h>
-#include "emitter.h"
-#include "reg.h"
+#include "Emitter.h"
+#include "Reg.h"
 #include "../../utils/int2str.h"
 
 using namespace std;

@@ -1,11 +1,10 @@
-#include "compiler.h"
-#include "../../ast/expr.h"
-#include "../../ast/constant.h"
-#include "../../ast/operand.h"
-#include "../../ast/exprOp.h"
-
-#include "../../utils/int2str.h"
 #include <string>
+#include "Compiler.h"
+#include "../../ast/Expr.h"
+#include "../../ast/Constant.h"
+#include "../../ast/Operand.h"
+#include "../../ast/ExprOp.h"
+#include "../../utils/int2str.h"
 
 using namespace std;
 

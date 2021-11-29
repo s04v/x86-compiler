@@ -1,7 +1,7 @@
 #pragma once 
 
 #include <string>
-#include "operand.h"
+#include "Operand.h"
 
 using namespace std;
 

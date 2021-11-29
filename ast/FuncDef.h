@@ -2,9 +2,9 @@
 
 #include <string>
 #include <vector>
-#include "stmt.h"
-#include "varDef.h"
-#include "funcArg.h"
+#include "Stmt.h"
+#include "VarDef.h"
+#include "FuncArg.h"
 
 
 using namespace std;

@@ -1,4 +1,10 @@
-#ifndef ERROR_H
-#define ERROR_H
+#pragma once
+#include <iostream>
 
-#endif // ERROR_H
+using namespace std;
+
+inline void exitError(const char* text)
+{
+    cout << text << endl;
+    exit(1);
+}

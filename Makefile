@@ -204,6 +204,60 @@ backend/x86/Reg.cpp.s:
 	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Reg.cpp.s
 .PHONY : backend/x86/Reg.cpp.s
 
+backend/x86/scope/Scope.o: backend/x86/scope/Scope.cpp.o
+
+.PHONY : backend/x86/scope/Scope.o
+
+# target to build an object file
+backend/x86/scope/Scope.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/scope/Scope.cpp.o
+.PHONY : backend/x86/scope/Scope.cpp.o
+
+backend/x86/scope/Scope.i: backend/x86/scope/Scope.cpp.i
+
+.PHONY : backend/x86/scope/Scope.i
+
+# target to preprocess a source file
+backend/x86/scope/Scope.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/scope/Scope.cpp.i
+.PHONY : backend/x86/scope/Scope.cpp.i
+
+backend/x86/scope/Scope.s: backend/x86/scope/Scope.cpp.s
+
+.PHONY : backend/x86/scope/Scope.s
+
+# target to generate assembly for a file
+backend/x86/scope/Scope.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/scope/Scope.cpp.s
+.PHONY : backend/x86/scope/Scope.cpp.s
+
+backend/x86/scope/SymbolTable.o: backend/x86/scope/SymbolTable.cpp.o
+
+.PHONY : backend/x86/scope/SymbolTable.o
+
+# target to build an object file
+backend/x86/scope/SymbolTable.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/scope/SymbolTable.cpp.o
+.PHONY : backend/x86/scope/SymbolTable.cpp.o
+
+backend/x86/scope/SymbolTable.i: backend/x86/scope/SymbolTable.cpp.i
+
+.PHONY : backend/x86/scope/SymbolTable.i
+
+# target to preprocess a source file
+backend/x86/scope/SymbolTable.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/scope/SymbolTable.cpp.i
+.PHONY : backend/x86/scope/SymbolTable.cpp.i
+
+backend/x86/scope/SymbolTable.s: backend/x86/scope/SymbolTable.cpp.s
+
+.PHONY : backend/x86/scope/SymbolTable.s
+
+# target to generate assembly for a file
+backend/x86/scope/SymbolTable.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/scope/SymbolTable.cpp.s
+.PHONY : backend/x86/scope/SymbolTable.cpp.s
+
 frontend/lex.yy.o: frontend/lex.yy.c.o
 
 .PHONY : frontend/lex.yy.o
@@ -303,6 +357,12 @@ help:
 	@echo "... backend/x86/Reg.o"
 	@echo "... backend/x86/Reg.i"
 	@echo "... backend/x86/Reg.s"
+	@echo "... backend/x86/scope/Scope.o"
+	@echo "... backend/x86/scope/Scope.i"
+	@echo "... backend/x86/scope/Scope.s"
+	@echo "... backend/x86/scope/SymbolTable.o"
+	@echo "... backend/x86/scope/SymbolTable.i"
+	@echo "... backend/x86/scope/SymbolTable.s"
 	@echo "... frontend/lex.yy.o"
 	@echo "... frontend/lex.yy.i"
 	@echo "... frontend/lex.yy.s"

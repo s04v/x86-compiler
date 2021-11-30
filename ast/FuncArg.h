@@ -2,6 +2,7 @@
 
 #include <string>
 #include "VarDef.h"
+#include "SizeType.h"
 
 using namespace std;
 
@@ -9,7 +10,7 @@ using namespace std;
 class FuncArg {
 public:
     string name;
-    VarType type;
+    SizeType type;
 
-    FuncArg(string n, VarType t) : name(n), type(t) {};
+    FuncArg(string n, SizeType t) : name(n), type(t) {};
 };

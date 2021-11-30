@@ -1,6 +1,8 @@
 .vscode/
+.cmake/
 CMakeFiles/
 examples/
+CMakeLists.txt.user
 cmake_install.cmake
 CMakeCache.txt
 parser.old

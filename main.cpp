@@ -6,10 +6,12 @@
 #include "ast/If.h"
 #include "ast/Expr.h"
 #include "ast/Constant.h"
+#include "ast/SizeType.h"
 
 #include "backend/x86/Emitter.h"
 #include "backend/x86/Reg.h"
 #include "backend/x86/Compiler.h"
+#include "backend/x86/scope/Scope.h"
 
 #include "utils/int2str.h"
 
@@ -50,6 +52,19 @@ int main(int argc,char* argv[])
 
     compiler.genExpr(expr);
     cout << compiler.code << endl;
+
+    x86::Scope scope;
+    scope.init();
+    scope.table.addVar("foo2",SizeType::U32);
+
+    scope.extend();
+    scope.table.addVar("foo",SizeType::U32);
+    scope.table.addVar("bar",SizeType::U32);
+
+    cout << scope.table.get("foo").name << endl;
+    cout << scope.table.get("foo2").name << endl;
+    scope.pop();
+    cout << scope.table.get("foo").name << endl;
     // x86::Emitter emit;
     // x86::Register reg;
 

@@ -42,6 +42,8 @@
     #include "../ast/If.h"
     #include "../ast/FuncArg.h"
     #include "../ast/FuncDef.h"
+    #include "../ast/SizeType.h"
+
 
 }
 %token ID NUMBER STRING CHAR
@@ -66,7 +68,7 @@
 %union {
     string* val;
 
-    VarType varType;
+    SizeType sizeType;
     Prefix prefix;
     ExprType exprType;
     AssignOperation assignOp;
@@ -110,7 +112,7 @@
 
 %type <prefix> unary_operator
 %type <val> ID CHAR NUMBER STRING
-%type <varType> type
+%type <sizeType> type
 
 %start program
 
@@ -215,14 +217,14 @@ primary_expr: CHAR { $$ = new Constant(ConstType::CHAR, *$1); }
     | STRING { $$ = new Constant(ConstType::STRING, *$1); }
     | LPAREN or_or_expr RPAREN 
 
-type: BOOL { $$ = VarType::BOOL; }
-    | U8 { $$ = VarType::U8; }
-    | I8 { $$ = VarType::I8; }
-    | U16 { $$ = VarType::U16; }
-    | I16 { $$ = VarType::I16; }
-    | U32 { $$ = VarType::U32; }
-    | I32 { $$ = VarType::I32; }
-    | STRING_T { $$ = VarType::STRING_T; }
-    | VOID { $$ = VarType::VOID; }
+type: BOOL { $$ = SizeType::BOOL; }
+    | U8 { $$ = SizeType::U8; }
+    | I8 { $$ = SizeType::I8; }
+    | U16 { $$ = SizeType::U16; }
+    | I16 { $$ = SizeType::I16; }
+    | U32 { $$ = SizeType::U32; }
+    | I32 { $$ = SizeType::I32; }
+    | STRING_T { $$ = SizeType::STRING_T; }
+    | VOID { $$ = SizeType::VOID; }
 %%
 

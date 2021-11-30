@@ -3,31 +3,17 @@
 #include <string>
 #include "ExprOp.h"
 #include "Operand.h" 
+#include "SizeType.h"
 
 using namespace std;
 
-struct VarDef_t {
-    enum Type {     
-        BOOL,
-        U8,
-        I8,
-        U16,
-        I16,
-        U32,
-        I32,
-        STRING_T,
-        VOID
-    };
-};
-
-typedef VarDef_t::Type VarType;
 
 class VarDef : public Stmt {
 public:
-    VarType varType;
+    SizeType sizeType;
     string left;
     ExprOp* right;
 
     VarDef();
-    VarDef(VarType t, string l, ExprOp* r) : varType(t), left(l), right(r) {} ;
+    VarDef(SizeType t, string l, ExprOp* r) : sizeType(t), left(l), right(r) {} ;
 };

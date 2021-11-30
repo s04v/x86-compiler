@@ -60,9 +60,11 @@ extern int yydebug;
     #include "../ast/If.h"
     #include "../ast/FuncArg.h"
     #include "../ast/FuncDef.h"
+    #include "../ast/SizeType.h"
 
 
-#line 66 "parser.tab.h"
+
+#line 68 "parser.tab.h"
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -142,11 +144,11 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 66 "parser.y"
+#line 68 "parser.y"
 
     string* val;
 
-    VarType varType;
+    SizeType sizeType;
     Prefix prefix;
     ExprType exprType;
     AssignOperation assignOp;
@@ -168,7 +170,7 @@ union YYSTYPE
     vector<Stmt*>* stmtVec;
     vector<FuncArg*>* argVec;
 
-#line 172 "parser.tab.h"
+#line 174 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

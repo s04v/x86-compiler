@@ -2,42 +2,44 @@
 
 #include <string>
 #include "Reg.h"
+#include "AsmOperand.h"
 
 using namespace std;
+
 namespace x86{
 
-#define DEF_INST(name) \
-    string name();
+#define DEF_INST(inst) \
+    string inst();
 
-#define DEF_INST_REG(name) \
-    string name##_reg(int src);
+#define DEF_INST_REG(inst) \
+    string inst(AsmRegister r);
 
-#define DEF_INST_IMM(name) \
-    string name##_imm(int val);
+#define DEF_INST_MEM(inst) \
+    string inst(AsmMemory m);
 
-#define DEF_INST_MEM(name) \
-    string name##_mem(int src, int offset = 0);
+#define DEF_INST_IMM(inst) \
+    string inst(AsmConstant c);
 
-#define DEF_INST_REG_REG(name) \
-    string name##_reg_reg(int dest, int src);
+#define DEF_INST_REG_REG(inst) \
+    string inst(AsmRegister dest, AsmRegister src);
 
-#define DEF_INST_REG_IMM(name) \
-    string name##_reg_imm(int dest, int val);
+#define DEF_INST_REG_IMM(inst) \
+    string inst(AsmRegister dest, AsmConstant c);
 
-#define DEF_INST_REG_MEM(name) \
-    string name##_reg_mem(int dest, int src, int offset = 0);
+#define DEF_INST_REG_MEM(inst) \
+    string inst(AsmRegister dest, AsmMemory src);
 
-#define DEF_INST_MEM_REG(name) \
-    string name##_mem_reg(int dest, int src, int offset = 0);
+#define DEF_INST_MEM_REG(inst) \
+    string inst(AsmMemory dest, AsmRegister src);
 
-#define DEF_INST_MEM_IMM(name) \
-    string name##_mem_imm(int dest, int val, int offset = 0);
+#define DEF_INST_MEM_IMM(inst) \
+    string inst(AsmMemory dest, AsmConstant c);
 
-#define DEF_INST_REG_REG_IMM(name) \
-    string name##_reg_reg_imm(int dest,int src, int val);
+#define DEF_INST_REG_REG_IMM(inst) \
+    string inst(AsmRegister dest, AsmRegister src, AsmConstant c);
 
-#define DEF_INST_REG_MEM_IMM(name) \
-    string imul_reg_mem_imm(int dest,int src, int val, int offset = 0);
+#define DEF_INST_REG_MEM_IMM(inst) \
+    string inst(AsmRegister dest, AsmMemory src, AsmConstant c);
 
 
 class Emitter {
@@ -73,8 +75,8 @@ public:
     DEF_INST_MEM(idiv)
     
 // TODO
-    DEF_INST_REG(not)
-    DEF_INST_MEM(not)
+    DEF_INST_REG(inot)
+    DEF_INST_MEM(inot)
 
     DEF_INST_REG(push)
 

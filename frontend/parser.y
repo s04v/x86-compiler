@@ -2,7 +2,7 @@
 
     #include <iostream>
     #include <vector>
-    #include "../ast/Stmt.h"
+    #include "Ast.h"
     
     using namespace std;
 
@@ -30,20 +30,7 @@
 %code requires {
     #include <string>
     #include <vector>
-    #include "../ast/Operand.h"
-    #include "../ast/Constant.h"
-    #include "../ast/Id.h"
-    #include "../ast/ExprOp.h"
-    #include "../ast/Call.h"
-    #include "../ast/Expr.h"
-    #include "../ast/Stmt.h"
-    #include "../ast/Assign.h"
-    #include "../ast/VarDef.h"
-    #include "../ast/If.h"
-    #include "../ast/FuncArg.h"
-    #include "../ast/FuncDef.h"
-    #include "../ast/SizeType.h"
-
+    #include "Ast.h"
 
 }
 %token ID NUMBER STRING CHAR

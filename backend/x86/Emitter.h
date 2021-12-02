@@ -2,7 +2,7 @@
 
 #include <string>
 #include "Reg.h"
-#include "AsmOperand.h"
+#include "AsmValue.h"
 
 using namespace std;
 

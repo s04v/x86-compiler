@@ -1,10 +1,9 @@
+#include <iostream>
 #include <string>
 #include "Compiler.h"
-#include "../../ast/Expr.h"
-#include "../../ast/Constant.h"
-#include "../../ast/Operand.h"
-#include "../../ast/ExprOp.h"
+#include "../../frontend/Ast.h"
 #include "../../utils/int2str.h"
+#include "AsmValue.h"
 
 using namespace std;
 
@@ -13,37 +12,99 @@ namespace x86 {
 #define cast(type, var) \
     dynamic_cast<type>(var)
 
-int Compiler::genExpr(Expr *expr)
+AsmValue* Compiler::gen(Constant &constant)
 {
-    int l, r;
+    cout << "constant = " << constant.val << endl;
+    AsmConstant* as = new AsmConstant(constant.val);
 
-    if(expr->left->type == ExprOpType::OPERAND)
+    return as;
+}
+
+
+
+AsmValue* Compiler::gen(Expr &expr)
+{
+    AsmRegister* r1, *r2;
+    AsmValue* v1 = expr.left->accept(*this);
+//    auto test = cast(AsmConstant*, v1);
+
+    switch (v1->type) {
+    case AsmOp::CONSTANT:
     {
-        l = loadOp(cast(Operand*,expr->left));
-    } else 
+        r1 = new AsmRegister();
+        r1->index = reg.alloc32();
+        r1->name = reg.getName(r1->index);
+        AsmConstant* c = cast(AsmConstant*,v1);
+        code += emit.mov(*r1, *c);
+        delete c;
+        break;
+    }
+    case AsmOp::MEMORY:
     {
-        l = genExpr(cast(Expr*, expr->left));
+        r1 = new AsmRegister();
+        r1->index = reg.alloc32();
+        r1->name = reg.getName(r1->index);
+        AsmMemory* m = cast(AsmMemory*, v1);
+        code += emit.mov(*r1,*m);
+        delete m;
+        break;
+    }
+    case AsmOp::REGISTER:
+    {
+        r1 = cast(AsmRegister*, v1);
+        break;
+    }
+    default:
+        break;
     }
 
-    if(expr->right->type == ExprOpType::OPERAND)
+    AsmValue* v2 = expr.right->accept(*this);
+    switch (v2->type) {
+    case AsmOp::CONSTANT:
     {
-        r = loadOp(dynamic_cast<Operand*>(expr->right));
-    } else 
+        r2 = new AsmRegister();
+        r2->index = reg.alloc32();
+        r2->name = reg.getName(r2->index);
+        AsmConstant* c = cast(AsmConstant*,v2);
+        code += emit.mov(*r2, *c);
+        delete c;
+        break;
+    }
+    case AsmOp::MEMORY:
     {
-        r = genExpr(dynamic_cast<Expr*>(expr->left));
+        r2 = new AsmRegister();
+        r2->index = reg.alloc32();
+        r2->name = reg.getName(r2->index);
+        AsmMemory* m = cast(AsmMemory*, v2);
+        code += emit.mov(*r2,*m);
+        delete m;
+        break;
+    }
+    case AsmOp::REGISTER:
+    {
+        r2 = cast(AsmRegister*, v2);
+        break;
+    }
+    default:
+        break;
     }
 
-    switch (expr->exprType)
-    {
+    switch (expr.exprType) {
     case ExprType::ADD:
-        code += emit.add_reg_reg(l,r);
+        code += emit.add(*r1,*r2);
+        break;
+    case ExprType::SUB:
+        code += emit.sub(*r1,*r2);
+        break;
+    case ExprType::MUL:
+        code += emit.imul(*r1,*r2);
         break;
     default:
         break;
     }
 
-    reg.free(r);
-    return l;
+    reg.free(r2->index);
+    return r1;
 }
 
 int Compiler::genOp(Operand* op)
@@ -53,7 +114,7 @@ int Compiler::genOp(Operand* op)
     if(op->opType == OpType::CONSTANT)
     {
         Constant* imm = dynamic_cast<Constant*>(op);
-        code += emit.mov_reg_imm(r, stoi(imm->val));
+//        code += emit.mov_reg_imm(r, stoi(imm->val));
         
         delete imm;
         return r;
@@ -70,7 +131,7 @@ int Compiler::loadOp(Operand* op)
             //TODO: Check type size
             c = cast(Constant*, op);
             r = reg.alloc32();
-            code += emit.mov_reg_imm(r, stoi(c->val));  
+//            code += emit.mov_reg_imm(r, stoi(c->val));
             return r;
         case OpType::ID:
             break;

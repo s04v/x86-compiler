@@ -2,7 +2,7 @@
 #include <map>
 #include "SymbolTable.h"
 #include "Symbol.h"
-#include "../../../ast/SizeType.h"
+#include "../../../frontend/Ast.h"
 #include "../../../utils/error.h"
 
 using namespace std;

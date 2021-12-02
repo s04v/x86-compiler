@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
-#include "../../../ast/SizeType.h"
+#include "../../../frontend/Ast.h"
+
 
 using namespace std;
 

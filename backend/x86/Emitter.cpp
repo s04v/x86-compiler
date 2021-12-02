@@ -4,7 +4,7 @@
 #include "Emitter.h"
 #include "Reg.h"
 #include "../../utils/int2str.h"
-#include "AsmOperand.h"
+#include "AsmValue.h"
 
 
 using namespace std;
@@ -68,7 +68,7 @@ namespace x86 {
 
 #define INST_REG_MEM_IMM(inst) \
     string Emitter::inst(AsmRegister dest, AsmMemory src, AsmConstant c) { \
-        return src.getOffset()  != "" ? emit(#inst " %s, [%s%s], %s\n", dest.getName(), src.getReg(), src.getOffset(), c.getVal()) \
+        return src.getOffset() != "" ? emit(#inst " %s, [%s%s], %s\n", dest.getName(), src.getReg(), src.getOffset(), c.getVal()) \
                            : emit(#inst " %s, [%s], %s\n", dest.getName(), src.getReg(), c.getVal()); \
     }
 

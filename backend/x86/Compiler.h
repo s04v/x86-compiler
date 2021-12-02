@@ -1,13 +1,19 @@
-#pragma once 
+﻿#pragma once 
+#ifndef _COMPILER_
+#define _COMPILER_
 
 #include <string>
-#include "../../ast/Expr.h"
-#include "../../ast/ExprOp.h"
-#include "../../ast/Operand.h"
+//#include "../../frontend/Ast.h"
 #include "Emitter.h"
 #include "Reg.h"
+#include "AsmValue.h"
 
 using namespace std;
+
+class ExprOp;
+class Expr;
+class Operand;
+class Constant;
 
 namespace x86 {
 
@@ -15,15 +21,16 @@ class Compiler {
 private:
     Emitter emit;
     Register reg;
-
     int resultOfExpr;
 public:
     string code = "";
 
-    int genExpr(Expr* expr);
+    AsmValue* gen(Constant& constant);
+    AsmValue* gen(Expr& expr);
     int genOp(Operand* op);
     int loadOp(Operand* op);
 
 
 };
 }
+#endif

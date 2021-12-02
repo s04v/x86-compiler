@@ -1,8 +1,12 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "../backend/x86/Compiler.h"
+#include "../backend/x86/AsmValue.h"
 
 using namespace std;
+
+
 
 struct SizeType_t {
     enum Type {
@@ -48,7 +52,6 @@ class If : public Stmt {
 public:
     ExprOp* condition;
     vector<Stmt*>* stmts;
-
     If(ExprOp* c, vector<Stmt*>* s ) : condition(c), stmts(s) {};
 };
 
@@ -141,7 +144,8 @@ public:
     ExprOpType type;
 
     ExprOp() {}
-    virtual ~ExprOp() = default;
+    virtual AsmValue* accept(x86::Compiler& compiler) = 0;
+    virtual ~ExprOp() {};
 };
 
 
@@ -156,7 +160,9 @@ public:
     Expr() {};
     Expr(ExprType t, ExprOp* l, ExprOp* r) : exprType(t), left(l), right(r) {};
 
-    virtual ~Expr() = default;
+    virtual AsmValue* accept(x86::Compiler& compiler) override { return compiler.gen(*this); };
+
+    virtual ~Expr() { };
 };
 
 struct OpType_t {
@@ -205,8 +211,7 @@ public:
     Postfix postfix;
 
     Operand () {}
-
-
+    virtual AsmValue* accept(x86::Compiler& compiler) override { return {}; };
     virtual ~Operand() = default;
 };
 
@@ -226,7 +231,11 @@ public:
     std::string val;
 
     Constant() {};
-    Constant(ConstType t, std::string v) : type(t), val(v) {};
+    Constant(ConstType t, std::string v) : type(t), val(v) {  };
+
+    virtual AsmValue* accept(x86::Compiler& compiler) override { return compiler.gen(*this); };
+
+    virtual ~Constant() {}
 
 };
 

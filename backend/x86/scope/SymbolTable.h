@@ -2,7 +2,7 @@
 #include <map>
 #include <string>
 #include "Symbol.h"
-#include "../../../ast/SizeType.h"
+#include "../../../frontend/Ast.h"
 
 using namespace std;
 namespace x86 {
@@ -13,8 +13,8 @@ class SymbolTable {
 public:
     SymbolTable();
 
+    bool exists(string name);
     void addVar(string name, SizeType size);
     Symbol get(string name);
-    bool exists(string name);
 };
 }

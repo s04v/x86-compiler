@@ -48,23 +48,10 @@ extern int yydebug;
 
     #include <string>
     #include <vector>
-    #include "../ast/Operand.h"
-    #include "../ast/Constant.h"
-    #include "../ast/Id.h"
-    #include "../ast/ExprOp.h"
-    #include "../ast/Call.h"
-    #include "../ast/Expr.h"
-    #include "../ast/Stmt.h"
-    #include "../ast/Assign.h"
-    #include "../ast/VarDef.h"
-    #include "../ast/If.h"
-    #include "../ast/FuncArg.h"
-    #include "../ast/FuncDef.h"
-    #include "../ast/SizeType.h"
+    #include "Ast.h"
 
 
-
-#line 68 "parser.tab.h"
+#line 55 "parser.tab.h"
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -144,7 +131,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 68 "parser.y"
+#line 55 "parser.y"
 
     string* val;
 
@@ -170,7 +157,7 @@ union YYSTYPE
     vector<Stmt*>* stmtVec;
     vector<FuncArg*>* argVec;
 
-#line 174 "parser.tab.h"
+#line 161 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "Compiler.h"
 #include "../../frontend/Ast.h"
 #include "../../utils/int2str.h"
@@ -12,129 +13,87 @@ namespace x86 {
 #define cast(type, var) \
     dynamic_cast<type>(var)
 
-AsmValue* Compiler::gen(Constant &constant)
-{
-    cout << "constant = " << constant.val << endl;
-    AsmConstant* as = new AsmConstant(constant.val);
 
-    return as;
+Compiler::Compiler()
+{
+    scope.init();
 }
 
+AsmValue* Compiler::gen(Constant &constant)
+{
+    AsmValue* val = new AsmValue(AsmOp::CONSTANT);
+    val->imm = stoi(constant.val);
 
+    return val;
+}
 
 AsmValue* Compiler::gen(Expr &expr)
 {
-    AsmRegister* r1, *r2;
-    AsmValue* v1 = expr.left->accept(*this);
-//    auto test = cast(AsmConstant*, v1);
+    AsmValue* op1, *op2;
 
-    switch (v1->type) {
-    case AsmOp::CONSTANT:
-    {
-        r1 = new AsmRegister();
-        r1->index = reg.alloc32();
-        r1->name = reg.getName(r1->index);
-        AsmConstant* c = cast(AsmConstant*,v1);
-        code += emit.mov(*r1, *c);
-        delete c;
-        break;
-    }
-    case AsmOp::MEMORY:
-    {
-        r1 = new AsmRegister();
-        r1->index = reg.alloc32();
-        r1->name = reg.getName(r1->index);
-        AsmMemory* m = cast(AsmMemory*, v1);
-        code += emit.mov(*r1,*m);
-        delete m;
-        break;
-    }
-    case AsmOp::REGISTER:
-    {
-        r1 = cast(AsmRegister*, v1);
-        break;
-    }
-    default:
-        break;
-    }
+    AsmValue* v1 = expr.left->gen(*this);
+    op1 = loadOp(v1);
 
-    AsmValue* v2 = expr.right->accept(*this);
-    switch (v2->type) {
-    case AsmOp::CONSTANT:
-    {
-        r2 = new AsmRegister();
-        r2->index = reg.alloc32();
-        r2->name = reg.getName(r2->index);
-        AsmConstant* c = cast(AsmConstant*,v2);
-        code += emit.mov(*r2, *c);
-        delete c;
-        break;
-    }
-    case AsmOp::MEMORY:
-    {
-        r2 = new AsmRegister();
-        r2->index = reg.alloc32();
-        r2->name = reg.getName(r2->index);
-        AsmMemory* m = cast(AsmMemory*, v2);
-        code += emit.mov(*r2,*m);
-        delete m;
-        break;
-    }
-    case AsmOp::REGISTER:
-    {
-        r2 = cast(AsmRegister*, v2);
-        break;
-    }
-    default:
-        break;
-    }
+    AsmValue* v2 = expr.right->gen(*this);
+    op2 = v2;
 
     switch (expr.exprType) {
     case ExprType::ADD:
-        code += emit.add(*r1,*r2);
-        break;
-    case ExprType::SUB:
-        code += emit.sub(*r1,*r2);
-        break;
-    case ExprType::MUL:
-        code += emit.imul(*r1,*r2);
+        code += emit.add(op1, op2);
         break;
     default:
         break;
     }
 
-    reg.free(r2->index);
-    return r1;
+    //TODO:: reg.free(r2->index);
+    return op1;
 }
 
-int Compiler::genOp(Operand* op)
+AsmValue* Compiler::gen(VarDef& var)
 {
-    int r = reg.alloc32();
-
-    if(op->opType == OpType::CONSTANT)
+    if(scope.table.exists(var.left))
     {
-        Constant* imm = dynamic_cast<Constant*>(op);
-//        code += emit.mov_reg_imm(r, stoi(imm->val));
-        
-        delete imm;
-        return r;
+        cout << "var exists" << endl;
+        exit(-1);
+    }
+
+    scope.table.addVar(var.left, SizeType::U32);
+
+    // TODO:
+    AsmValue* mem = new AsmValue(AsmOp::MEMORY);
+    mem->index = x86::EBP;
+
+    AsmValue* val =  var.right->gen(*this);
+    code += emit.mov(mem,val);
+}
+
+AsmValue* Compiler::gen(FuncDef& func)
+{
+    cout << "enter function" << endl;
+    for(auto& stmts : *(func.stmts)) {
+        stmts->gen(*this);
     }
 }
 
-int Compiler::loadOp(Operand* op)
-{
-    int r;
-    Constant* c;
-    switch(op->opType)
+void Compiler::start(vector<Stmt*> v){
+    for(auto stmt : v)
     {
-        case OpType::CONSTANT:
+        stmt->gen(*this);
+    }
+}
+
+
+AsmValue* Compiler::loadOp(AsmValue* val)
+{
+    switch(val->type)
+    {
+        case AsmOp::CONSTANT:
             //TODO: Check type size
-            c = cast(Constant*, op);
-            r = reg.alloc32();
-//            code += emit.mov_reg_imm(r, stoi(c->val));
+            AsmValue* r = new AsmValue(AsmOp::REGISTER);
+            r->index = reg.alloc32();
+            r->name = reg.getName(r->index);
+            code += emit.mov(r, val);
             return r;
-        case OpType::ID:
-            break;
         // case OpType::CALL;
     }
 }

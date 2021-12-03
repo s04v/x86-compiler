@@ -2,7 +2,6 @@
 #include <map>
 #include "SymbolTable.h"
 #include "Symbol.h"
-#include "../../../frontend/Ast.h"
 #include "../../../utils/error.h"
 
 using namespace std;
@@ -28,7 +27,7 @@ Symbol SymbolTable::get(string name)
     return table[name];
 }
 
-void SymbolTable::addVar(string name, SizeType size)
+void SymbolTable::addVar(string name, int size)
 {
     if(exists(name))
         exitError("Variable name is defined");

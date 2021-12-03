@@ -7,17 +7,23 @@ using namespace std;
 
 struct AsmOpType_t {
     enum Type {
-        CONSTANT,
+        REGISTER = 1,
         MEMORY,
-        REGISTER
+        CONSTANT
     };
 };
 
 typedef AsmOpType_t::Type AsmOp;
 
+
+
 class AsmValue{
 public:
     AsmOp type;
+    int imm;
+    string name;
+    int index;
+    int offset = 0;
 
     AsmValue() {}
     AsmValue(AsmOp t) : type(t) {}

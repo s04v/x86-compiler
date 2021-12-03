@@ -1527,7 +1527,7 @@ yyreduce:
     {
   case 2:
 #line 108 "parser.y"
-                    { root = (yyvsp[0].stmtVec); }
+                    { root = (yyvsp[0].stmtVec);  }
 #line 1532 "parser.tab.c"
     break;
 

@@ -1,11 +1,1 @@
-func main() : void {
-    if 1+1 {    
-    }
-}
-
-var foo: u8 = 20;
-
-var foo: u8 = 20;
-var foo: u8 = 20;
-var foo: u8 = 20;
-
+var foo: u8 = 10 + 20;

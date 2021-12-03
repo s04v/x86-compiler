@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "../../../frontend/Ast.h"
+
 
 
 using namespace std;
@@ -19,13 +19,12 @@ typedef SType_t::Type SymbolType;
 class Symbol {
 public:
     string name;
-    SizeType sizeType;
+    int sizeType;
     SymbolType type;
-
 
     Symbol() {}
 
 
-    Symbol(string n, SizeType s, SymbolType t) : name(n), sizeType(s), type(t) {}
+    Symbol(string n, int s, SymbolType t) : name(n), sizeType(s), type(t) {}
 };
 }

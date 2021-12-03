@@ -37,12 +37,14 @@ struct Stmt_t {
 
 typedef Stmt_t::Type StmtType;
 
+
 class Stmt {
 public:
     StmtType stmtType;
 
     Stmt() {};
 
+    virtual AsmValue* gen(x86::Compiler& compiler) = 0;
     virtual ~Stmt() = default;
 };
 
@@ -53,6 +55,7 @@ public:
     ExprOp* condition;
     vector<Stmt*>* stmts;
     If(ExprOp* c, vector<Stmt*>* s ) : condition(c), stmts(s) {};
+    virtual AsmValue* gen(x86::Compiler& compiler) override {};
 };
 
 class FuncArg {
@@ -71,6 +74,7 @@ public:
     vector<Stmt*>* stmts;
 
     FuncDef(string n, SizeType r, vector<FuncArg*>* a, vector<Stmt*>* s) : name(n), returnType(r), args(a), stmts(s) {}
+    virtual AsmValue* gen(x86::Compiler& compiler) override { compiler.gen(*this); };
 };
 
 struct AssignOperation_t {
@@ -97,6 +101,7 @@ public:
     ExprOp* right;
 
     Assign(AssignOperation t, Operand* l, ExprOp* r) : type(t), left(l),right(r) {};
+    virtual AsmValue* gen(x86::Compiler& compiler) override {};
 };
 
 class VarDef : public Stmt {
@@ -107,6 +112,8 @@ public:
 
     VarDef();
     VarDef(SizeType t, string l, ExprOp* r) : sizeType(t), left(l), right(r) {} ;
+    virtual AsmValue* gen(x86::Compiler& compiler)  override { compiler.gen(*this); };
+
 };
 
 struct Expr_t{
@@ -143,8 +150,9 @@ class ExprOp : public Stmt{
 public:
     ExprOpType type;
 
-    ExprOp() {}
-    virtual AsmValue* accept(x86::Compiler& compiler) = 0;
+    ExprOp() {};
+
+    virtual AsmValue* gen(x86::Compiler& compiler) override {};
     virtual ~ExprOp() {};
 };
 
@@ -160,7 +168,7 @@ public:
     Expr() {};
     Expr(ExprType t, ExprOp* l, ExprOp* r) : exprType(t), left(l), right(r) {};
 
-    virtual AsmValue* accept(x86::Compiler& compiler) override { return compiler.gen(*this); };
+    virtual AsmValue* gen(x86::Compiler& compiler) override { return compiler.gen(*this); };
 
     virtual ~Expr() { };
 };
@@ -211,7 +219,7 @@ public:
     Postfix postfix;
 
     Operand () {}
-    virtual AsmValue* accept(x86::Compiler& compiler) override { return {}; };
+    virtual AsmValue* gen(x86::Compiler& compiler) override { return {}; };
     virtual ~Operand() = default;
 };
 
@@ -233,7 +241,7 @@ public:
     Constant() {};
     Constant(ConstType t, std::string v) : type(t), val(v) {  };
 
-    virtual AsmValue* accept(x86::Compiler& compiler) override { return compiler.gen(*this); };
+    virtual AsmValue* gen(x86::Compiler& compiler) override { return compiler.gen(*this); };
 
     virtual ~Constant() {}
 

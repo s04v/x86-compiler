@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(compiler)
-set (CMAKE_CXX_FLAGS "-g -Wno-all -Wextra -Wno-write-strings")
+set (CMAKE_CXX_FLAGS " -g -Wno-all -Wextra -Wno-write-strings -Wreturn-type")
 set(CMAKE_CPP_COMPILER g++)
 set(CMAKE_C_COMPILER g++)
 

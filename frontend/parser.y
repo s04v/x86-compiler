@@ -35,7 +35,7 @@
 }
 %token ID NUMBER STRING CHAR
 %token PTR_T
-%token INC DEC
+%token INC DEC  
 %token LPAREN RPAREN // ( )
 %token LBRACKET RBRACKET // [ ]
 %token LBRACE RBRACE // { }
@@ -105,7 +105,7 @@
 
 %%
 
-program: definition { root = $1; }
+program: definition { root = $1;  }
 
 definition: { $$ = new vector<Stmt*>(); }
     | definition variable_def  { $2->stmtType = StmtType::VAR_DEF; $1->push_back($2); }

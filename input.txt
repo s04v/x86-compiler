@@ -1,1 +1,5 @@
-var foo: u8 = 10 + 20;
+
+func main(): void {
+    var foo: u8 = 10;
+    var bar: u8 = foo + 20;
+}

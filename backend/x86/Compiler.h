@@ -19,6 +19,7 @@ class VarDef;
 class ExprOp;
 class Expr;
 class Operand;
+class Id;
 class Constant;
 
 namespace x86 {
@@ -34,6 +35,7 @@ public:
 
     Compiler();
     AsmValue* gen(Constant& constant);
+    AsmValue* gen(Id& id);
     AsmValue* gen(Expr& expr);
     AsmValue* gen(VarDef& var);
     AsmValue* gen(FuncDef& func);

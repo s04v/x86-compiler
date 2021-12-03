@@ -27,12 +27,30 @@ AsmValue* Compiler::gen(Constant &constant)
     return val;
 }
 
+AsmValue* Compiler::gen(Id& id)
+{
+
+    if(!scope.table.exists(id.name))
+    {
+        cout << "Variable not defined" << endl;
+        exit(-1);
+    }
+    //TODO: add index
+    AsmValue* mem = new AsmValue(AsmOp::MEMORY);
+    mem->index = x86::EBP;
+
+    return mem;
+}
+
 AsmValue* Compiler::gen(Expr &expr)
 {
     AsmValue* op1, *op2;
 
     AsmValue* v1 = expr.left->gen(*this);
-    op1 = loadOp(v1);
+    if(v1->type == AsmOp::CONSTANT || v1->type == AsmOp::MEMORY)
+        op1 = loadOp(v1);
+    else
+        op1 = v1;
 
     AsmValue* v2 = expr.right->gen(*this);
     op2 = v2;
@@ -40,6 +58,18 @@ AsmValue* Compiler::gen(Expr &expr)
     switch (expr.exprType) {
     case ExprType::ADD:
         code += emit.add(op1, op2);
+        break;
+    case ExprType::SUB:
+        code += emit.sub(op1, op2);
+        break;
+    case ExprType::MUL:
+        // TODO:
+        //        code += emit.imul(op1, op2);
+        break;
+    case ExprType::DIV:
+    case ExprType::MOD:
+        // TODO: fix this
+        //        code += emit.div(op1, op2);
         break;
     default:
         break;
@@ -69,7 +99,8 @@ AsmValue* Compiler::gen(VarDef& var)
 
 AsmValue* Compiler::gen(FuncDef& func)
 {
-    cout << "enter function" << endl;
+    //TODO: create label
+    code += func.name + ":\n";
     for(auto& stmts : *(func.stmts)) {
         stmts->gen(*this);
     }
@@ -82,20 +113,13 @@ void Compiler::start(vector<Stmt*> v){
     }
 }
 
-
 AsmValue* Compiler::loadOp(AsmValue* val)
 {
-    switch(val->type)
-    {
-        case AsmOp::CONSTANT:
-            //TODO: Check type size
-            AsmValue* r = new AsmValue(AsmOp::REGISTER);
-            r->index = reg.alloc32();
-            r->name = reg.getName(r->index);
-            code += emit.mov(r, val);
-            return r;
-        // case OpType::CALL;
-    }
+    AsmValue* r = new AsmValue(AsmOp::REGISTER);
+    r->index = reg.alloc32();
+    r->name = reg.getName(r->index);
+    code += emit.mov(r, val);
+    return r;
 }
 
 

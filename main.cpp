@@ -28,37 +28,39 @@ int main(int argc,char* argv[])
     yyparse();
 
     x86::Compiler compiler;
-    Constant* c1 = new Constant(ConstType::NUMBER, "10");
-    Constant* c2 = new Constant(ConstType::NUMBER, "20");
-    
-    Constant* c3 = new Constant(ConstType::NUMBER, "30");
-    Constant* c4 = new Constant(ConstType::NUMBER, "40");
-
-
-    Expr* expr2 = new Expr();
-    expr2->left = c3;
-    expr2->left->type = ExprOpType::OPERAND;
-
-    expr2->right = c4;
-    expr2->right->type = ExprOpType::OPERAND;
-    expr2->exprType = ExprType::SUB;
-
-    Expr* expr = new Expr();
-    expr->left = c1;
-    expr->left->type = ExprOpType::OPERAND;
-
-    expr->right = c2;
-    expr->right->type = ExprOpType::OPERAND;
-
-    expr->exprType = ExprType::ADD;
-
-    VarDef* stmt = new VarDef(SizeType::U32, "foo", expr);
-
-    Stmt* func = new FuncDef("main", SizeType::U32, new vector<FuncArg*>(), new vector<Stmt*>());
 
     compiler.start(*root);
     cout << compiler.code << endl;
 
 
     return 0;
+//    Constant* c1 = new Constant(ConstType::NUMBER, "10");
+//    Constant* c2 = new Constant(ConstType::NUMBER, "20");
+    
+//    Constant* c3 = new Constant(ConstType::NUMBER, "30");
+//    Constant* c4 = new Constant(ConstType::NUMBER, "40");
+
+
+//    Expr* expr2 = new Expr();
+//    expr2->left = c3;
+//    expr2->left->type = ExprOpType::OPERAND;
+
+//    expr2->right = c4;
+//    expr2->right->type = ExprOpType::OPERAND;
+//    expr2->exprType = ExprType::SUB;
+
+//    Expr* expr = new Expr();
+//    expr->left = c1;
+//    expr->left->type = ExprOpType::OPERAND;
+
+//    expr->right = c2;
+//    expr->right->type = ExprOpType::OPERAND;
+
+//    expr->exprType = ExprType::ADD;
+
+//    VarDef* stmt = new VarDef(SizeType::U32, "foo", expr);
+
+//    Stmt* func = new FuncDef("main", SizeType::U32, new vector<FuncArg*>(), new vector<Stmt*>());
+
+
 }

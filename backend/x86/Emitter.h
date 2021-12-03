@@ -65,12 +65,14 @@ public:
     DEF_INST_MEM_REG(add)
     DEF_INST_MEM_IMM(add)  
 
+    DEF_INST_OP2(sub)
     DEF_INST_REG_REG(sub)
     DEF_INST_REG_IMM(sub)
     DEF_INST_REG_MEM(sub)
     DEF_INST_MEM_REG(sub)
     DEF_INST_MEM_IMM(sub)
     
+    //DEF_INST_OP2(imul)
     DEF_INST_REG_REG(imul)
     DEF_INST_REG_MEM(imul)
     DEF_INST_REG_REG_IMM(imul)

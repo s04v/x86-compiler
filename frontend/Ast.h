@@ -219,7 +219,7 @@ public:
     Postfix postfix;
 
     Operand () {}
-    virtual AsmValue* gen(x86::Compiler& compiler) override { return {}; };
+    virtual AsmValue* gen(x86::Compiler& compiler) override { return {};  };
     virtual ~Operand() = default;
 };
 
@@ -242,9 +242,6 @@ public:
     Constant(ConstType t, std::string v) : type(t), val(v) {  };
 
     virtual AsmValue* gen(x86::Compiler& compiler) override { return compiler.gen(*this); };
-
-    virtual ~Constant() {}
-
 };
 
 class Id : public Operand {
@@ -252,6 +249,7 @@ public:
     string name;
 
     Id(string n) : name(n) {};
+    virtual AsmValue* gen(x86::Compiler& compiler) override { return compiler.gen(*this); };
 };
 
 

@@ -47,10 +47,11 @@
 
 %token OTHER SPACE
 
-
 %token BOOL U8 I8 U16 I16 U32 I32 STRING_T VOID
 %token IMPORT STRUCT VAR FUNC RETURN IF ELSE FOR BREAK CONTINUE
 
+%left ADD SUB
+%left MUL DIV
 
 %union {
     string* val;
@@ -190,7 +191,7 @@ unary_operator: MUL { $$ = Prefix::MUL; }
 operand_expr: primary_expr { $$ = $1; } 
     | postfix_expr { $$ = $1; }
 
-postfix_expr: ID { $$ = new Operand(); }
+postfix_expr: ID { $$ = new Id(*$1); }
     | postfix_expr LPAREN args_expr_list RPAREN { $$ = new Call($1, $3); }
     | postfix_expr INC { $1->postfix = Postfix::INC; }
     | postfix_expr DEC { $1->postfix = Postfix::DEC; } 
@@ -200,7 +201,7 @@ args_expr_list: { $$ = new vector<ExprOp*>();  }
     | args_expr_list COMMA operand_expr { $1->push_back($3); }
 
 primary_expr: CHAR { $$ = new Constant(ConstType::CHAR, *$1); }
-    | NUMBER { $$ = new Constant(ConstType::NUMBER, *$1);}
+    | NUMBER { $$ = new Constant(ConstType::NUMBER, *$1); }
     | STRING { $$ = new Constant(ConstType::STRING, *$1); }
     | LPAREN or_or_expr RPAREN 
 

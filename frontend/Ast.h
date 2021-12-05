@@ -3,27 +3,8 @@
 #include <vector>
 #include "../backend/x86/Compiler.h"
 #include "../backend/x86/AsmValue.h"
-
+#include "../backend/x86/SizeType.h"
 using namespace std;
-
-
-
-struct SizeType_t {
-    enum Type {
-        BOOL,
-        U8,
-        I8,
-        U16,
-        I16,
-        U32,
-        I32,
-        STRING_T,
-        VOID
-    };
-};
-
-typedef SizeType_t::Type SizeType;
-
 
 struct Stmt_t {
     enum Type {

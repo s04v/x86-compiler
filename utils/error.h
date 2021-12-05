@@ -3,8 +3,8 @@
 
 using namespace std;
 
-inline void exitError(const char* text)
+inline void errorReport(const char* text)
 {
-    cout << text << endl;
+    cout << "[" <<"\033[1;31mERROR\033[0m" << "] " << text << endl;
     exit(1);
 }

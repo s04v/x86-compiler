@@ -2,13 +2,15 @@
 #include <string>
 #include <vector>
 #include "Compiler.h"
+#include "SizeType.h"
 #include "../../frontend/Ast.h"
 #include "../../utils/int2str.h"
 #include "AsmValue.h"
-
+#include "../../utils/error.h"
 using namespace std;
 
 namespace x86 {
+
 
 #define cast(type, var) \
     dynamic_cast<type>(var)
@@ -31,13 +33,12 @@ AsmValue* Compiler::gen(Id& id)
 {
 
     if(!scope.table.exists(id.name))
-    {
-        cout << "Variable not defined" << endl;
-        exit(-1);
-    }
+        errorReport("Variable is not defined!");
     //TODO: add index
+    Symbol sym = scope.table.get(id.name);
     AsmValue* mem = new AsmValue(AsmOp::MEMORY);
     mem->index = x86::EBP;
+    mem->offset = sym.offset;
 
     return mem;
 }
@@ -87,11 +88,14 @@ AsmValue* Compiler::gen(VarDef& var)
         exit(-1);
     }
 
-    scope.table.addVar(var.left, SizeType::U32);
+    scope.table.addVar(var.left, var.sizeType);
 
     // TODO:
+    Symbol sym = scope.table.get(var.left);
     AsmValue* mem = new AsmValue(AsmOp::MEMORY);
     mem->index = x86::EBP;
+    mem->offset = sym.offset;
+
 
     AsmValue* val =  var.right->gen(*this);
     code += emit.mov(mem,val);

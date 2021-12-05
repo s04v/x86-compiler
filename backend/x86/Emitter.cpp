@@ -81,13 +81,13 @@ namespace x86 {
 
 #define INST_MEM_REG(name) \
     string Emitter::name##_mem_reg(int dest, int offset, int src) { \
-        return offset != 0 ? emit(#name " [%s%s], %s\n", reg.getName(dest), reg.getName(src)) \
+        return offset != 0 ? emit(#name " [%s%s], %s\n", reg.getName(dest), toString(offset), reg.getName(src)) \
                            : emit(#name " [%s], %s\n", reg.getName(dest), reg.getName(src), toString(offset)); \
     }
 
 #define INST_MEM_IMM(name) \
     string Emitter::name##_mem_imm(int dest, int offset, int val) { \
-        return offset != 0 ? emit(#name " [%s%s], %d\n", reg.getName(dest), val, toString(offset)) \
+        return offset != 0 ? emit(#name " [%s%s], %d\n", reg.getName(dest), toString(offset), val) \
                            : emit(#name " [%s], %d\n", reg.getName(dest), val); \
     }
 
@@ -98,8 +98,8 @@ namespace x86 {
 
 #define INST_REG_MEM_IMM(name) \
     string Emitter::name##_reg_mem_imm(int dest, int src, int offset, int val) { \
-        return offset != 0 ? emit(#name " %s, [%s%s], %s\n", reg.getName(dest), reg.getName(src), val, toString(offset)) \
-                           : emit(#name " %s, [%s], %s\n", reg.getName(dest), reg.getName(src), val); \
+        return offset != 0 ? emit(#name " %s, [%s%s], %d\n", reg.getName(dest), reg.getName(src), toString(offset), val) \
+                           : emit(#name " %s, [%s], %d\n", reg.getName(dest), reg.getName(src), val); \
     }
 
 

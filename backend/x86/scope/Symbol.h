@@ -21,10 +21,11 @@ public:
     string name;
     int sizeType;
     SymbolType type;
+    int offset; // offset on stack
 
     Symbol() {}
 
 
-    Symbol(string n, int s, SymbolType t) : name(n), sizeType(s), type(t) {}
+    Symbol(string n, int s, SymbolType t, int o) : name(n), sizeType(s), type(t), offset(o) {}
 };
 }

@@ -44,14 +44,15 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 30 "parser.y"
+#line 32 "parser.y"
 
     #include <string>
     #include <vector>
     #include "Ast.h"
+    #include "../backend/x86/SizeType.h"
 
 
-#line 55 "parser.tab.h"
+#line 56 "parser.tab.h"
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -131,7 +132,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 56 "parser.y"
+#line 59 "parser.y"
 
     string* val;
 
@@ -157,7 +158,7 @@ union YYSTYPE
     vector<Stmt*>* stmtVec;
     vector<FuncArg*>* argVec;
 
-#line 161 "parser.tab.h"
+#line 162 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

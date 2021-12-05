@@ -3,7 +3,9 @@
     #include <iostream>
     #include <vector>
     #include "Ast.h"
-    
+#include "../backend/x86/SizeType.h"
+
+
     using namespace std;
 
     #define YYERROR_VERBOSE 1
@@ -31,6 +33,7 @@
     #include <string>
     #include <vector>
     #include "Ast.h"
+    #include "../backend/x86/SizeType.h"
 
 }
 %token ID NUMBER STRING CHAR

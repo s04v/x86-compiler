@@ -1,5 +1,7 @@
 
 func main(): void {
-    var foo: u8 = 10;
+    var foo: u32 = 10;
     var bar: u8 = foo + 20;
+    var foo2: u32 = 10;
+    var foo3: u16 = 10;
 }

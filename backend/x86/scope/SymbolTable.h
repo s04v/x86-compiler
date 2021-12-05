@@ -11,6 +11,8 @@ class SymbolTable {
     map<string, Symbol> table;
     map<int,int> test;
 public:
+    int lastOffset;
+
     SymbolTable();
 
     bool exists(string name);

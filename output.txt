@@ -1,0 +1,11 @@
+section .text
+global _start
+
+_start:
+    call main
+main:
+mov DWORD [ebp-4], 10
+mov eax, 220
+mov ebx, DWORD [ebp-4]
+add eax, ebx
+mov DWORD [ebp-8], eax

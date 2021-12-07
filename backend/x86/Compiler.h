@@ -34,16 +34,18 @@ public:
     string code = "";
 
     Compiler();
+    void start(vector<Stmt*> v);
+
     AsmValue* gen(Constant& constant);
     AsmValue* gen(Id& id);
     AsmValue* gen(Expr& expr);
     AsmValue* gen(VarDef& var);
     AsmValue* gen(FuncDef& func);
-
-    void start(vector<Stmt*> v);
-    int genOp(Operand* op);
     AsmValue* loadOp(AsmValue* op);
 
+    void createASM();
+
+    int genOp(Operand* op);
 
 };
 }

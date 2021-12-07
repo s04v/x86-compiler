@@ -28,7 +28,7 @@ Symbol SymbolTable::get(string name)
     return table[name];
 }
 
-void SymbolTable::addVar(string name, int size)
+void SymbolTable::addVar(string name, SizeType size)
 {
     if(exists(name))
         errorReport("Variable name is defined");

@@ -5,7 +5,7 @@
 #include "Reg.h"
 #include "../../utils/int2str.h"
 #include "AsmValue.h"
-
+#include "SizeType.h"
 
 using namespace std;
 
@@ -30,13 +30,13 @@ namespace x86 {
             case RR: \
                 return name##_reg_reg(v1->index, v2->index); \
             case RM: \
-                return name##_reg_mem(v1->index, v2->index, v2->offset); \
+                return name##_reg_mem(v1->index, v2->index, v2->offset, v2->memSize); \
             case RI: \
                 return name##_reg_imm(v1->index, v2->imm); \
             case MR: \
-                return name##_mem_reg(v1->index, v1->offset, v2->index); \
+                return name##_mem_reg(v1->index, v1->offset, v1->memSize, v2->index); \
             case MI: \
-                return name##_mem_imm(v1->index, v1->offset, v2->imm); \
+                return name##_mem_imm(v1->index, v1->offset, v1->memSize, v2->imm); \
             default: \
                 break; \
         }\
@@ -54,8 +54,8 @@ namespace x86 {
     }
 
 #define INST_MEM(name) \
-    string Emitter::name##_mem(int src, int offset) { \
-        return emit(#name " [%s%s]\n", reg.getName(src), toString(offset)); \
+    string Emitter::name##_mem(int src, int offset, SizeType size) { \
+        return emit(#name " %s [%s%s]\n", getMemSize(size),reg.getName(src), toString(offset)); \
     }
 
 #define INST_IMM(name) \
@@ -74,21 +74,22 @@ namespace x86 {
     }
 
 #define INST_REG_MEM(name) \
-    string Emitter::name##_reg_mem(int dest, int src, int offset) { \
-        return offset != 0 ? emit(#name " %s, [%s%s]\n", reg.getName(dest), reg.getName(src), toString(offset)) \
-                           : emit(#name " %s, [%s]\n", reg.getName(dest), reg.getName(src)); \
+    string Emitter::name##_reg_mem(int dest, int src, int offset, SizeType size) { \
+        return offset != 0 ? emit(#name " %s, %s [%s%s]\n", reg.getName(dest), getMemSize(size), reg.getName(src), toString(offset)) \
+                           : emit(#name " %s, %s [%s]\n", reg.getName(dest), getMemSize(size), reg.getName(src)); \
     }
 
 #define INST_MEM_REG(name) \
-    string Emitter::name##_mem_reg(int dest, int offset, int src) { \
-        return offset != 0 ? emit(#name " [%s%s], %s\n", reg.getName(dest), toString(offset), reg.getName(src)) \
-                           : emit(#name " [%s], %s\n", reg.getName(dest), reg.getName(src), toString(offset)); \
+    string Emitter::name##_mem_reg(int dest, int offset, SizeType size, int src) { \
+        const char* r = getReg(src, size); \
+        return offset != 0 ? emit(#name " %s [%s%s], %s\n", getMemSize(size), reg.getName(dest), toString(offset), r) \
+                           : emit(#name " %s [%s], %s\n", getMemSize(size), reg.getName(dest), r); \
     }
 
 #define INST_MEM_IMM(name) \
-    string Emitter::name##_mem_imm(int dest, int offset, int val) { \
-        return offset != 0 ? emit(#name " [%s%s], %d\n", reg.getName(dest), toString(offset), val) \
-                           : emit(#name " [%s], %d\n", reg.getName(dest), val); \
+    string Emitter::name##_mem_imm(int dest, int offset, SizeType size, int val) { \
+        return offset != 0 ? emit(#name " %s [%s%s], %d\n", getMemSize(size), reg.getName(dest), toString(offset), val) \
+                           : emit(#name " %s [%s], %d\n", getMemSize(size), reg.getName(dest), val); \
     }
 
 #define INST_REG_REG_IMM(name) \
@@ -151,4 +152,41 @@ INST_REG(push)
 INST(leave)
 INST(ret)
 
+const char* Emitter::getMemSize(SizeType s)
+{
+    switch(s)
+    {
+        case SizeType::BOOL:
+        case SizeType::U8:
+        case SizeType::I8:
+            return "BYTE";
+        case SizeType::U16:
+        case SizeType::I16:
+            return "WORD";
+        case SizeType::U32:
+        case SizeType::I32:
+            return "DWORD";
+        default:
+            return "invalid ptr";
+    }
+}
+
+const char* Emitter::getReg(int r, SizeType s)
+{
+    switch(s)
+    {
+        case SizeType::BOOL:
+        case SizeType::U8:
+        case SizeType::I8:
+            return reg.getName(r + 3);
+        case SizeType::U16:
+        case SizeType::I16:
+            return reg.getName(r + 1);
+        case SizeType::U32:
+        case SizeType::I32:
+            return reg.getName(r);
+        default:
+            return "invalid reg";
+    }
+}
 }

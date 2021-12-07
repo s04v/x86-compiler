@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 #include "Compiler.h"
 #include "SizeType.h"
 #include "../../frontend/Ast.h"
@@ -31,16 +32,22 @@ AsmValue* Compiler::gen(Constant &constant)
 
 AsmValue* Compiler::gen(Id& id)
 {
-
     if(!scope.table.exists(id.name))
         errorReport("Variable is not defined!");
-    //TODO: add index
+
     Symbol sym = scope.table.get(id.name);
     AsmValue* mem = new AsmValue(AsmOp::MEMORY);
     mem->index = x86::EBP;
     mem->offset = sym.offset;
+    mem->memSize= sym.sizeType;
 
-    return mem;
+    AsmValue* r = new AsmValue(AsmOp::REGISTER);
+    r->index = reg.alloc32();
+    r->name = reg.getName(r->index);
+    code += emit.mov(r, mem);
+
+    delete mem;
+    return r;
 }
 
 AsmValue* Compiler::gen(Expr &expr)
@@ -69,14 +76,15 @@ AsmValue* Compiler::gen(Expr &expr)
         break;
     case ExprType::DIV:
     case ExprType::MOD:
-        // TODO: fix this
+        // TODO:
         //        code += emit.div(op1, op2);
         break;
     default:
         break;
     }
 
-    //TODO:: reg.free(r2->index);
+    if(v2->type == AsmOp::REGISTER)
+        reg.free(v2->index);
     return op1;
 }
 
@@ -89,21 +97,22 @@ AsmValue* Compiler::gen(VarDef& var)
     }
 
     scope.table.addVar(var.left, var.sizeType);
-
-    // TODO:
     Symbol sym = scope.table.get(var.left);
     AsmValue* mem = new AsmValue(AsmOp::MEMORY);
     mem->index = x86::EBP;
     mem->offset = sym.offset;
+    mem->memSize = var.sizeType;
 
+    AsmValue* value = var.right->gen(*this);
 
-    AsmValue* val =  var.right->gen(*this);
-    code += emit.mov(mem,val);
+    code += emit.mov(mem, value);
+
+    if(value->type == AsmOp::REGISTER)
+        reg.free(value->index);
 }
 
 AsmValue* Compiler::gen(FuncDef& func)
 {
-    //TODO: create label
     code += func.name + ":\n";
     for(auto& stmts : *(func.stmts)) {
         stmts->gen(*this);
@@ -116,6 +125,21 @@ void Compiler::start(vector<Stmt*> v){
         stmt->gen(*this);
     }
 }
+
+void Compiler::createASM()
+{
+    ofstream file;
+    file.open ("output.txt");
+    file << "section .text\n"
+            "global _start\n"
+            "\n"
+            "_start:\n"
+            "    call main"
+            "\n";
+    file << code;
+    file.close();
+}
+
 
 AsmValue* Compiler::loadOp(AsmValue* val)
 {

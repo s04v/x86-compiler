@@ -3,6 +3,7 @@
 #include <string>
 #include "Reg.h"
 #include "AsmValue.h"
+#include "SizeType.h"
 
 using namespace std;
 
@@ -21,7 +22,7 @@ namespace x86{
     string name##_imm(int val);
 
 #define DEF_INST_MEM(name) \
-    string name##_mem(int src, int offset = 0);
+    string name##_mem(int src, int offset, SizeType size);
 
 #define DEF_INST_REG_REG(name) \
     string name##_reg_reg(int dest, int src);
@@ -30,13 +31,13 @@ namespace x86{
     string name##_reg_imm(int dest, int val);
 
 #define DEF_INST_REG_MEM(name) \
-    string name##_reg_mem(int dest, int src, int offset = 0);
+    string name##_reg_mem(int dest, int src, int offset, SizeType size);
 
 #define DEF_INST_MEM_REG(name) \
-    string name##_mem_reg(int dest, int offset, int src);
+    string name##_mem_reg(int dest, int offset, SizeType size, int src);
 
 #define DEF_INST_MEM_IMM(name) \
-    string name##_mem_imm(int dest, int offset, int val);
+    string name##_mem_imm(int dest, int offset, SizeType size, int val);
 
 #define DEF_INST_REG_REG_IMM(name) \
     string name##_reg_reg_imm(int dest,int src, int val);
@@ -89,5 +90,8 @@ public:
 
     DEF_INST(leave)
     DEF_INST(ret)
+
+    const char* getMemSize(SizeType s);
+    const char* getReg(int r, SizeType s);
 };
 }

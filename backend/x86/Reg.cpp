@@ -53,9 +53,31 @@ int Register::alloc32()
     }
 }
 
-char* Register::getName(int r) 
+string Register::get16From(int r)
 {
-    return (char*)name[r].c_str();
+    if(r%4 == 0)
+        return name[r+1];
+    return name[r];
+}
+
+string Register::get8hFrom(int r)
+{
+    if(r%4 == 0)
+        return name[r+2];
+    return name[r+1];
+}
+
+string Register::get8lFrom(int r)
+{
+    if(r%4 == 0)
+        return name[r+3];
+    return name[r+2];
+}
+
+
+const char* Register::getName(int r)
+{
+    return name[r].c_str();
 }
 
 void Register::free(int r) 

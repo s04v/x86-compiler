@@ -9,14 +9,14 @@ namespace x86 {
 
 class SymbolTable {
     map<string, Symbol> table;
-    map<int,int> test;
+
 public:
     int lastOffset;
 
     SymbolTable();
 
     bool exists(string name);
-    void addVar(string name, int size);
+    void addVar(string name, SizeType size);
     Symbol get(string name);
 };
 }

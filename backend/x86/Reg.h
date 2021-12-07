@@ -49,7 +49,11 @@ public:
     int alloc16();
     int alloc32();
 
-    char* getName(int r);
+    string get16From(int r);
+    string get8hFrom(int r);
+    string get8lFrom(int r);
+
+    const char* getName(int r);
     void free(int r);
 };
 }

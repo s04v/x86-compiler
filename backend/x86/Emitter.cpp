@@ -152,6 +152,19 @@ INST_REG(push)
 INST(leave)
 INST(ret)
 
+const char* Emitter::funcStart()
+{
+    return "push ebp\n"
+            "mov ebp, esp\n";
+}
+
+const char* Emitter::funcEnd()
+{
+    return "nop\n"
+            "leave\n"
+            "ret\n";
+}
+
 const char* Emitter::getMemSize(SizeType s)
 {
     switch(s)

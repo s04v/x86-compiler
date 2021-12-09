@@ -91,6 +91,10 @@ public:
     DEF_INST(leave)
     DEF_INST(ret)
 
+    const char* funcStart();
+    const char* funcEnd();
+
+
     const char* getMemSize(SizeType s);
     const char* getReg(int r, SizeType s);
 };

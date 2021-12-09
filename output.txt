@@ -1,11 +1,24 @@
 section .text
 global _start
-
 _start:
+    push ebp
+    sub ebp, esp
     call main
+    xor ebx, ebx
+    mov eax, 0x1
+    int 80h
+    ret
+
 main:
-mov DWORD [ebp-4], 10
+push ebp
+mov ebp, esp
+mov DWORD [ebp-4], 123
 mov eax, 220
 mov ebx, DWORD [ebp-4]
 add eax, ebx
 mov DWORD [ebp-8], eax
+nop
+leave
+ret
+
+section .data

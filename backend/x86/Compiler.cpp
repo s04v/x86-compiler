@@ -1,4 +1,4 @@
-#include <iostream>
+    #include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
@@ -12,7 +12,6 @@ using namespace std;
 
 namespace x86 {
 
-
 #define cast(type, var) \
     dynamic_cast<type>(var)
 
@@ -20,6 +19,7 @@ namespace x86 {
 Compiler::Compiler()
 {
     scope.init();
+    data = "section .data\n";
 }
 
 AsmValue* Compiler::gen(Constant &constant)
@@ -114,9 +114,12 @@ AsmValue* Compiler::gen(VarDef& var)
 AsmValue* Compiler::gen(FuncDef& func)
 {
     code += func.name + ":\n";
+    code += emit.funcStart();
+
     for(auto& stmts : *(func.stmts)) {
         stmts->gen(*this);
     }
+    code += emit.funcEnd();
 }
 
 void Compiler::start(vector<Stmt*> v){
@@ -126,21 +129,6 @@ void Compiler::start(vector<Stmt*> v){
     }
 }
 
-void Compiler::createASM()
-{
-    ofstream file;
-    file.open ("output.txt");
-    file << "section .text\n"
-            "global _start\n"
-            "\n"
-            "_start:\n"
-            "    call main"
-            "\n";
-    file << code;
-    file.close();
-}
-
-
 AsmValue* Compiler::loadOp(AsmValue* val)
 {
     AsmValue* r = new AsmValue(AsmOp::REGISTER);
@@ -149,6 +137,37 @@ AsmValue* Compiler::loadOp(AsmValue* val)
     code += emit.mov(r, val);
     return r;
 }
+
+
+void Compiler::createASM()
+{
+    ofstream file;
+    ifstream rt0;
+    string buf;
+    rt0.open("internal/rt0.s");
+    file.open ("output.txt");
+    while (getline (rt0, buf)) {
+      file << buf << "\n";
+    }
+    rt0.close();
+    file << code;
+    file << "\n";
+    file << data;
+    file.close();
+}
+
+
+
+string Compiler::saveString(string src)
+{
+    string l = label.createString();
+    //data += "\t";
+    data += l;
+    data += " db ";
+    data += "\"" + src + "\"\n";
+    return l;
+}
+
 
 
 }

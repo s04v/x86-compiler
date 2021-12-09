@@ -2,11 +2,13 @@
 #ifndef _COMPILER_
 #define _COMPILER_
 
+#include <iostream>
 #include <string>
 #include <vector>
 #include "Emitter.h"
 #include "Reg.h"
 #include "AsmValue.h"
+#include "Label.h"
 #include "scope/Scope.h"
 #include "scope/SymbolTable.h"
 #include "scope/Scope.h"
@@ -21,6 +23,7 @@ class Expr;
 class Operand;
 class Id;
 class Constant;
+class Call;
 
 namespace x86 {
 
@@ -29,8 +32,12 @@ private:
     Emitter emit;
     Register reg;
     Scope scope;
+    Label label;
     int resultOfExpr;
+
+    //section .data
 public:
+    string data = "";
     string code = "";
 
     Compiler();
@@ -38,14 +45,19 @@ public:
 
     AsmValue* gen(Constant& constant);
     AsmValue* gen(Id& id);
+    AsmValue* gen(Call& call);
     AsmValue* gen(Expr& expr);
     AsmValue* gen(VarDef& var);
     AsmValue* gen(FuncDef& func);
     AsmValue* loadOp(AsmValue* op);
 
+
+    string saveString(string src);
     void createASM();
 
-    int genOp(Operand* op);
+
+    void printData() { cout << data << endl; }
+
 
 };
 }

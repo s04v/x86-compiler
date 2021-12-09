@@ -10,6 +10,8 @@
 #include "backend/x86/scope/Scope.h"
 #include "utils/int2str.h"
 
+#include "backend/x86/Label.h"
+
 
 using namespace std;
 
@@ -28,10 +30,12 @@ int main(int argc,char* argv[])
     yyparse();
 
     x86::Compiler compiler;
-
     compiler.start(*root);
     compiler.createASM();
-    cout << compiler.code << endl;
+    system("nasm -felf32 output.txt");
+    system("ld -m elf_i386 output.o");
+    cout << "Done and run" << endl;
+    system("./a.out");
 
 
     return 0;

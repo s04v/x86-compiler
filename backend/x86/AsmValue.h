@@ -21,7 +21,7 @@ class AsmValue{
 public:
     AsmOp type;
     int imm;
-    string name;
+    string val;
     int index; // register index
     SizeType memSize;
     int offset = 0;

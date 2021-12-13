@@ -33,7 +33,7 @@ AsmValue* Compiler::gen(Constant &constant)
     } else if(constant.type == ConstType::STRING)
     {
         AsmValue* val = new AsmValue(AsmOp::STRING);
-        val->name = saveString(constant.val);
+        val->val = saveString(constant.val);
         return val;
     }
 }
@@ -51,7 +51,7 @@ AsmValue* Compiler::gen(Id& id)
 
     AsmValue* r = new AsmValue(AsmOp::REGISTER);
     r->index = reg.alloc32();
-    r->name = reg.getName(r->index);
+    r->val = reg.getName(r->index);
     code += emit.mov(r, mem);
 
     delete mem;
@@ -73,18 +73,22 @@ AsmValue* Compiler::gen(Call& call)
                 code += emit.push(arg);
                 break;
             case AsmOp::STRING:
-//                code += emit.push(arg);
-                code += "push " + arg->name + "\n";
+                code += emit.push(arg);
                 break;
             case AsmOp::MEMORY:
+                code += emit.push(arg);
                 break;
             case AsmOp::REGISTER:
+                code += emit.push(arg);
+                reg.free(arg->index);
                 break;
             default:
                 break;
 
         }
     }
+
+    // TODO:
     code += "call write_wrapper\n";
 
     return val;
@@ -180,7 +184,7 @@ AsmValue* Compiler::loadOp(AsmValue* val)
 {
     AsmValue* r = new AsmValue(AsmOp::REGISTER);
     r->index = reg.alloc32();
-    r->name = reg.getName(r->index);
+    r->val = reg.getName(r->index);
     code += emit.mov(r, val);
     return r;
 }

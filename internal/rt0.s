@@ -19,9 +19,9 @@ write_wrapper:
     push edx
 
     mov eax, 0x4
-    mov ebx, DWORD [ebp + 8]
-    mov ecx, DWORD [ebp + 12]
-    mov edx, DWORD [ebp + 16]
+    mov ebx, 0x1
+    mov ecx, DWORD [ebp + 8]
+    mov edx, DWORD [ebp + 12]
     int 80h
 
     pop edx

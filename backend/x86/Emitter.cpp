@@ -21,8 +21,10 @@ namespace x86 {
 #define RR 0x11
 #define RM 0x12
 #define RI 0x13
+#define RS 0x14
 #define MR 0x21
 #define MI 0x23
+#define MS 0x24
 
 #define INST_OP1(name) \
     string Emitter::name(AsmValue* v) \
@@ -35,6 +37,8 @@ namespace x86 {
                 return name##_mem(v->index, v->offset, v->memSize); \
             case I: \
                 return name##_imm(v->imm); \
+            case S: \
+                return name##_str(v->val); \
             default: \
                 break; \
         }\
@@ -58,6 +62,10 @@ namespace x86 {
                 return name##_mem_reg(v1->index, v1->offset, v1->memSize, v2->index); \
             case MI: \
                 return name##_mem_imm(v1->index, v1->offset, v1->memSize, v2->imm); \
+            case RS: \
+                return name##_reg_str(v1->index, v2->val); \
+            case MS: \
+                return name##_mem_str(v1->index, v1->offset, v1->memSize, v2->val); \
             default: \
                 break; \
         }\
@@ -74,6 +82,11 @@ namespace x86 {
         return emit(#name" %s\n", reg.getName(src)); \
     }
 
+#define INST_STR(name) \
+    string Emitter::name##_str(string label) { \
+        return emit(#name" %s\n", label.c_str()); \
+    }
+
 #define INST_MEM(name) \
     string Emitter::name##_mem(int src, int offset, SizeType size) { \
         return emit(#name " %s [%s%s]\n", getMemSize(size),reg.getName(src), toString(offset)); \
@@ -87,6 +100,11 @@ namespace x86 {
 #define INST_REG_REG(name) \
     string Emitter::name##_reg_reg(int dest, int src) { \
         return emit( #name " %s, %s\n", reg.getName(dest), reg.getName(src)); \
+    }
+
+#define INST_REG_STR(name) \
+    string Emitter::name##_reg_str(int dest, string label) { \
+        return emit( #name " %s, %s\n", reg.getName(dest), label.c_str()); \
     }
 
 #define INST_REG_IMM(name) \
@@ -105,6 +123,12 @@ namespace x86 {
         const char* r = getReg(src, size); \
         return offset != 0 ? emit(#name " %s [%s%s], %s\n", getMemSize(size), reg.getName(dest), toString(offset), r) \
                            : emit(#name " %s [%s], %s\n", getMemSize(size), reg.getName(dest), r); \
+    }
+
+#define INST_MEM_STR(name) \
+    string Emitter::name##_mem_str(int dest, int offset, SizeType size, string label) { \
+        return offset != 0 ? emit(#name " %s [%s%s], %s\n", getMemSize(size), reg.getName(dest), toString(offset), label.c_str()) \
+                           : emit(#name " %s [%s], %s\n", getMemSize(size), reg.getName(dest), label.c_str()); \
     }
 
 #define INST_MEM_IMM(name) \
@@ -141,23 +165,29 @@ string Emitter::emit(char* fmt, ...)
 
 INST_OP2(mov)
 INST_REG_REG(mov)
+INST_REG_STR(mov)
 INST_REG_IMM(mov)
 INST_REG_MEM(mov)
 INST_MEM_REG(mov)
+INST_MEM_STR(mov)
 INST_MEM_IMM(mov)
 
 INST_OP2(add)
 INST_REG_REG(add)
+INST_REG_STR(add)
 INST_REG_IMM(add)
 INST_REG_MEM(add)
 INST_MEM_REG(add)
+INST_MEM_STR(add)
 INST_MEM_IMM(add)
 
 INST_OP2(sub)
 INST_REG_REG(sub)
+INST_REG_STR(sub)
 INST_REG_IMM(sub)
 INST_REG_MEM(sub)
 INST_MEM_REG(sub)
+INST_MEM_STR(sub)
 INST_MEM_IMM(sub)
 
 //INST_OP2(imul)
@@ -171,6 +201,7 @@ INST_MEM(idiv)
 
 INST_OP1(push)
 INST_REG(push)
+INST_STR(push)
 INST_IMM(push)
 INST_MEM(push)
 

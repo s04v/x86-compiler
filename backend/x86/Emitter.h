@@ -24,11 +24,17 @@ namespace x86{
 #define DEF_INST_IMM(name) \
     string name##_imm(int val);
 
+#define DEF_INST_STR(name) \
+    string name##_str(string label);
+
 #define DEF_INST_MEM(name) \
     string name##_mem(int src, int offset, SizeType size);
 
 #define DEF_INST_REG_REG(name) \
     string name##_reg_reg(int dest, int src);
+
+#define DEF_INST_REG_STR(name) \
+    string name##_reg_str(int dest, string label);
 
 #define DEF_INST_REG_IMM(name) \
     string name##_reg_imm(int dest, int val);
@@ -38,6 +44,9 @@ namespace x86{
 
 #define DEF_INST_MEM_REG(name) \
     string name##_mem_reg(int dest, int offset, SizeType size, int src);
+
+#define DEF_INST_MEM_STR(name) \
+    string name##_mem_str(int dest, int offset, SizeType size, string label);
 
 #define DEF_INST_MEM_IMM(name) \
     string name##_mem_imm(int dest, int offset, SizeType size, int val);
@@ -57,25 +66,31 @@ public:
 
     DEF_INST_OP2(mov)
     DEF_INST_REG_REG(mov)
+    DEF_INST_REG_STR(mov)
     DEF_INST_REG_IMM(mov)
     DEF_INST_REG_MEM(mov)
     DEF_INST_MEM_REG(mov)
+    DEF_INST_MEM_STR(mov)
+
     DEF_INST_MEM_IMM(mov)
 
     DEF_INST_OP2(add)
     DEF_INST_REG_REG(add)
+    DEF_INST_REG_STR(add)
     DEF_INST_REG_IMM(add)
     DEF_INST_REG_MEM(add)
     DEF_INST_MEM_REG(add)
-    DEF_INST_MEM_IMM(add)  
+    DEF_INST_MEM_STR(add)
+    DEF_INST_MEM_IMM(add)
 
     DEF_INST_OP2(sub)
     DEF_INST_REG_REG(sub)
+    DEF_INST_REG_STR(sub)
     DEF_INST_REG_IMM(sub)
     DEF_INST_REG_MEM(sub)
     DEF_INST_MEM_REG(sub)
+    DEF_INST_MEM_STR(sub)
     DEF_INST_MEM_IMM(sub)
-    
     //DEF_INST_OP2(imul)
     DEF_INST_REG_REG(imul)
     DEF_INST_REG_MEM(imul)
@@ -91,6 +106,7 @@ public:
 
     DEF_INST_OP1(push)
     DEF_INST_REG(push)
+    DEF_INST_STR(push)
     DEF_INST_IMM(push)
     DEF_INST_MEM(push)
 

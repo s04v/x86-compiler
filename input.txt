@@ -1,5 +1,5 @@
 func main(): void {
-    var foo: u32 = 123;
-    var bar: u32 = 220 + foo;
-    write(1, "hello world from a compiler",27);
+    var size: u32 =1;
+
+    write("hello world from a compiler", 12);
 }

@@ -195,7 +195,7 @@ operand_expr: primary_expr { $$ = $1; }
     | postfix_expr { $$ = $1; }
 
 postfix_expr: ID { $$ = new Id(*$1); }
-    | postfix_expr LPAREN args_expr_list RPAREN { $$ = new Call($1, $3); }
+    | ID LPAREN args_expr_list RPAREN { $$ = new Call(*$1, $3); }
     | postfix_expr INC { $1->postfix = Postfix::INC; }
     | postfix_expr DEC { $1->postfix = Postfix::DEC; } 
 

@@ -9,3 +9,27 @@ _start:
     int 80h
     ret
 
+
+write_wrapper:
+    push ebp
+    mov ebp, esp
+    push eax
+    push ebx
+    push ecx
+    push edx
+
+    mov eax, 0x4
+    mov ebx, DWORD [ebp + 8]
+    mov ecx, DWORD [ebp + 12]
+    mov edx, DWORD [ebp + 16]
+    int 80h
+
+    pop edx
+    pop ecx
+    pop ebx
+    pop eax
+    mov esp, ebp
+    pop ebp
+    ret
+
+

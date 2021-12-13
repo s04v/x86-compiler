@@ -9,6 +9,9 @@ using namespace std;
 
 namespace x86{
 
+#define DEF_INST_OP1(name) \
+    string name(AsmValue* v);
+
 #define DEF_INST_OP2(name) \
     string name(AsmValue* v1, AsmValue* v2);
 
@@ -86,7 +89,10 @@ public:
     DEF_INST_REG(inot)
     DEF_INST_MEM(inot)
 
+    DEF_INST_OP1(push)
     DEF_INST_REG(push)
+    DEF_INST_IMM(push)
+    DEF_INST_MEM(push)
 
     DEF_INST(leave)
     DEF_INST(ret)

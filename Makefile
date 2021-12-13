@@ -123,6 +123,33 @@ compiler/fast:
 	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/build
 .PHONY : compiler/fast
 
+backend/win/SysCall.o: backend/win/SysCall.cpp.o
+
+.PHONY : backend/win/SysCall.o
+
+# target to build an object file
+backend/win/SysCall.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/win/SysCall.cpp.o
+.PHONY : backend/win/SysCall.cpp.o
+
+backend/win/SysCall.i: backend/win/SysCall.cpp.i
+
+.PHONY : backend/win/SysCall.i
+
+# target to preprocess a source file
+backend/win/SysCall.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/win/SysCall.cpp.i
+.PHONY : backend/win/SysCall.cpp.i
+
+backend/win/SysCall.s: backend/win/SysCall.cpp.s
+
+.PHONY : backend/win/SysCall.s
+
+# target to generate assembly for a file
+backend/win/SysCall.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/win/SysCall.cpp.s
+.PHONY : backend/win/SysCall.cpp.s
+
 backend/x86/Compiler.o: backend/x86/Compiler.cpp.o
 
 .PHONY : backend/x86/Compiler.o
@@ -348,6 +375,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... compiler"
+	@echo "... backend/win/SysCall.o"
+	@echo "... backend/win/SysCall.i"
+	@echo "... backend/win/SysCall.s"
 	@echo "... backend/x86/Compiler.o"
 	@echo "... backend/x86/Compiler.i"
 	@echo "... backend/x86/Compiler.s"

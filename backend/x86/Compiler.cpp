@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <algorithm>
 #include "Compiler.h"
 #include "SizeType.h"
 #include "../../frontend/Ast.h"
@@ -24,10 +25,17 @@ Compiler::Compiler()
 
 AsmValue* Compiler::gen(Constant &constant)
 {
-    AsmValue* val = new AsmValue(AsmOp::CONSTANT);
-    val->imm = stoi(constant.val);
-
-    return val;
+    if(constant.type == ConstType::NUMBER)
+    {
+        AsmValue* val = new AsmValue(AsmOp::CONSTANT);
+        val->imm = stoi(constant.val);
+        return val;
+    } else if(constant.type == ConstType::STRING)
+    {
+        AsmValue* val = new AsmValue(AsmOp::STRING);
+        val->name = saveString(constant.val);
+        return val;
+    }
 }
 
 AsmValue* Compiler::gen(Id& id)
@@ -48,6 +56,45 @@ AsmValue* Compiler::gen(Id& id)
 
     delete mem;
     return r;
+}
+
+AsmValue* Compiler::gen(Call& call)
+{
+
+    AsmValue* val;
+    reverse(call.args->begin(), call.args->end());
+
+    for(auto item : *(call.args))
+    {
+        AsmValue* arg = item->gen(*this);
+        switch(arg->type)
+        {
+            case AsmOp::CONSTANT:
+                code += emit.push(arg);
+                break;
+            case AsmOp::STRING:
+//                code += emit.push(arg);
+                code += "push " + arg->name + "\n";
+                break;
+            case AsmOp::MEMORY:
+                break;
+            case AsmOp::REGISTER:
+                break;
+            default:
+                break;
+
+        }
+    }
+    code += "call write_wrapper\n";
+
+    return val;
+
+    /*string label = saveString("He");
+    cout << "calling function" << endl;
+    code += "push 0x2\n";
+    code += "push " + label + "\n";
+    code += "push 0x1\n";*/
+
 }
 
 AsmValue* Compiler::gen(Expr &expr)

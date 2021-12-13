@@ -34,7 +34,6 @@ int main(int argc,char* argv[])
     compiler.createASM();
     system("nasm -felf32 output.txt");
     system("ld -m elf_i386 output.o");
-    cout << "Done and run" << endl;
     system("./a.out");
 
 

@@ -217,10 +217,13 @@ typedef ConstType_t::Type ConstType;
 class Constant : public Operand {
 public:
     ConstType type;
-    std::string val;
+    string val;
 
     Constant() {};
-    Constant(ConstType t, std::string v) : type(t), val(v) {  };
+    Constant(ConstType t, std::string v) : type(t), val(v) {
+        if(t == ConstType::STRING)
+            val = val.substr(1, val.size() - 2);
+    };
 
     virtual AsmValue* gen(x86::Compiler& compiler) override { return compiler.gen(*this); };
 };
@@ -236,9 +239,11 @@ public:
 
 class Call : public Operand {
 public:
-    Operand* name; // ID
+    string name; // ID
     vector<ExprOp*>* args;
 
-    Call(Operand* n, vector<ExprOp*>* a) : name(n), args(a) {};
+    Call(string n, vector<ExprOp*>* a) : name(n), args(a) {};
+    virtual AsmValue* gen(x86::Compiler& compiler) override { return compiler.gen(*this); };
+
 };
 

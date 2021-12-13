@@ -9,7 +9,8 @@ struct AsmOpType_t {
     enum Type {
         REGISTER = 1,
         MEMORY,
-        CONSTANT
+        CONSTANT,
+        STRING
     };
 };
 

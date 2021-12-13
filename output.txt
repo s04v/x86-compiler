@@ -9,6 +9,30 @@ _start:
     int 80h
     ret
 
+
+write_wrapper:
+    push ebp
+    mov ebp, esp
+    push eax
+    push ebx
+    push ecx
+    push edx
+
+    mov eax, 0x4
+    mov ebx, DWORD [ebp + 8]
+    mov ecx, DWORD [ebp + 12]
+    mov edx, DWORD [ebp + 16]
+    int 80h
+
+    pop edx
+    pop ecx
+    pop ebx
+    pop eax
+    mov esp, ebp
+    pop ebp
+    ret
+
+
 main:
 push ebp
 mov ebp, esp
@@ -17,8 +41,17 @@ mov eax, 220
 mov ebx, DWORD [ebp-4]
 add eax, ebx
 mov DWORD [ebp-8], eax
+push 27
+push S0
+push 1
+call write_wrapper
+push 1
+push 56
+push 1
+call write_wrapper
 nop
 leave
 ret
 
 section .data
+S0 db "hello world from a compiler"

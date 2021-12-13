@@ -13,12 +13,33 @@ namespace x86 {
 
 #define toString(x) int2str(x).c_str()
 
+#define R 0x1
+#define M 0x2
+#define I 0x3
+#define S 0x4 // string label
+
 #define RR 0x11
 #define RM 0x12
 #define RI 0x13
 #define MR 0x21
 #define MI 0x23
 
+#define INST_OP1(name) \
+    string Emitter::name(AsmValue* v) \
+    { \
+        int jump = v->type; \
+        switch (jump) { \
+            case R: \
+                return name##_reg(v->index); \
+            case M: \
+                return name##_mem(v->index, v->offset, v->memSize); \
+            case I: \
+                return name##_imm(v->imm); \
+            default: \
+                break; \
+        }\
+        return "invalid instruction"; \
+    }
 
 #define INST_OP2(name) \
     string Emitter::name(AsmValue* v1, AsmValue* v2) \
@@ -148,7 +169,11 @@ INST_REG_MEM_IMM(imul)
 INST_REG(idiv)
 INST_MEM(idiv)
 
+INST_OP1(push)
 INST_REG(push)
+INST_IMM(push)
+INST_MEM(push)
+
 INST(leave)
 INST(ret)
 

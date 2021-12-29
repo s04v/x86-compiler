@@ -15,7 +15,7 @@ class FunctionSignature
 {
     string sign;
 public:
-    FunctionSignature() { sign = "@"; }
+    FunctionSignature(string name) : sign(name) { }
     FunctionSignature(Call& call);
 
     void setArgType(SizeType type);

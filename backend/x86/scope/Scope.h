@@ -12,6 +12,7 @@ class Scope {
     stack<SymbolTable> stackTables;
 public:
     SymbolTable table;
+    SymbolTable funcTable;
     Scope();
 
     void init();

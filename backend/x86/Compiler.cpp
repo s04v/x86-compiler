@@ -1,14 +1,16 @@
-    #include <iostream>
+#include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
 #include <algorithm>
+
 #include "Compiler.h"
 #include "SizeType.h"
+#include "AsmValue.h"
 #include "../../frontend/Ast.h"
 #include "../../utils/int2str.h"
-#include "AsmValue.h"
 #include "../../utils/error.h"
+
 using namespace std;
 
 namespace x86 {
@@ -60,13 +62,13 @@ AsmValue* Compiler::gen(Id& id)
 
 AsmValue* Compiler::gen(Call& call)
 {
-
     AsmValue* val;
-    reverse(call.args->begin(), call.args->end());
 
+    reverse(call.args->begin(), call.args->end());
     for(auto item : *(call.args))
     {
         AsmValue* arg = item->gen(*this);
+        cout << arg->index << endl;
         switch(arg->type)
         {
             case AsmOp::CONSTANT:
@@ -84,20 +86,16 @@ AsmValue* Compiler::gen(Call& call)
                 break;
             default:
                 break;
-
         }
     }
 
+
+
     // TODO:
-    code += "call write_wrapper\n";
+    code += "call sys_write\n";
 
     return val;
 
-    /*string label = saveString("He");
-    cout << "calling function" << endl;
-    code += "push 0x2\n";
-    code += "push " + label + "\n";
-    code += "push 0x1\n";*/
 
 }
 
@@ -149,6 +147,7 @@ AsmValue* Compiler::gen(VarDef& var)
 
     scope.table.addVar(var.left, var.sizeType);
     Symbol sym = scope.table.get(var.left);
+
     AsmValue* mem = new AsmValue(AsmOp::MEMORY);
     mem->index = x86::EBP;
     mem->offset = sym.offset;

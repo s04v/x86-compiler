@@ -1,5 +1,13 @@
-func main(): void {
-    var size: u32 =1;
+func main2(): u32 {
+    var foo: u8 = 2;
 
-    write("hello world from a compiler", 12);
 }
+
+
+func main(): void {
+    var size: u32 = 5;
+    var str: string = "world";
+
+    sys_write(str, size);
+}
+

@@ -208,6 +208,13 @@ INST_MEM(push)
 INST(leave)
 INST(ret)
 
+//INST_OP2(cmp)
+//INST_REG_REG(cmp)
+//INST_REG_IMM(cmp)
+//INST_REG_MEM(cmp)
+//INST_MEM_REG(cmp)
+//INST_MEM_IMM(cmp)
+
 const char* Emitter::funcStart()
 {
     return "push ebp\n"
@@ -218,7 +225,7 @@ const char* Emitter::funcEnd()
 {
     return "nop\n"
             "leave\n"
-            "ret\n";
+            "ret\n\n";
 }
 
 const char* Emitter::getMemSize(SizeType s)
@@ -234,6 +241,7 @@ const char* Emitter::getMemSize(SizeType s)
             return "WORD";
         case SizeType::U32:
         case SizeType::I32:
+        case SizeType::STRING_T:
             return "DWORD";
         default:
             return "invalid ptr";

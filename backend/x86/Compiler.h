@@ -33,7 +33,10 @@ private:
     Register reg;
     Scope scope;
     Label label;
+
+    //TODO:
     int resultOfExpr;
+
 
     //section .data
 public:

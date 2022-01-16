@@ -200,8 +200,8 @@ postfix_expr: ID { $$ = new Id(*$1); }
     | postfix_expr DEC { $1->postfix = Postfix::DEC; } 
 
 args_expr_list: { $$ = new vector<ExprOp*>();  }
-    | operand_expr { $$ = new vector<ExprOp*>(); $$->push_back($1); }
-    | args_expr_list COMMA operand_expr { $1->push_back($3); }
+    | or_or_expr { $$ = new vector<ExprOp*>(); $$->push_back($1); }
+    | args_expr_list COMMA or_or_expr { $1->push_back($3); }
 
 primary_expr: CHAR { $$ = new Constant(ConstType::CHAR, *$1); }
     | NUMBER { $$ = new Constant(ConstType::NUMBER, *$1); }

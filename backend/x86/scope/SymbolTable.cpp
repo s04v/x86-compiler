@@ -46,6 +46,7 @@ void SymbolTable::addVar(string name, SizeType size)
         break;
     case SizeType::I32:
     case SizeType::U32:
+    case SizeType::STRING_T:
         offset = 4;
         break;
     }

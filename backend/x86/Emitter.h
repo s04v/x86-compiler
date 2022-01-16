@@ -71,7 +71,6 @@ public:
     DEF_INST_REG_MEM(mov)
     DEF_INST_MEM_REG(mov)
     DEF_INST_MEM_STR(mov)
-
     DEF_INST_MEM_IMM(mov)
 
     DEF_INST_OP2(add)
@@ -91,6 +90,7 @@ public:
     DEF_INST_MEM_REG(sub)
     DEF_INST_MEM_STR(sub)
     DEF_INST_MEM_IMM(sub)
+
     //DEF_INST_OP2(imul)
     DEF_INST_REG_REG(imul)
     DEF_INST_REG_MEM(imul)
@@ -112,6 +112,14 @@ public:
 
     DEF_INST(leave)
     DEF_INST(ret)
+
+
+//    DEF_INST_OP2(cmp)
+    DEF_INST_REG_REG(cmp)
+//    DEF_INST_REG_IMM(cmp)
+//    DEF_INST_REG_MEM(cmp)
+//    DEF_INST_MEM_REG(cmp)
+//    DEF_INST_MEM_IMM(cmp)
 
     const char* funcStart();
     const char* funcEnd();

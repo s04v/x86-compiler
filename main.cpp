@@ -12,6 +12,8 @@
 
 #include "backend/x86/Label.h"
 
+#include "backend/x86/SizeType.h"
+
 
 using namespace std;
 
@@ -32,10 +34,10 @@ int main(int argc,char* argv[])
     x86::Compiler compiler;
     compiler.start(*root);
     compiler.createASM();
+
     system("nasm -felf32 output.txt");
     system("ld -m elf_i386 output.o");
     system("./a.out");
-
 
     return 0;
 }

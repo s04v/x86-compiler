@@ -10,7 +10,8 @@ _start:
     ret
 
 
-write_wrapper:
+; Syscalls
+sys_write:
     push ebp
     mov ebp, esp
     push eax
@@ -31,5 +32,6 @@ write_wrapper:
     mov esp, ebp
     pop ebp
     ret
+
 
 

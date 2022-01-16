@@ -10,7 +10,8 @@ _start:
     ret
 
 
-write_wrapper:
+; Syscalls
+sys_write:
     push ebp
     mov ebp, esp
     push eax
@@ -33,16 +34,29 @@ write_wrapper:
     ret
 
 
-main:
+
+main2:
 push ebp
 mov ebp, esp
-mov DWORD [ebp-4], 1
-push 12
-push S0
-call write_wrapper
+mov BYTE [ebp-1], 2
 nop
 leave
 ret
 
+main:
+push ebp
+mov ebp, esp
+mov DWORD [ebp-8], 2
+mov DWORD [ebp-12], S0
+mov eax, DWORD [ebp-8]
+push eax
+mov eax, DWORD [ebp-12]
+push eax
+call sys_write
+nop
+leave
+ret
+
+
 section .data
-S0 db "hello world from a compiler"
+S0 db "world"

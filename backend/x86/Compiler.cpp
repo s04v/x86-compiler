@@ -126,15 +126,34 @@ AsmValue* Compiler::gen(Expr &expr)
         // TODO:
         //        code += emit.div(op1, op2);
         break;
-    case ExprType::EQ: {
-
+    case ExprType::EQ:
+    case ExprType::NEQ:
+    case ExprType::LT:
+    case ExprType::LTEQ:
+    case ExprType::GT:
+    case ExprType::GTEQ: {
         code += emit.cmp(op1, op2);
 
         string labelName = label.create();
         op1->val = labelName;
         op1->type = AsmOp::STRING; // TODO: change type
 
-        code += emit.jne(op1);
+        switch(expr.exprType)
+        {
+        case ExprType::EQ:
+            code += emit.jne(op1); break;
+        case ExprType::NEQ:
+            code += emit.je(op1); break;
+        case ExprType::LT:
+            code += emit.jge(op1); break;
+        case ExprType::LTEQ:
+            code += emit.jg(op1); break;
+        case ExprType::GT:
+            code += emit.jle(op1); break;
+        case ExprType::GTEQ:
+            code += emit.jl(op1); break;
+        }
+
         break;
     }
     default:
@@ -176,7 +195,6 @@ AsmValue* Compiler::gen(FuncDef& func)
     code += emit.funcStart();
 
     for(auto& stmts : *(func.stmts)) {
-               std::cout << "Type = " <<  stmts->stmtType << std::endl;
         stmts->gen(*this);
     }
     code += emit.funcEnd();
@@ -184,8 +202,6 @@ AsmValue* Compiler::gen(FuncDef& func)
 
 AsmValue* Compiler::gen(If& ifStmt)
 {
-    std::cout << "ifStmt" << std::endl;
-
     AsmValue* label = ifStmt.condition->gen(*this);
 
     for(auto& stmts : *(ifStmt.stmts)) {
@@ -200,7 +216,6 @@ AsmValue* Compiler::gen(If& ifStmt)
 void Compiler::start(vector<Stmt*> v){
     for(auto stmt : v)
     {
-
         stmt->gen(*this);
     }
 }

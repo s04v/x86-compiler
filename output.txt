@@ -41,14 +41,17 @@ mov ebp, esp
 mov DWORD [ebp-4], 10
 mov DWORD [ebp-8], 12
 mov eax, DWORD [ebp-4]
-cmp eax, 10
-jne .L0
-mov DWORD [ebp-12], 220
+cmp eax, 1
+jle .L0
+push 5
+push S1
+call sys_write
 .L0:
-mov DWORD [ebp-16], 333
+mov DWORD [ebp-12], 333
 nop
 leave
 ret
 
 
 section .data
+S1 db "hello"

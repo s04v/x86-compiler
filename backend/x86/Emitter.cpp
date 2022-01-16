@@ -224,6 +224,36 @@ INST_IMM(jne) // idle
 INST_MEM(jne) // idle
 
 
+INST_OP1(je)
+INST_STR(je) // Lable
+INST_REG(je) // idle
+INST_IMM(je) // idle
+INST_MEM(je) // idle
+
+INST_OP1(jle)
+INST_STR(jle) // Label
+INST_REG(jle) // idle
+INST_IMM(jle) // idle
+INST_MEM(jle) // idle
+
+INST_OP1(jl)
+INST_STR(jl) // Label
+INST_REG(jl) // idle
+INST_IMM(jl) // idle
+INST_MEM(jl) // idle
+
+INST_OP1(jge)
+INST_STR(jge) // Label
+INST_REG(jge) // idle
+INST_IMM(jge) // idle
+INST_MEM(jge) // idle
+
+INST_OP1(jg)
+INST_STR(jg) // Label
+INST_REG(jg) // idle
+INST_IMM(jg) // idle
+INST_MEM(jg) // idle
+
 const char* Emitter::funcStart()
 {
     return "push ebp\n"

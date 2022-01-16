@@ -2,9 +2,8 @@ func main(): void {
     var foo: u32 = 10;
     var foo2: u32 = 12;
 
-    if foo == 10
-    {
-       var bar: u32 = 220;
+    if foo > 1 {
+       sys_write("hello",5);
     }
 
     var f: u32 = 333;

@@ -129,6 +129,36 @@ public:
     DEF_INST_IMM(jne) // idle
     DEF_INST_MEM(jne) // idle
 
+    DEF_INST_OP1(je)
+    DEF_INST_STR(je) // Label
+    DEF_INST_REG(je) // idle
+    DEF_INST_IMM(je) // idle
+    DEF_INST_MEM(je) // idle
+
+    DEF_INST_OP1(jle)
+    DEF_INST_STR(jle) // Label
+    DEF_INST_REG(jle) // idle
+    DEF_INST_IMM(jle) // idle
+    DEF_INST_MEM(jle) // idle
+
+    DEF_INST_OP1(jl)
+    DEF_INST_STR(jl) // Label
+    DEF_INST_REG(jl) // idle
+    DEF_INST_IMM(jl) // idle
+    DEF_INST_MEM(jl) // idle
+
+    DEF_INST_OP1(jge)
+    DEF_INST_STR(jge) // Label
+    DEF_INST_REG(jge) // idle
+    DEF_INST_IMM(jge) // idle
+    DEF_INST_MEM(jge) // idle
+
+    DEF_INST_OP1(jg)
+    DEF_INST_STR(jg) // Label
+    DEF_INST_REG(jg) // idle
+    DEF_INST_IMM(jg) // idle
+    DEF_INST_MEM(jg) // idle
+
     const char* funcStart();
     const char* funcEnd();
 

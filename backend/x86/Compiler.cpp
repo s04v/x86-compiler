@@ -60,6 +60,7 @@ AsmValue* Compiler::gen(Id& id)
     return r;
 }
 
+
 AsmValue* Compiler::gen(Call& call)
 {
     AsmValue* val;
@@ -88,9 +89,7 @@ AsmValue* Compiler::gen(Call& call)
         }
     }
 
-
     // TODO: check if function exists
-
     code += "call " + call.name + "\n";
 
     return val;
@@ -127,6 +126,17 @@ AsmValue* Compiler::gen(Expr &expr)
         // TODO:
         //        code += emit.div(op1, op2);
         break;
+    case ExprType::EQ: {
+
+        code += emit.cmp(op1, op2);
+
+        string labelName = label.create();
+        op1->val = labelName;
+        op1->type = AsmOp::STRING; // TODO: change type
+
+        code += emit.jne(op1);
+        break;
+    }
     default:
         break;
     }
@@ -166,14 +176,31 @@ AsmValue* Compiler::gen(FuncDef& func)
     code += emit.funcStart();
 
     for(auto& stmts : *(func.stmts)) {
+               std::cout << "Type = " <<  stmts->stmtType << std::endl;
         stmts->gen(*this);
     }
     code += emit.funcEnd();
 }
 
+AsmValue* Compiler::gen(If& ifStmt)
+{
+    std::cout << "ifStmt" << std::endl;
+
+    AsmValue* label = ifStmt.condition->gen(*this);
+
+    for(auto& stmts : *(ifStmt.stmts)) {
+        stmts->gen(*this);
+    }
+
+    code += label->val + ":\n";
+}
+
+
+
 void Compiler::start(vector<Stmt*> v){
     for(auto stmt : v)
     {
+
         stmt->gen(*this);
     }
 }

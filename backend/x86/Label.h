@@ -12,7 +12,6 @@ public:
     string create() {
         string s = ".L";
         s += to_string(count++);
-        s += ":\n";
         return s;
     }
 

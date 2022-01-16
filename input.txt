@@ -1,13 +1,13 @@
-func main2(): u32 {
-    var foo: u8 = 2;
-
-}
-
-
 func main(): void {
-    var size: u32 = 5;
-    var str: string = "world";
+    var foo: u32 = 10;
+    var foo2: u32 = 12;
 
-    sys_write(str, size);
+    if foo == 10
+    {
+       var bar: u32 = 220;
+    }
+
+    var f: u32 = 333;
+
 }
 

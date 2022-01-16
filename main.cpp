@@ -37,7 +37,7 @@ int main(int argc,char* argv[])
 
     system("nasm -felf32 output.txt");
     system("ld -m elf_i386 output.o");
-    system("./a.out");
+    //system("./a.out");
 
     return 0;
 }

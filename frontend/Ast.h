@@ -35,8 +35,9 @@ class If : public Stmt {
 public:
     ExprOp* condition;
     vector<Stmt*>* stmts;
+
     If(ExprOp* c, vector<Stmt*>* s ) : condition(c), stmts(s) {};
-    virtual AsmValue* gen(x86::Compiler& compiler) override {};
+    virtual AsmValue* gen(x86::Compiler& compiler) override {  compiler.gen(*this); };
 };
 
 class FuncArg {
@@ -109,6 +110,7 @@ struct Expr_t{
         GT,
         LTEQ,
         GTEQ,
+
         EQ,
         NEQ,
 

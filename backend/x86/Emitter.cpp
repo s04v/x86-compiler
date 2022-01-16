@@ -208,12 +208,21 @@ INST_MEM(push)
 INST(leave)
 INST(ret)
 
-//INST_OP2(cmp)
-//INST_REG_REG(cmp)
-//INST_REG_IMM(cmp)
-//INST_REG_MEM(cmp)
-//INST_MEM_REG(cmp)
-//INST_MEM_IMM(cmp)
+INST_OP2(cmp)
+INST_REG_REG(cmp)
+INST_REG_STR(cmp) // idle
+INST_REG_IMM(cmp)
+INST_REG_MEM(cmp)
+INST_MEM_REG(cmp)
+INST_MEM_STR(cmp) // idle
+INST_MEM_IMM(cmp)
+
+INST_OP1(jne)
+INST_STR(jne) // Lable
+INST_REG(jne) // idle
+INST_IMM(jne) // idle
+INST_MEM(jne) // idle
+
 
 const char* Emitter::funcStart()
 {

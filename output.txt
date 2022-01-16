@@ -35,28 +35,20 @@ sys_write:
 
 
 
-main2:
-push ebp
-mov ebp, esp
-mov BYTE [ebp-1], 2
-nop
-leave
-ret
-
 main:
 push ebp
 mov ebp, esp
-mov DWORD [ebp-8], 5
-mov DWORD [ebp-12], S0
-mov eax, DWORD [ebp-8]
-push eax
-mov eax, DWORD [ebp-12]
-push eax
-call sys_write
+mov DWORD [ebp-4], 10
+mov DWORD [ebp-8], 12
+mov eax, DWORD [ebp-4]
+cmp eax, 10
+jne .L0
+mov DWORD [ebp-12], 220
+.L0:
+mov DWORD [ebp-16], 333
 nop
 leave
 ret
 
 
 section .data
-S0 db "world"

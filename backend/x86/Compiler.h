@@ -24,6 +24,8 @@ class Operand;
 class Id;
 class Constant;
 class Call;
+class If;
+
 
 namespace x86 {
 
@@ -44,7 +46,6 @@ public:
     string code = "";
 
     Compiler();
-    void start(vector<Stmt*> v);
 
     AsmValue* gen(Constant& constant);
     AsmValue* gen(Id& id);
@@ -52,8 +53,11 @@ public:
     AsmValue* gen(Expr& expr);
     AsmValue* gen(VarDef& var);
     AsmValue* gen(FuncDef& func);
-    AsmValue* loadOp(AsmValue* op);
+    AsmValue* gen(If& ifStmt);
 
+    void start(vector<Stmt*> v);
+
+    AsmValue* loadOp(AsmValue* op);
 
     string saveString(string src);
     void createASM();

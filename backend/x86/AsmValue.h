@@ -10,7 +10,8 @@ struct AsmOpType_t {
         REGISTER = 1,
         MEMORY,
         CONSTANT,
-        STRING
+        STRING,
+        LABEL
     };
 };
 

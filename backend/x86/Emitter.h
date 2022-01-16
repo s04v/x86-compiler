@@ -114,12 +114,20 @@ public:
     DEF_INST(ret)
 
 
-//    DEF_INST_OP2(cmp)
+    DEF_INST_OP2(cmp)
     DEF_INST_REG_REG(cmp)
-//    DEF_INST_REG_IMM(cmp)
-//    DEF_INST_REG_MEM(cmp)
-//    DEF_INST_MEM_REG(cmp)
-//    DEF_INST_MEM_IMM(cmp)
+    DEF_INST_REG_STR(cmp) // idle
+    DEF_INST_REG_IMM(cmp)
+    DEF_INST_REG_MEM(cmp)
+    DEF_INST_MEM_REG(cmp)
+    DEF_INST_MEM_STR(cmp) // idle
+    DEF_INST_MEM_IMM(cmp)
+
+    DEF_INST_OP1(jne)
+    DEF_INST_STR(jne) // Label
+    DEF_INST_REG(jne) // idle
+    DEF_INST_IMM(jne) // idle
+    DEF_INST_MEM(jne) // idle
 
     const char* funcStart();
     const char* funcEnd();

@@ -89,9 +89,9 @@ AsmValue* Compiler::gen(Call& call)
     }
 
 
+    // TODO: check if function exists
 
-    // TODO:
-    code += "call sys_write\n";
+    code += "call " + call.name + "\n";
 
     return val;
 

@@ -68,7 +68,6 @@ AsmValue* Compiler::gen(Call& call)
     for(auto item : *(call.args))
     {
         AsmValue* arg = item->gen(*this);
-        cout << arg->index << endl;
         switch(arg->type)
         {
             case AsmOp::CONSTANT:

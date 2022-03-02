@@ -38,20 +38,21 @@ sys_write:
 main:
 push ebp
 mov ebp, esp
-mov DWORD [ebp-4], 10
-mov DWORD [ebp-8], 12
-mov eax, DWORD [ebp-4]
-cmp eax, 1
-jle .L0
+mov DWORD [ebp-4], 0
+jmp .L0
+.L1:
 push 5
-push S1
+push S2
 call sys_write
+add DWORD [ebp-4], 1
 .L0:
-mov DWORD [ebp-12], 333
+mov eax, DWORD [ebp-4]
+cmp eax, 10
+jl .L1
 nop
 leave
 ret
 
 
 section .data
-S1 db "hello"
+S2 db "Hello"

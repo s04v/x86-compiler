@@ -1,15 +1,14 @@
+#include "../../frontend/Ast.h"
+#include "../../utils/error.h"
+#include "../../utils/int2str.h"
+#include "AsmValue.h"
+#include "Compiler.h"
+#include "SizeType.h"
+#include <algorithm>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
-#include <fstream>
-#include <algorithm>
-
-#include "Compiler.h"
-#include "SizeType.h"
-#include "AsmValue.h"
-#include "../../frontend/Ast.h"
-#include "../../utils/int2str.h"
-#include "../../utils/error.h"
 
 using namespace std;
 
@@ -45,6 +44,7 @@ AsmValue* Compiler::gen(Id& id)
     if(!scope.table.exists(id.name))
         errorReport("Variable is not defined!");
 
+
     Symbol sym = scope.table.get(id.name);
     AsmValue* mem = new AsmValue(AsmOp::MEMORY);
     mem->index = x86::EBP;
@@ -56,10 +56,14 @@ AsmValue* Compiler::gen(Id& id)
     r->val = reg.getName(r->index);
     code += emit.mov(r, mem);
 
+    if(id.postfix == Postfix::INC) {
+        AsmValue* constant = new AsmValue(AsmOp::CONSTANT);
+        constant->imm = 1;
+        code += emit.add(r,constant);
+    }
     delete mem;
     return r;
 }
-
 
 AsmValue* Compiler::gen(Call& call)
 {
@@ -92,9 +96,11 @@ AsmValue* Compiler::gen(Call& call)
     // TODO: check if function exists
     code += "call " + call.name + "\n";
 
+    // clean up stack
+//    string argCount = to_string(call.args->size() * 4);
+//    code += "add esp," + argCount + "\n";
+
     return val;
-
-
 }
 
 AsmValue* Compiler::gen(Expr &expr)
@@ -102,8 +108,12 @@ AsmValue* Compiler::gen(Expr &expr)
     AsmValue* op1, *op2;
 
     AsmValue* v1 = expr.left->gen(*this);
+    std::cout << v1->type << std::endl;
     if(v1->type == AsmOp::CONSTANT || v1->type == AsmOp::MEMORY)
-        op1 = loadOp(v1);
+        if(!isForCondition) // TODO: fix
+            op1 = loadOp(v1);
+         else
+            op1= v1;
     else
         op1 = v1;
 
@@ -145,8 +155,10 @@ AsmValue* Compiler::gen(Expr &expr)
         case ExprType::NEQ:
             code += emit.je(op1); break;
         case ExprType::LT:
+            if(isForCondition) { code += emit.jl(op1); break; }
             code += emit.jge(op1); break;
         case ExprType::LTEQ:
+            if(isForCondition) { code += emit.jle(op1); break; }
             code += emit.jg(op1); break;
         case ExprType::GT:
             code += emit.jle(op1); break;
@@ -187,6 +199,8 @@ AsmValue* Compiler::gen(VarDef& var)
 
     if(value->type == AsmOp::REGISTER)
         reg.free(value->index);
+
+    return mem;
 }
 
 AsmValue* Compiler::gen(FuncDef& func)
@@ -200,6 +214,46 @@ AsmValue* Compiler::gen(FuncDef& func)
     code += emit.funcEnd();
 }
 
+AsmValue* Compiler::gen(For& forStmt)
+{
+    AsmValue* init = forStmt.init->gen(*this);
+    AsmValue* asmVal = new AsmValue(AsmOp::STRING);
+
+    string l1 = label.create();
+    string l2 = label.create();
+
+    asmVal->val = l1;
+    code += emit.jmp(asmVal);
+    code += l2 + ":\n";
+
+    for(auto& stmts : *(forStmt.stmts)) {
+        stmts->gen(*this);
+    }
+
+    // TODO: fix
+    asmVal->imm = 1;
+    asmVal->type = AsmOp::CONSTANT;
+    code += emit.add(init, asmVal);
+
+    asmVal->type = AsmOp::STRING;
+    asmVal->val = l1;
+    code += l1 + ":\n";
+
+    isForCondition = true;
+    forStmt.condition->gen(*this);
+    isForCondition = false;
+
+    // skip label
+    code.pop_back();
+    code.pop_back();
+    code.pop_back();
+    code.pop_back();
+
+    // add property label
+    code += l2 + "\n";
+
+}
+
 AsmValue* Compiler::gen(If& ifStmt)
 {
     AsmValue* label = ifStmt.condition->gen(*this);
@@ -210,8 +264,6 @@ AsmValue* Compiler::gen(If& ifStmt)
 
     code += label->val + ":\n";
 }
-
-
 
 void Compiler::start(vector<Stmt*> v){
     for(auto stmt : v)
@@ -247,8 +299,6 @@ void Compiler::createASM()
     file.close();
 }
 
-
-
 string Compiler::saveString(string src)
 {
     string l = label.createString();
@@ -258,7 +308,5 @@ string Compiler::saveString(string src)
     data += "\"" + src + "\"\n";
     return l;
 }
-
-
 
 }

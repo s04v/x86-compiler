@@ -72,6 +72,7 @@
     Assign* assign;
     VarDef* varDef;
     If* ifType;
+    For* forType;
     FuncArg* funcArg;
     FuncDef* funcDef;
     Stmt* stmt;
@@ -86,6 +87,7 @@
 %type <assign> assign_stmt
 %type <varDef> variable_def
 %type <ifType> if_stmt
+%type <forType> for_stmt
 
 %type <funcArg> def_arg
 %type <argVec> def_args_list
@@ -127,6 +129,8 @@ def_args_list: { $$ = new vector<FuncArg*>(); }
 
 if_stmt: IF or_or_expr LBRACE stmt_block RBRACE { $$ = new If($2, $4); }
 
+for_stmt: FOR variable_def or_or_expr SEMI or_or_expr LBRACE stmt_block RBRACE { $$ = new For($2, $3, $5, $7); }
+
 stmt_block: { $$ = new vector<Stmt*>();  }
     | stmt { $$ = new vector<Stmt*>(); $$->push_back($1); }
     | stmt_block stmt { $1->push_back($2); }
@@ -135,6 +139,7 @@ stmt: or_or_expr SEMI { $1->stmtType = StmtType::EXPR; $$ = $1; }
     | assign_stmt SEMI { $1->stmtType = StmtType::ASSIGN; $$ = $1; }
     | variable_def { $1->stmtType = StmtType::VAR_DEF, $$ = $1; }
     | if_stmt { $1->stmtType = StmtType::IF, $$ = $1; }
+    | for_stmt { $1->stmtType = StmtType::FOR, $$ = $1; }
 
 assign_stmt: operand_expr assignment_operator or_or_expr { $$ = new Assign($2, $1, $3);}
 

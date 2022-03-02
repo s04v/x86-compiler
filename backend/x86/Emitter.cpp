@@ -254,6 +254,12 @@ INST_REG(jg) // idle
 INST_IMM(jg) // idle
 INST_MEM(jg) // idle
 
+INST_OP1(jmp)
+INST_STR(jmp) // Label
+INST_REG(jmp) // idle
+INST_IMM(jmp) // idle
+INST_MEM(jmp) // idle
+
 const char* Emitter::funcStart()
 {
     return "push ebp\n"

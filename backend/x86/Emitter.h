@@ -159,6 +159,12 @@ public:
     DEF_INST_IMM(jg) // idle
     DEF_INST_MEM(jg) // idle
 
+    DEF_INST_OP1(jmp)
+    DEF_INST_STR(jmp) // Label
+    DEF_INST_REG(jmp) // idle
+    DEF_INST_IMM(jmp) // idle
+    DEF_INST_MEM(jmp) // idle
+
     const char* funcStart();
     const char* funcEnd();
 

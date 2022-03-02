@@ -12,7 +12,8 @@ struct Stmt_t {
         ASSIGN,
         VAR_DEF,
         FUNC_DEF,
-        IF
+        IF,
+        FOR
     };
 };
 
@@ -38,6 +39,18 @@ public:
 
     If(ExprOp* c, vector<Stmt*>* s ) : condition(c), stmts(s) {};
     virtual AsmValue* gen(x86::Compiler& compiler) override {  compiler.gen(*this); };
+};
+
+class For : public Stmt {
+public:
+    VarDef* init;
+    ExprOp* condition;
+    ExprOp* expr;
+    vector<Stmt*>* stmts;
+
+    For(VarDef* i, ExprOp* c, ExprOp* e, vector<Stmt*>* s) : init(i), condition(c), expr(e), stmts(s) {}
+    virtual AsmValue* gen(x86::Compiler& compiler) override {  compiler.gen(*this); };
+
 };
 
 class FuncArg {

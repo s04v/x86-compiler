@@ -25,6 +25,7 @@ class Id;
 class Constant;
 class Call;
 class If;
+class For;
 
 
 namespace x86 {
@@ -36,11 +37,7 @@ private:
     Scope scope;
     Label label;
 
-    //TODO:
-    int resultOfExpr;
-
-
-    //section .data
+    bool isForCondition = 0;
 public:
     string data = "";
     string code = "";
@@ -54,6 +51,7 @@ public:
     AsmValue* gen(VarDef& var);
     AsmValue* gen(FuncDef& func);
     AsmValue* gen(If& ifStmt);
+    AsmValue* gen(For& forStmt);
 
     void start(vector<Stmt*> v);
 

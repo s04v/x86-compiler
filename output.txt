@@ -35,10 +35,19 @@ sys_write:
 
 
 
+add:
+push ebp
+mov ebp, esp
+sub esp, 16
+nop
+leave
+ret
+
 main:
 push ebp
 mov ebp, esp
-mov DWORD [ebp-4], 0
+sub esp, 16
+mov DWORD [ebp-4], 2
 jmp .L0
 .L1:
 push 5
@@ -47,7 +56,7 @@ call sys_write
 add DWORD [ebp-4], 1
 .L0:
 mov eax, DWORD [ebp-4]
-cmp eax, 10
+cmp eax, 5
 jl .L1
 nop
 leave

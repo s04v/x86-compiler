@@ -1,5 +1,10 @@
+
+func add(): void {
+
+}
+
 func main(): void {
-    for var i: u32 = 0; i < 10; i++ {
+    for var i: u32 = 2; i < 5; i++ {
         sys_write("Hello",5);
     }
 }

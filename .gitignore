@@ -10,3 +10,4 @@ parser.old
 a.out
 output.o
 todo.txt
+*.autosave

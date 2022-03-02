@@ -207,6 +207,7 @@ AsmValue* Compiler::gen(FuncDef& func)
 {
     code += func.name + ":\n";
     code += emit.funcStart();
+    code += "sub esp, 16\n"; // TODO: fix this
 
     for(auto& stmts : *(func.stmts)) {
         stmts->gen(*this);

@@ -28,10 +28,16 @@ Symbol SymbolTable::get(string name)
     return table[name];
 }
 
-void SymbolTable::addVar(string name, SizeType size)
+void SymbolTable::addVar(string name, SizeType size, char sign)
 {
     if(exists(name))
         errorReport("Variable name is defined");
+
+    int useOffset;
+    if(sign == '+')
+        useOffset = plusOffset;
+    else
+        useOffset = minusOffset;
 
     int offset;
     switch(size) {
@@ -52,17 +58,21 @@ void SymbolTable::addVar(string name, SizeType size)
     }
 
 
-    if(table.size() != 0)
+    if(table.size() != 0 && useOffset != 0)
     {
-        if(lastOffset % offset == 0 && lastOffset / offset > 0)
-            offset = lastOffset + offset;
+        if(useOffset % offset == 0 && useOffset / offset > 0)
+            offset = useOffset + offset;
         else
-            offset = (lastOffset / offset + 2) * offset;
+            offset = (useOffset / offset + 2) * offset;
     }
 
 
-    lastOffset = offset;
-    Symbol sym(name, size, SymbolType::VAR, -offset);
+    if(sign == '+')
+        plusOffset = offset;
+    else
+        minusOffset = offset;
+
+    Symbol sym(name, size, SymbolType::VAR, (sign == '+' ? offset + 4 : -offset ));
     table.insert(pair<string, Symbol>(name,sym));
 }
 

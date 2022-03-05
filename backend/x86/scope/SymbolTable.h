@@ -12,11 +12,12 @@ class SymbolTable {
 
 public:
     int lastOffset;
-
+    int plusOffset = 0;
+    int minusOffset = 0;
     SymbolTable();
 
     bool exists(string name);
-    void addVar(string name, SizeType size);
+    void addVar(string name, SizeType size, char sign);
     Symbol get(string name);
 };
 }

@@ -185,7 +185,7 @@ AsmValue* Compiler::gen(VarDef& var)
         exit(-1);
     }
 
-    scope.table.addVar(var.left, var.sizeType);
+    scope.table.addVar(var.left, var.sizeType, '-');
     Symbol sym = scope.table.get(var.left);
 
     AsmValue* mem = new AsmValue(AsmOp::MEMORY);
@@ -205,14 +205,21 @@ AsmValue* Compiler::gen(VarDef& var)
 
 AsmValue* Compiler::gen(FuncDef& func)
 {
+    scope.init();
     code += func.name + ":\n";
     code += emit.funcStart();
     code += "sub esp, 16\n"; // TODO: fix this
 
+    for(auto& arg : *(func.args)) {
+        scope.table.addVar(arg->name, arg->type,'+');
+    }
+
     for(auto& stmts : *(func.stmts)) {
         stmts->gen(*this);
     }
+
     code += emit.funcEnd();
+    scope.pop();
 }
 
 AsmValue* Compiler::gen(For& forStmt)

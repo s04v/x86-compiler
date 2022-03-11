@@ -39,22 +39,16 @@ main:
 push ebp
 mov ebp, esp
 sub esp, 16
-mov DWORD [ebp-4], 0
-jmp .L0
-.L1:
-push 5
-push S2
-call sys_write
-mov eax, DWORD [ebp-4]
-add DWORD [ebp-4], 1
-.L0:
-mov ebx, DWORD [ebp-4]
-cmp ebx, 5
-jne .L1
+mov DWORD [ebp-4], 10
+mov eax, 2
+mov ebx, 3
+add ebx, 4
+imul ecx, ebx, 3
+imul eax, ecx
+mov DWORD [ebp-8], eax
 nop
 leave
 ret
 
 
 section .data
-S2 db "Hello"

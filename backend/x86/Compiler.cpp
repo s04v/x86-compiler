@@ -125,7 +125,6 @@ AsmValue* Compiler::gen(Expr &expr)
     AsmValue* op1, *op2;
 
     AsmValue* v1 = expr.left->gen(*this);
-    //std::cout << v1->type << std::endl;
     if(v1->type == AsmOp::CONSTANT || v1->type == AsmOp::MEMORY)
         if(!isForCondition) // TODO: fix
             op1 = loadOp(v1);
@@ -144,10 +143,23 @@ AsmValue* Compiler::gen(Expr &expr)
     case ExprType::SUB:
         code += emit.sub(op1, op2);
         break;
-    case ExprType::MUL:
-        // TODO:
-        //code += emit.imul(op1, op2);
+    case ExprType::MUL: {
+        if(op1->type == AsmOp::REGISTER && op2->type == AsmOp::REGISTER )
+        {
+            code += emit.imul(op1,op2);
+            break;
+        }
+
+        AsmValue* result = new AsmValue(AsmOp::REGISTER);
+        result->index = reg.alloc32();
+
+        code += emit.imul(result, op1, op2);
+
+        reg.free(op1->index);
+        op1 = result;
+
         break;
+        }
     case ExprType::DIV:
     case ExprType::MOD:
         // TODO:

@@ -40,11 +40,21 @@ push ebp
 mov ebp, esp
 sub esp, 16
 mov DWORD [ebp-4], 0
-add DWORD [ebp-4], 1
+jmp .L0
+.L1:
+push 5
+push S2
+call sys_write
 mov eax, DWORD [ebp-4]
+add DWORD [ebp-4], 1
+.L0:
+mov ebx, DWORD [ebp-4]
+cmp ebx, 5
+jne .L1
 nop
 leave
 ret
 
 
 section .data
+S2 db "Hello"

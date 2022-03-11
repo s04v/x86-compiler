@@ -1,6 +1,7 @@
 
 
 func main(): void {
-    var foo: u32 = 0;
-    ++foo;
+    for var i: u32 = 0; i != 5; i++ {
+        sys_write("Hello", 5);
+    }
 }

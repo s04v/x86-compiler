@@ -57,7 +57,7 @@ AsmValue* Compiler::gen(Id& id)
 
         if(id.prefix == Prefix::INC) {
             code += emit.add(mem,constant);
-        } else if(id.prefix == Prefix::DEC){
+        } else if(id.prefix  == Prefix::DEC){
             code += emit.sub(mem,constant);
         }
     }
@@ -114,9 +114,6 @@ AsmValue* Compiler::gen(Call& call)
     // TODO: check if function exists
     code += "call " + call.name + "\n";
 
-    // clean up stack
-//    string argCount = to_string(call.args->size() * 4);
-//    code += "add esp," + argCount + "\n";
     AsmValue* edx = new AsmValue(AsmOp::REGISTER);
     edx->index = 12;
 
@@ -171,8 +168,10 @@ AsmValue* Compiler::gen(Expr &expr)
         switch(expr.exprType)
         {
         case ExprType::EQ:
+            if(isForCondition) { code += emit.je(op1); break; }
             code += emit.jne(op1); break;
         case ExprType::NEQ:
+            if(isForCondition) { code += emit.jne(op1); break; }
             code += emit.je(op1); break;
         case ExprType::LT:
             if(isForCondition) { code += emit.jl(op1); break; }
@@ -181,8 +180,10 @@ AsmValue* Compiler::gen(Expr &expr)
             if(isForCondition) { code += emit.jle(op1); break; }
             code += emit.jg(op1); break;
         case ExprType::GT:
+            if(isForCondition) { code += emit.jg(op1); break; }
             code += emit.jle(op1); break;
         case ExprType::GTEQ:
+            if(isForCondition) { code += emit.jge(op1); break; }
             code += emit.jl(op1); break;
         }
 
@@ -269,9 +270,10 @@ AsmValue* Compiler::gen(For& forStmt)
     }
 
     // TODO: fix
-    asmVal->imm = 1;
-    asmVal->type = AsmOp::CONSTANT;
-    code += emit.add(init, asmVal);
+    forStmt.expr->gen(*this);
+//    asmVal->imm = 1;
+//    asmVal->type = AsmOp::CONSTANT;
+//    code += emit.add(init, asmVal);
 
     asmVal->type = AsmOp::STRING;
     asmVal->val = l1;

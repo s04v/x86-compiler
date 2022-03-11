@@ -15,6 +15,9 @@ namespace x86{
 #define DEF_INST_OP2(name) \
     string name(AsmValue* v1, AsmValue* v2);
 
+#define DEF_INST_OP3(name) \
+    string name(AsmValue* v1, AsmValue* v2, AsmValue* v3);
+
 #define DEF_INST(name) \
     string name();
 
@@ -55,7 +58,7 @@ namespace x86{
     string name##_reg_reg_imm(int dest,int src, int val);
 
 #define DEF_INST_REG_MEM_IMM(name) \
-    string imul_reg_mem_imm(int dest,int src, int offset, int val);
+    string imul_reg_mem_imm(int dest,int src, int offset, SizeType size, int val);
 
 
 class Emitter {
@@ -91,7 +94,15 @@ public:
     DEF_INST_MEM_STR(sub)
     DEF_INST_MEM_IMM(sub)
 
-    //DEF_INST_OP2(imul)
+    DEF_INST_OP2(imul)
+    DEF_INST_OP3(imul)
+
+    DEF_INST_REG_STR(imul) // idle
+    DEF_INST_REG_IMM(imul) // idle
+    DEF_INST_MEM_REG(imul) // idle
+    DEF_INST_MEM_STR(imul) // idle
+    DEF_INST_MEM_IMM(imul) // idle
+
     DEF_INST_REG_REG(imul)
     DEF_INST_REG_MEM(imul)
     DEF_INST_REG_REG_IMM(imul)

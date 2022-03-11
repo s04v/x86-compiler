@@ -26,6 +26,9 @@ namespace x86 {
 #define MI 0x23
 #define MS 0x24
 
+#define RRI 0x113
+#define RMI 0x123
+
 #define INST_OP1(name) \
     string Emitter::name(AsmValue* v) \
     { \
@@ -66,6 +69,24 @@ namespace x86 {
                 return name##_reg_str(v1->index, v2->val); \
             case MS: \
                 return name##_mem_str(v1->index, v1->offset, v1->memSize, v2->val); \
+            default: \
+                break; \
+        }\
+        return "invalid instruction"; \
+    }
+
+#define INST_OP3(name) \
+    string Emitter::name(AsmValue* v1, AsmValue* v2, AsmValue* v3) \
+    { \
+        int jump = 0; \
+        jump = v1->type << 8; \
+        jump += v2->type << 4; \
+        jump += v3->type; \
+        switch (jump) { \
+            case RRI: \
+                return name##_reg_reg_imm(v1->index, v2->index, v3->imm); \
+            case RMI: \
+                return name##_reg_mem_imm(v1->index, v2->index, v2->offset, v2->memSize, v3->imm); \
             default: \
                 break; \
         }\
@@ -143,9 +164,9 @@ namespace x86 {
     }
 
 #define INST_REG_MEM_IMM(name) \
-    string Emitter::name##_reg_mem_imm(int dest, int src, int offset, int val) { \
-        return offset != 0 ? emit(#name " %s, [%s%s], %d\n", reg.getName(dest), reg.getName(src), toString(offset), val) \
-                           : emit(#name " %s, [%s], %d\n", reg.getName(dest), reg.getName(src), val); \
+    string Emitter::name##_reg_mem_imm(int dest, int src, int offset, SizeType size, int val) { \
+        return offset != 0 ? emit(#name " %s, %s [%s%s], %d\n", reg.getName(dest),  getMemSize(size), reg.getName(src), toString(offset), val) \
+                           : emit(#name " %s, %s [%s], %d\n", reg.getName(dest),  getMemSize(size), reg.getName(src), val); \
     }
 
 
@@ -190,7 +211,15 @@ INST_MEM_REG(sub)
 INST_MEM_STR(sub)
 INST_MEM_IMM(sub)
 
-//INST_OP2(imul)
+INST_OP2(imul)
+INST_OP3(imul)
+
+INST_REG_STR(imul) // idle
+INST_REG_IMM(imul) // idle
+INST_MEM_REG(imul) // idle
+INST_MEM_STR(imul) // idle
+INST_MEM_IMM(imul) // idle
+
 INST_REG_REG(imul)
 INST_REG_MEM(imul)
 INST_REG_REG_IMM(imul)

@@ -50,15 +50,33 @@ AsmValue* Compiler::gen(Id& id)
     mem->offset = sym.offset;
     mem->memSize= sym.sizeType;
 
+    if(id.prefix != 0)
+    {
+        AsmValue* constant = new AsmValue(AsmOp::CONSTANT);
+        constant->imm = 1;
+
+        if(id.prefix == Prefix::INC) {
+            code += emit.add(mem,constant);
+        } else if(id.prefix == Prefix::DEC){
+            code += emit.sub(mem,constant);
+        }
+    }
+
     AsmValue* r = new AsmValue(AsmOp::REGISTER);
     r->index = reg.alloc32();
     r->val = reg.getName(r->index);
     code += emit.mov(r, mem);
 
-    if(id.postfix == Postfix::INC) {
+    if(id.postfix != 0)
+    {
         AsmValue* constant = new AsmValue(AsmOp::CONSTANT);
         constant->imm = 1;
-        code += emit.add(r,constant);
+
+        if(id.postfix == Postfix::INC) {
+            code += emit.add(mem,constant);
+        } else {
+            code += emit.sub(mem,constant);
+        }
     }
 
     delete mem;

@@ -1,8 +1,6 @@
 
-func ret(): u32 {
-    return 10;
-}
 
 func main(): void {
-    var foo: u32 = ret();
+    var foo: u32 = 0;
+    ++foo;
 }

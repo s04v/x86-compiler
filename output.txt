@@ -35,21 +35,13 @@ sys_write:
 
 
 
-ret:
-push ebp
-mov ebp, esp
-sub esp, 16
-mov edx, 10
-nop
-leave
-ret
-
 main:
 push ebp
 mov ebp, esp
 sub esp, 16
-call ret
-mov DWORD [ebp-4], edx
+mov DWORD [ebp-4], 0
+add DWORD [ebp-4], 1
+mov eax, DWORD [ebp-4]
 nop
 leave
 ret

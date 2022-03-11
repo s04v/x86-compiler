@@ -184,7 +184,8 @@ add_op: ADD { $$ = ExprType::ADD; }
     | SUB { $$ = ExprType::SUB; } 
     
 mul_expr: unary_expr { $$ = $1; }
-    | mul_expr mul_op unary_expr { $$ = new Expr($2, $1, $3); }
+    | mul_expr mul_op mul_expr { $$ = new Expr($2, $1, $3); }
+    | LPAREN or_or_expr RPAREN { $$ = $2; }
 
 mul_op: MUL { $$ = ExprType::MUL; } 
     | DIV { $$ = ExprType::DIV; }
@@ -201,7 +202,7 @@ unary_operator: MUL { $$ = Prefix::MUL; }
     | INC { $$ = Prefix::INC; }
     | DEC { $$ = Prefix::DEC; }
 
-operand_expr: primary_expr { $$ = $1; } 
+operand_expr: primary_expr { $$ = $1; }
     | postfix_expr { $$ = $1; }
 
 postfix_expr: ID { $$ = new Id(*$1); }
@@ -216,7 +217,7 @@ args_expr_list: { $$ = new vector<ExprOp*>();  }
 primary_expr: CHAR { $$ = new Constant(ConstType::CHAR, *$1); }
     | NUMBER { $$ = new Constant(ConstType::NUMBER, *$1); }
     | STRING { $$ = new Constant(ConstType::STRING, *$1); }
-    | LPAREN or_or_expr RPAREN 
+
 
 type: BOOL { $$ = SizeType::BOOL; }
     | U8 { $$ = SizeType::U8; }

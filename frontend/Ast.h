@@ -13,7 +13,8 @@ struct Stmt_t {
         VAR_DEF,
         FUNC_DEF,
         IF,
-        FOR
+        FOR,
+        RETURN
     };
 };
 
@@ -59,6 +60,15 @@ public:
     SizeType type;
 
     FuncArg(string n, SizeType t) : name(n), type(t) {};
+};
+
+class Return : public Stmt {
+public:
+    ExprOp* value;
+
+    Return(ExprOp* v) : value(v) {}
+    virtual AsmValue* gen(x86::Compiler& compiler) override { return compiler.gen(*this); };
+
 };
 
 class FuncDef : public Stmt {

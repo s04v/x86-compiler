@@ -75,6 +75,7 @@
     For* forType;
     FuncArg* funcArg;
     FuncDef* funcDef;
+    Return* returnStmt;
     Stmt* stmt;
 
 
@@ -92,6 +93,7 @@
 %type <funcArg> def_arg
 %type <argVec> def_args_list
 %type <funcDef> function_def
+%type <returnStmt> return_stmt
 
 %type <stmt> stmt
 %type <stmtVec> definition stmt_block 
@@ -127,6 +129,8 @@ def_args_list: { $$ = new vector<FuncArg*>(); }
     | def_arg { $$ = new vector<FuncArg*>(); $$->push_back($1); }
     | def_args_list COMMA def_arg { $1->push_back($3); }
 
+return_stmt: RETURN or_or_expr SEMI { $$ = new Return($2); }
+
 if_stmt: IF or_or_expr LBRACE stmt_block RBRACE { $$ = new If($2, $4); }
 
 for_stmt: FOR variable_def or_or_expr SEMI or_or_expr LBRACE stmt_block RBRACE { $$ = new For($2, $3, $5, $7); }
@@ -140,6 +144,7 @@ stmt: or_or_expr SEMI { $1->stmtType = StmtType::EXPR; $$ = $1; }
     | variable_def { $1->stmtType = StmtType::VAR_DEF, $$ = $1; }
     | if_stmt { $1->stmtType = StmtType::IF, $$ = $1; }
     | for_stmt { $1->stmtType = StmtType::FOR, $$ = $1; }
+    | return_stmt { $1->stmtType = StmtType::RETURN; $$ = $1; }
 
 assign_stmt: operand_expr assignment_operator or_or_expr { $$ = new Assign($2, $1, $3);}
 

@@ -16,6 +16,7 @@
 using namespace std;
 
 class Stmt;
+class Return;
 class FuncDef;
 class VarDef;
 class ExprOp;
@@ -49,6 +50,7 @@ public:
     AsmValue* gen(Call& call);
     AsmValue* gen(Expr& expr);
     AsmValue* gen(VarDef& var);
+    AsmValue* gen(Return& ret);
     AsmValue* gen(FuncDef& func);
     AsmValue* gen(If& ifStmt);
     AsmValue* gen(For& forStmt);

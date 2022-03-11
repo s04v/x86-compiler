@@ -152,6 +152,7 @@ union YYSTYPE
     For* forType;
     FuncArg* funcArg;
     FuncDef* funcDef;
+    Return* returnStmt;
     Stmt* stmt;
 
 
@@ -159,7 +160,7 @@ union YYSTYPE
     vector<Stmt*>* stmtVec;
     vector<FuncArg*>* argVec;
 
-#line 163 "parser.tab.h"
+#line 164 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

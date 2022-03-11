@@ -44,7 +44,6 @@ AsmValue* Compiler::gen(Id& id)
     if(!scope.table.exists(id.name))
         errorReport("Variable is not defined!");
 
-
     Symbol sym = scope.table.get(id.name);
     AsmValue* mem = new AsmValue(AsmOp::MEMORY);
     mem->index = x86::EBP;
@@ -61,6 +60,7 @@ AsmValue* Compiler::gen(Id& id)
         constant->imm = 1;
         code += emit.add(r,constant);
     }
+
     delete mem;
     return r;
 }
@@ -99,8 +99,10 @@ AsmValue* Compiler::gen(Call& call)
     // clean up stack
 //    string argCount = to_string(call.args->size() * 4);
 //    code += "add esp," + argCount + "\n";
+    AsmValue* edx = new AsmValue(AsmOp::REGISTER);
+    edx->index = 12;
 
-    return val;
+    return edx;
 }
 
 AsmValue* Compiler::gen(Expr &expr)
@@ -108,7 +110,7 @@ AsmValue* Compiler::gen(Expr &expr)
     AsmValue* op1, *op2;
 
     AsmValue* v1 = expr.left->gen(*this);
-    std::cout << v1->type << std::endl;
+    //std::cout << v1->type << std::endl;
     if(v1->type == AsmOp::CONSTANT || v1->type == AsmOp::MEMORY)
         if(!isForCondition) // TODO: fix
             op1 = loadOp(v1);
@@ -129,7 +131,7 @@ AsmValue* Compiler::gen(Expr &expr)
         break;
     case ExprType::MUL:
         // TODO:
-        //        code += emit.imul(op1, op2);
+        //code += emit.imul(op1, op2);
         break;
     case ExprType::DIV:
     case ExprType::MOD:
@@ -201,6 +203,16 @@ AsmValue* Compiler::gen(VarDef& var)
         reg.free(value->index);
 
     return mem;
+}
+
+AsmValue* Compiler::gen(Return& ret) {
+
+    AsmValue* r = ret.value->gen(*this);
+    AsmValue* edx = new AsmValue(AsmOp::REGISTER);
+    edx->index = 12;
+    code += emit.mov(edx, r);
+
+    return edx;
 }
 
 AsmValue* Compiler::gen(FuncDef& func)

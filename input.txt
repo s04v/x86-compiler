@@ -1,10 +1,8 @@
-func print(max: u32): void {
-for var i: u32 = 0; i < max; i++ {
-    sys_write("Hello",5);
-}
-}
 
+func ret(): u32 {
+    return 10;
+}
 
 func main(): void {
-    print(10);
+    var foo: u32 = ret();
 }

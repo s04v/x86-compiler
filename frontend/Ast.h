@@ -24,6 +24,7 @@ typedef Stmt_t::Type StmtType;
 class Stmt {
 public:
     StmtType stmtType;
+    unsigned int line;
 
     Stmt() {};
 

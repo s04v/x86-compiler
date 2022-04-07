@@ -3,13 +3,13 @@
     #include <iostream>
     #include <vector>
     #include "Ast.h"
-#include "../backend/x86/SizeType.h"
+    #include "../backend/x86/SizeType.h"
 
 
     using namespace std;
 
     #define YYERROR_VERBOSE 1
-    #define DEBUG
+    //#define DEBUG
 
     extern FILE *yyin;
     extern int yylineno;
@@ -21,13 +21,19 @@
         int yywrap(void) {
             return 1;
         }
-        void yyerror(const char *str) {
-            cout << "Parser: " << str << " on line " << yylineno << endl;
-            exit(1);
-        }
+
     }
 
+    void yyerror(const char *str) {
+        cout << "Parsing error: " << str << " on line " << yylineno << endl;
+        exit(1);
+    }
+
+    #define YY_ACTION_USER \
+        yyloc->first_line = yyloc->last_line = yylineno; \
+
 %}
+%locations
 
 %code requires {
     #include <string>
@@ -113,15 +119,15 @@
 
 %%
 
-program: definition { root = $1;  }
+program: definition { root = $1; }
 
 definition: { $$ = new vector<Stmt*>(); }
-    | definition variable_def  { $2->stmtType = StmtType::VAR_DEF; $1->push_back($2); }
-    | definition function_def { $2->stmtType = StmtType::FUNC_DEF; $1->push_back($2); }
+    | definition variable_def  { $2->stmtType = StmtType::VAR_DEF; $1->push_back($2); $2->line = @2.first_line;}
+    | definition function_def { $2->stmtType = StmtType::FUNC_DEF; $1->push_back($2); $2->line = @2.first_line;}
     
 variable_def: VAR ID COLON type ASSIGN or_or_expr SEMI { $$ = new VarDef($4, *$2, $6); }
 
-function_def: FUNC ID LPAREN def_args_list RPAREN COLON type LBRACE stmt_block RBRACE { $$ = new FuncDef(*$2, $7, $4, $9); }
+function_def: FUNC ID LPAREN def_args_list RPAREN COLON type LBRACE stmt_block RBRACE { $$ = new FuncDef(*$2, $7, $4, $9);  }
 
 def_arg: ID COLON type  { $$ = new FuncArg(*$1, $3); }
 
@@ -129,15 +135,9 @@ def_args_list: { $$ = new vector<FuncArg*>(); }
     | def_arg { $$ = new vector<FuncArg*>(); $$->push_back($1); }
     | def_args_list COMMA def_arg { $1->push_back($3); }
 
-return_stmt: RETURN or_or_expr SEMI { $$ = new Return($2); }
-
-if_stmt: IF or_or_expr LBRACE stmt_block RBRACE { $$ = new If($2, $4); }
-
-for_stmt: FOR variable_def or_or_expr SEMI or_or_expr LBRACE stmt_block RBRACE { $$ = new For($2, $3, $5, $7); }
-
 stmt_block: { $$ = new vector<Stmt*>();  }
-    | stmt { $$ = new vector<Stmt*>(); $$->push_back($1); }
-    | stmt_block stmt { $1->push_back($2); }
+    | stmt { $$ = new vector<Stmt*>(); $$->push_back($1); $1->line = @1.first_line;}
+    | stmt_block stmt { $1->push_back($2); $2->line = @2.first_line;}
 
 stmt: or_or_expr SEMI { $1->stmtType = StmtType::EXPR; $$ = $1; }
     | assign_stmt SEMI { $1->stmtType = StmtType::ASSIGN; $$ = $1; }
@@ -145,6 +145,12 @@ stmt: or_or_expr SEMI { $1->stmtType = StmtType::EXPR; $$ = $1; }
     | if_stmt { $1->stmtType = StmtType::IF, $$ = $1; }
     | for_stmt { $1->stmtType = StmtType::FOR, $$ = $1; }
     | return_stmt { $1->stmtType = StmtType::RETURN; $$ = $1; }
+
+return_stmt: RETURN or_or_expr SEMI { $$ = new Return($2); }
+
+if_stmt: IF or_or_expr LBRACE stmt_block RBRACE { $$ = new If($2, $4);}
+
+for_stmt: FOR variable_def or_or_expr SEMI or_or_expr LBRACE stmt_block RBRACE { $$ = new For($2, $3, $5, $7); }
 
 assign_stmt: operand_expr assignment_operator or_or_expr { $$ = new Assign($2, $1, $3);}
 
@@ -157,8 +163,8 @@ assignment_operator: ASSIGN { $$ = AssignOperation::ASSIGN; }
     | AND_ASSIGN { $$ = AssignOperation::AND_ASSIGN; }
     | OR_ASSIGN { $$ = AssignOperation::OR_ASSIGN; }
 
-or_or_expr: and_and_expr { $$ = $1; }
-    | or_or_expr AND_AND and_and_expr { $$ = new Expr(ExprType::OR_OR, $1, $3); }
+or_or_expr: and_and_expr { $$ = $1; $$->line = @1.first_line; }
+    | or_or_expr AND_AND and_and_expr { $$ = new Expr(ExprType::OR_OR, $1, $3); $$->line = @1.first_line; }
 
 and_and_expr: equal_expr { $$ = $1; }
     | and_and_expr AND_AND equal_expr { $$ = new Expr(ExprType::AND_AND, $1, $3); }
@@ -229,4 +235,5 @@ type: BOOL { $$ = SizeType::BOOL; }
     | STRING_T { $$ = SizeType::STRING_T; }
     | VOID { $$ = SizeType::VOID; }
 %%
+
 

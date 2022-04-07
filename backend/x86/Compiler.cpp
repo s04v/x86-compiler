@@ -159,7 +159,7 @@ AsmValue* Compiler::gen(Expr &expr)
         op1 = result;
 
         break;
-        }
+    }
     case ExprType::DIV:
     case ExprType::MOD:
         // TODO:
@@ -257,7 +257,9 @@ AsmValue* Compiler::gen(FuncDef& func)
         scope.table.addVar(arg->name, arg->type,'+');
     }
 
+    cout << "func def" << endl;
     for(auto& stmts : *(func.stmts)) {
+        cout << stmts->line << endl;
         stmts->gen(*this);
     }
 
@@ -317,7 +319,8 @@ AsmValue* Compiler::gen(If& ifStmt)
     code += label->val + ":\n";
 }
 
-void Compiler::start(vector<Stmt*> v){
+void Compiler::start(vector<Stmt*> v)
+{
     for(auto stmt : v)
     {
         stmt->gen(*this);

@@ -1,5 +1,6 @@
 cd frontend/
-bison -d parser.y
+bison --location -d parser.y
+flex lex.l
 cd ..
 make
 ./compiler input.txt

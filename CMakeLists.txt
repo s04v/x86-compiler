@@ -13,5 +13,6 @@ add_executable(compiler main.cpp
                         backend/x86/Reg.cpp
                         backend/x86/Compiler.cpp
                         backend/x86/scope/SymbolTable.cpp
+                        backend/x86/scope/FunctionTable.cpp
                         backend/x86/scope/Scope.cpp
                         )

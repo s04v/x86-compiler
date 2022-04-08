@@ -2,7 +2,7 @@ func hello(): void {
     sys_write("Hello", 5);
 }
 
-func forTest(max: u32): void {
+func hello(max: u32): void {
     for var i: u32 = 0; i < max; i++ {
         sys_write("For", 3);
     }

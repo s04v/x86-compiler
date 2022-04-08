@@ -1,20 +1,20 @@
-#include "FunctionTable.h"
-
 #include <map>
-#include <pair>
 #include <vector>
 #include <string>
 
+#include "FunctionTable.h"
 #include "../SizeType.h"
+#include "../../../utils/error.h"
 
 using namespace std;
 
 namespace x86 {
+
 FunctionTable::FunctionTable() {}
 
 bool FunctionTable::exists(string name)
 {
-    if(table.find(name) == table.end() )
+    if(functions.find(name) == functions.end() )
         return 0;
     return 1;
 }
@@ -31,7 +31,9 @@ void FunctionTable::addFunc(string name, int argsCount, vector<SizeType> argsTyp
 
 Function FunctionTable::get(string name)
 {
-
+    if(!exists(name))
+        errorReport("Variable name is undefined");
+    return functions[name];
 }
 
 }

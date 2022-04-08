@@ -16,7 +16,7 @@ public:
     vector<SizeType> argsTypes;
     SizeType returnType;
 
-    Function() {}
+    Function(): argsCount(0) {}
 };
 
 class FunctionTable {

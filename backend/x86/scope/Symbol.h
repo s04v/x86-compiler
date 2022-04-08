@@ -25,7 +25,6 @@ public:
 
     Symbol() {}
 
-
     Symbol(string n, SizeType s, SymbolType t, int o) : name(n), sizeType(s), type(t), offset(o) {}
 };
 }

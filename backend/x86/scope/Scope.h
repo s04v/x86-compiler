@@ -2,7 +2,7 @@
 #include <stack>
 #include "Symbol.h"
 #include "SymbolTable.h"
-
+#include "FunctionTable.h"
 
 using namespace std;
 
@@ -12,7 +12,7 @@ class Scope {
     stack<SymbolTable> stackTables;
 public:
     SymbolTable table;
-    SymbolTable funcTable;
+    FunctionTable funcTable;
     Scope();
 
     void init();

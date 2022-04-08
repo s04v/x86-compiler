@@ -248,20 +248,31 @@ AsmValue* Compiler::gen(Return& ret) {
 
 AsmValue* Compiler::gen(FuncDef& func)
 {
+    if(scope.funcTable.exists(func.name))
+    {
+        printf("%s function on line %d already defined", func.name.c_str(), func.line);
+        exit(1);
+    }
+
     scope.init();
     code += func.name + ":\n";
     code += emit.funcStart();
     code += "sub esp, 16\n"; // TODO: fix this
 
+    unsigned int argsCount = 0;
+    vector<SizeType> argsType;
     for(auto& arg : *(func.args)) {
+        argsCount++;
+        argsType.push_back(arg->type);
         scope.table.addVar(arg->name, arg->type,'+');
     }
 
-    cout << "func def" << endl;
     for(auto& stmts : *(func.stmts)) {
-        cout << stmts->line << endl;
         stmts->gen(*this);
     }
+
+    Function function;
+    scope.funcTable.addFunc(func.name, argsCount, argsType, func.returnType);
 
     code += emit.funcEnd();
     scope.pop();

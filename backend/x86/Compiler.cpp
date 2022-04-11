@@ -89,14 +89,23 @@ AsmValue* Compiler::gen(Call& call)
 {
     AsmValue* val;
 
-
     Function function = scope.funcTable.get(call.name);
 
     unsigned int callArgsCount = 0;
+    int argIndex = 0;
     reverse(call.args->begin(), call.args->end());
     for(auto item : *(call.args))
     {
+        SizeType passedType = item->getType(typeSystem);
+        SizeType definedType = function.argsTypes[argIndex++];
+        if(!typeSystem.isCorrect(definedType, passedType))
+        {
+            printf("line %d: invalid argument type, expect '%s'\n", call.line, typeSystem.getTypeName(definedType));
+            exit(1);
+        }
+
         AsmValue* arg = item->gen(*this);
+
         switch(arg->type)
         {
             case AsmOp::CONSTANT:

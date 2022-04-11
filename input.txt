@@ -1,8 +1,7 @@
-func num(): string {
-    return "123";
+func num(foo: u32): void {
+    var bar: u32 = 5;
 }
 
 func main(): void {
-    var bar: u32 = 3;
-    var foo: string = num(123);
+    num("123");
 }

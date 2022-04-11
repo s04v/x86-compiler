@@ -39,7 +39,7 @@ num:
 push ebp
 mov ebp, esp
 sub esp, 16
-mov edx, S0
+mov DWORD [ebp-4], 5
 nop
 leave
 ret
@@ -48,13 +48,11 @@ main:
 push ebp
 mov ebp, esp
 sub esp, 16
-mov DWORD [ebp-4], 3
-mov DWORD [ebp-8], S1
+push 123
+call num
 nop
 leave
 ret
 
 
 section .data
-S0 db "123"
-S1 db "num()"

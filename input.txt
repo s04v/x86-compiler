@@ -1,26 +1,8 @@
-func hello(): void {
-    sys_write("Hello", 5);
-}
-
-func hello(max: u32): void {
-    for var i: u32 = 0; i < max; i++ {
-        sys_write("For", 3);
-    }
-}
-
-func ifTest(n: u32): void {
-    if n > 5 {
-        sys_write("If",2);
-    }
-}
-
-func returnTest(): u32 {
-    return 10;
+func num(): string {
+    return "123";
 }
 
 func main(): void {
     var bar: u32 = 3;
-    var foo: u32 = 2 * (bar + 2);
-
-    ifTest();
+    var foo: string = num(123);
 }

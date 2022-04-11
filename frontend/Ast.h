@@ -1,10 +1,13 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "../backend/x86/TypeSystem.h"
 #include "../backend/x86/Compiler.h"
 #include "../backend/x86/AsmValue.h"
 #include "../backend/x86/SizeType.h"
+
 using namespace std;
+
 
 struct Stmt_t {
     enum Type {
@@ -160,6 +163,8 @@ public:
     ExprOp() {};
 
     virtual AsmValue* gen(x86::Compiler& compiler) override {};
+    virtual SizeType getType(x86::TypeSystem& typeSystem) = 0;
+
     virtual ~ExprOp() {};
 };
 
@@ -176,6 +181,7 @@ public:
     Expr(ExprType t, ExprOp* l, ExprOp* r) : exprType(t), left(l), right(r) {};
 
     virtual AsmValue* gen(x86::Compiler& compiler) override { return compiler.gen(*this); };
+    virtual SizeType getType(x86::TypeSystem& typeSystem) override  { return typeSystem.getType(*this); };
 
     virtual ~Expr() { };
 };
@@ -227,6 +233,7 @@ public:
 
     Operand () {}
     virtual AsmValue* gen(x86::Compiler& compiler) override { return {};  };
+    virtual SizeType getType(x86::TypeSystem& typeSystem)  { return {}; }
     virtual ~Operand() = default;
 };
 
@@ -252,6 +259,7 @@ public:
     };
 
     virtual AsmValue* gen(x86::Compiler& compiler) override { return compiler.gen(*this); };
+    virtual SizeType getType(x86::TypeSystem& typeSystem) override { return typeSystem.getType(*this); };
 };
 
 class Id : public Operand {
@@ -260,6 +268,7 @@ public:
 
     Id(string n) : name(n) {};
     virtual AsmValue* gen(x86::Compiler& compiler) override { return compiler.gen(*this); };
+    virtual SizeType getType(x86::TypeSystem& typeSystem) override { return typeSystem.getType(*this); };
 };
 
 
@@ -270,6 +279,6 @@ public:
 
     Call(string n, vector<ExprOp*>* a) : name(n), args(a) {};
     virtual AsmValue* gen(x86::Compiler& compiler) override { return compiler.gen(*this); };
-
+    virtual SizeType getType(x86::TypeSystem& typeSystem) override { return typeSystem.getType(*this); };
 };
 

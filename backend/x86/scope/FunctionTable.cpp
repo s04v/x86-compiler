@@ -25,14 +25,13 @@ void FunctionTable::addFunc(string name, int argsCount, vector<SizeType> argsTyp
     function.argsCount = argsCount;
     function.argsTypes = argsTypes;
     function.returnType = returnType;
-
     functions.insert(pair<string, Function>(name, function));
 }
 
 Function FunctionTable::get(string name)
 {
     if(!exists(name))
-        errorReport("Variable name is undefined");
+        errorReport("Function is undefined");
     return functions[name];
 }
 

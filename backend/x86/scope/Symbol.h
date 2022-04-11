@@ -20,7 +20,7 @@ class Symbol {
 public:
     string name;
     SizeType sizeType;
-    SymbolType type;
+    SymbolType type; // TODO: delete type
     int offset; // offset on stack
 
     Symbol() {}

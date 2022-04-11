@@ -35,58 +35,11 @@ sys_write:
 
 
 
-hello:
+num:
 push ebp
 mov ebp, esp
 sub esp, 16
-push 5
-push S0
-call sys_write
-nop
-leave
-ret
-
-forTest:
-push ebp
-mov ebp, esp
-sub esp, 16
-mov DWORD [ebp-4], 0
-jmp .L1
-.L2:
-push 3
-push S3
-call sys_write
-mov eax, DWORD [ebp-4]
-add DWORD [ebp-4], 1
-.L1:
-mov ebx, DWORD [ebp-4]
-mov ecx, DWORD [ebp+8]
-cmp ebx, ecx
-jl .L2
-nop
-leave
-ret
-
-ifTest:
-push ebp
-mov ebp, esp
-sub esp, 16
-mov ecx, DWORD [ebp+8]
-cmp ecx, 5
-jle .L5
-push 2
-push S6
-call sys_write
-.L5:
-nop
-leave
-ret
-
-returnTest:
-push ebp
-mov ebp, esp
-sub esp, 16
-mov edx, 10
+mov edx, S0
 nop
 leave
 ret
@@ -96,18 +49,12 @@ push ebp
 mov ebp, esp
 sub esp, 16
 mov DWORD [ebp-4], 3
-mov edx, 2
-mov eax, DWORD [ebp-4]
-add eax, 2
-imul edx, eax
-mov DWORD [ebp-8], edx
-call ifTest
+mov DWORD [ebp-8], S1
 nop
 leave
 ret
 
 
 section .data
-S0 db "Hello"
-S3 db "For"
-S6 db "If"
+S0 db "123"
+S1 db "num()"

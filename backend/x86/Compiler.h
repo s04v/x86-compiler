@@ -9,6 +9,7 @@
 #include "Reg.h"
 #include "AsmValue.h"
 #include "Label.h"
+#include "TypeSystem.h"
 #include "scope/Scope.h"
 #include "scope/SymbolTable.h"
 #include "scope/Scope.h"
@@ -37,6 +38,7 @@ private:
     Register reg;
     Scope scope;
     Label label;
+    TypeSystem typeSystem;
 
     bool isForCondition = 0;
 public:
@@ -55,13 +57,13 @@ public:
     AsmValue* gen(If& ifStmt);
     AsmValue* gen(For& forStmt);
 
+    void initBuildInFunctions();
+
     void start(vector<Stmt*> v);
 
     AsmValue* loadOp(AsmValue* op);
-
     string saveString(string src);
     void createASM();
-
 
     void printData() { cout << data << endl; }
 

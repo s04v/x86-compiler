@@ -204,6 +204,33 @@ backend/x86/Reg.cpp.s:
 	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Reg.cpp.s
 .PHONY : backend/x86/Reg.cpp.s
 
+backend/x86/TypeSystem.o: backend/x86/TypeSystem.cpp.o
+
+.PHONY : backend/x86/TypeSystem.o
+
+# target to build an object file
+backend/x86/TypeSystem.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/TypeSystem.cpp.o
+.PHONY : backend/x86/TypeSystem.cpp.o
+
+backend/x86/TypeSystem.i: backend/x86/TypeSystem.cpp.i
+
+.PHONY : backend/x86/TypeSystem.i
+
+# target to preprocess a source file
+backend/x86/TypeSystem.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/TypeSystem.cpp.i
+.PHONY : backend/x86/TypeSystem.cpp.i
+
+backend/x86/TypeSystem.s: backend/x86/TypeSystem.cpp.s
+
+.PHONY : backend/x86/TypeSystem.s
+
+# target to generate assembly for a file
+backend/x86/TypeSystem.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/TypeSystem.cpp.s
+.PHONY : backend/x86/TypeSystem.cpp.s
+
 backend/x86/scope/FunctionTable.o: backend/x86/scope/FunctionTable.cpp.o
 
 .PHONY : backend/x86/scope/FunctionTable.o
@@ -384,6 +411,9 @@ help:
 	@echo "... backend/x86/Reg.o"
 	@echo "... backend/x86/Reg.i"
 	@echo "... backend/x86/Reg.s"
+	@echo "... backend/x86/TypeSystem.o"
+	@echo "... backend/x86/TypeSystem.i"
+	@echo "... backend/x86/TypeSystem.s"
 	@echo "... backend/x86/scope/FunctionTable.o"
 	@echo "... backend/x86/scope/FunctionTable.i"
 	@echo "... backend/x86/scope/FunctionTable.s"

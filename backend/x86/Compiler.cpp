@@ -21,6 +21,8 @@ namespace x86 {
 Compiler::Compiler()
 {
     scope.init();
+    initBuildInFunctions();
+    typeSystem.currentScope = &scope;
     data = "section .data\n";
 }
 
@@ -87,6 +89,10 @@ AsmValue* Compiler::gen(Call& call)
 {
     AsmValue* val;
 
+
+    Function function = scope.funcTable.get(call.name);
+
+    unsigned int callArgsCount = 0;
     reverse(call.args->begin(), call.args->end());
     for(auto item : *(call.args))
     {
@@ -109,9 +115,20 @@ AsmValue* Compiler::gen(Call& call)
             default:
                 break;
         }
+
+        callArgsCount++;
     }
 
-    // TODO: check if function exists
+    if(callArgsCount < function.argsCount)
+    {
+        printf("line %d: too few arguments to function '%s'\n", call.line, call.name.c_str());
+        exit(1);
+    }
+    else if(callArgsCount > function.argsCount)
+    {
+        printf("line %d: too many arguments to function '%s'\n", call.line, call.name.c_str());
+        exit(1);
+    }
     code += "call " + call.name + "\n";
 
     AsmValue* edx = new AsmValue(AsmOp::REGISTER);
@@ -135,6 +152,9 @@ AsmValue* Compiler::gen(Expr &expr)
 
     AsmValue* v2 = expr.right->gen(*this);
     op2 = v2;
+
+    // check types
+    SizeType exprType = typeSystem.getType(expr);
 
     switch (expr.exprType) {
     case ExprType::ADD:
@@ -217,6 +237,16 @@ AsmValue* Compiler::gen(VarDef& var)
         cout << "var exists" << endl;
         exit(-1);
     }
+    // check types
+
+    SizeType exprType = var.right->getType(typeSystem);
+//    cout << var.sizeType << endl << exprType << endl;
+    if(!typeSystem.isCorrect(var.sizeType, exprType))
+    {
+        printf("line %d: invalid conversion from '%s' to '%s'", var.line, typeSystem.getTypeName(exprType), typeSystem.getTypeName(var.sizeType));
+        exit(1);
+    }
+
 
     scope.table.addVar(var.left, var.sizeType, '-');
     Symbol sym = scope.table.get(var.left);
@@ -330,8 +360,22 @@ AsmValue* Compiler::gen(If& ifStmt)
     code += label->val + ":\n";
 }
 
+void Compiler::initBuildInFunctions()
+{
+    vector<SizeType> argsType;
+
+    //sys_srite
+    argsType.push_back(SizeType::STRING_T);
+    argsType.push_back(SizeType::U32);
+    scope.funcTable.addFunc("sys_write", 2, argsType, SizeType::VOID);
+
+}
+
+
 void Compiler::start(vector<Stmt*> v)
 {
+
+
     for(auto stmt : v)
     {
         stmt->gen(*this);

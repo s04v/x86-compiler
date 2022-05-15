@@ -114,17 +114,18 @@ extern int yydebug;
     U32 = 310,
     I32 = 311,
     STRING_T = 312,
-    VOID = 313,
-    IMPORT = 314,
-    STRUCT = 315,
-    VAR = 316,
-    FUNC = 317,
-    RETURN = 318,
-    IF = 319,
-    ELSE = 320,
-    FOR = 321,
-    BREAK = 322,
-    CONTINUE = 323
+    NUMBER_T = 313,
+    VOID = 314,
+    IMPORT = 315,
+    STRUCT = 316,
+    VAR = 317,
+    FUNC = 318,
+    RETURN = 319,
+    IF = 320,
+    ELSE = 321,
+    FOR = 322,
+    BREAK = 323,
+    CONTINUE = 324
   };
 #endif
 
@@ -160,7 +161,7 @@ union YYSTYPE
     vector<Stmt*>* stmtVec;
     vector<FuncArg*>* argVec;
 
-#line 164 "parser.tab.h"
+#line 165 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

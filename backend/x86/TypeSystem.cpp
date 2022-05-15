@@ -101,10 +101,13 @@ char* TypeSystem::getTypeName(SizeType type)
         return "u32";
         break;
     case SizeType::NUMBER:
-        return "number";
+        return "number_constant";
         break;
     case SizeType::STRING_T:
         return "string";
+        break;
+    case SizeType::NUMBER_T:
+        return "number";
         break;
     case SizeType::VOID:
         return "void";

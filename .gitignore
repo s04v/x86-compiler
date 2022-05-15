@@ -11,3 +11,5 @@ a.out
 output.o
 todo.txt
 *.autosave
+files.txt
+linesCount.sh

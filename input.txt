@@ -1,7 +1,7 @@
 func num(foo: u32): void {
-    var bar: u32 = 5;
+    var bar: string = 12;
 }
 
 func main(): void {
-    num("123");
+    num(123);
 }

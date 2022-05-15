@@ -6,9 +6,10 @@ struct SizeType_t {
         I8,
         U16,
         I16,
-        U32, //5
+        U32, // 5
         I32,
         STRING_T,
+        NUMBER_T,
         NUMBER,
         VOID
     };

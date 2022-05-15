@@ -56,7 +56,7 @@
 
 %token OTHER SPACE
 
-%token BOOL U8 I8 U16 I16 U32 I32 STRING_T VOID
+%token BOOL U8 I8 U16 I16 U32 I32 STRING_T NUMBER_T VOID
 %token IMPORT STRUCT VAR FUNC RETURN IF ELSE FOR BREAK CONTINUE
 
 %left ADD SUB
@@ -233,6 +233,7 @@ type: BOOL { $$ = SizeType::BOOL; }
     | U32 { $$ = SizeType::U32; }
     | I32 { $$ = SizeType::I32; }
     | STRING_T { $$ = SizeType::STRING_T; }
+    | NUMBER_T { $$ = SizeType::NUMBER_T; }
     | VOID { $$ = SizeType::VOID; }
 %%
 

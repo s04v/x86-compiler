@@ -28,7 +28,6 @@ L?\"(\\.|[^\\"\n])*\"	yylval.val = new string(yytext); return STRING;
 ":"                     yylval.val = new string(yytext); return COLON;
 ";"                     yylval.val = new string(yytext); return SEMI;
 "."                     yylval.val = new string(yytext); return DOT;
-"@"                     yylval.val = new string(yytext); return AT;
 "?"                     yylval.val = new string(yytext); return QUESTION;
 ","                     yylval.val = new string(yytext); return COMMA;
 
@@ -36,37 +35,20 @@ L?\"(\\.|[^\\"\n])*\"	yylval.val = new string(yytext); return STRING;
 ")"                     yylval.val = new string(yytext); return RPAREN;
 "{"                     yylval.val = new string(yytext); return LBRACE;
 "}"                     yylval.val = new string(yytext); return RBRACE;
-"["                     yylval.val = new string(yytext); return LBRACKET;
-"]"                     yylval.val = new string(yytext); return RBRACKET;
 
 "+"                     yylval.val = new string(yytext); return ADD;
 "-"                     yylval.val = new string(yytext); return SUB;
 "*"                     yylval.val = new string(yytext); return MUL;
 "/"                     yylval.val = new string(yytext); return DIV;
-"!"                     yylval.val = new string(yytext); return NOT;
-"%"                     yylval.val = new string(yytext); return MOD;
-"&"                     yylval.val = new string(yytext); return AND;
-"|"                     yylval.val = new string(yytext); return OR;
 
-"^"                     yylval.val = new string(yytext); return XOR;
 "=="                    yylval.val = new string(yytext); return EQ;
 "!="                    yylval.val = new string(yytext); return NEQ;
 "<"                     yylval.val = new string(yytext); return LT;
 ">"                     yylval.val = new string(yytext); return GT;
 "<="                    yylval.val = new string(yytext); return LTEQ;
 ">="                    yylval.val = new string(yytext); return GTEQ;
-"&&"                    yylval.val = new string(yytext); return AND_AND;
-"||"                    yylval.val = new string(yytext); return OR_OR;
 
 "="                     yylval.val = new string(yytext); return ASSIGN;
-"+="                    yylval.val = new string(yytext); return ADD_ASSIGN;
-"-="                    yylval.val = new string(yytext); return SUB_ASSIGN;
-"|="                    yylval.val = new string(yytext); return OR_ASSIGN;
-"&="                    yylval.val = new string(yytext); return AND_ASSIGN;
-"^="                    yylval.val = new string(yytext); return XOR_ASSIGN;
-"*="                    yylval.val = new string(yytext); return MUL_ASSIGN;
-"/="                    yylval.val = new string(yytext); return DIV_ASSIGN;
-"%="                    yylval.val = new string(yytext); return MOD_ASSIGN;
 "++"                    yylval.val = new string(yytext); return INC;
 "--"                    yylval.val = new string(yytext); return DEC;
 
@@ -86,10 +68,7 @@ L?\"(\\.|[^\\"\n])*\"	yylval.val = new string(yytext); return STRING;
 "func"                  yylval.val = new string(yytext); return FUNC;
 "return"                yylval.val = new string(yytext); return RETURN;
 "if "                   yylval.val = new string(yytext); return IF;
-"else"                  yylval.val = new string(yytext); return ELSE;
 "for "                  yylval.val = new string(yytext); return FOR;
-"break"                 yylval.val = new string(yytext); return BREAK;
-"continue"              yylval.val = new string(yytext); return CONTINUE;
 
 [_a-zA-Z][_a-zA-Z0-9]*  yylval.val = new string(yytext); return ID;
 .                       yylval.val = new string(yytext); return OTHER;

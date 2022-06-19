@@ -13,9 +13,9 @@
 
     extern FILE *yyin;
     extern int yylineno;
-    
+
     vector<Stmt*>* root;
- 
+
     int yylex(void);
     extern "C" {
         int yywrap(void) {
@@ -43,22 +43,19 @@
 
 }
 %token ID NUMBER STRING CHAR
-%token PTR_T
-%token INC DEC  
+%token INC DEC
 %token LPAREN RPAREN // ( )
-%token LBRACKET RBRACKET // [ ]
 %token LBRACE RBRACE // { }
 
-%token COMMA DOT AT QUESTION SEMI COLON
-%token NOT MUL DIV MOD AND OR ADD SUB XOR
-%token EQ NEQ LT GT LTEQ GTEQ AND_AND OR_OR
-%token ASSIGN ADD_ASSIGN SUB_ASSIGN OR_ASSIGN AND_ASSIGN XOR_ASSIGN MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN
+%token COMMA DOT QUESTION SEMI COLON
+%token MUL DIV OR ADD SUB
+%token EQ NEQ LT GT LTEQ GTEQ
+%token ASSIGN
 
 %token OTHER SPACE
 
 %token BOOL U8 I8 U16 I16 U32 I32 STRING_T VOID
-%token IMPORT STRUCT VAR FUNC RETURN IF ELSE FOR BREAK CONTINUE
-
+%token IMPORT STRUCT VAR FUNC RETURN IF ELSE FOR
 %left ADD SUB
 %left MUL DIV
 
@@ -68,7 +65,6 @@
     SizeType sizeType;
     Prefix prefix;
     ExprType exprType;
-    AssignOperation assignOp;
 
     Constant* constant;
     Operand* operand;
@@ -102,10 +98,10 @@
 %type <returnStmt> return_stmt
 
 %type <stmt> stmt
-%type <stmtVec> definition stmt_block 
+%type <stmtVec> definition stmt_block
 
 %type <operand> unary_expr operand_expr postfix_expr primary_expr
-%type <exprOp> or_or_expr and_and_expr equal_expr compare_expr add_expr mul_expr
+%type <exprOp> equal_expr and_and_expr compare_expr add_expr mul_expr
 %type <exprType> mul_op add_op compare_op equal_op
 
 %type <exprVec> args_expr_list
@@ -124,8 +120,8 @@ program: definition { root = $1; }
 definition: { $$ = new vector<Stmt*>(); }
     | definition variable_def  { $2->stmtType = StmtType::VAR_DEF; $1->push_back($2); $2->line = @2.first_line;}
     | definition function_def { $2->stmtType = StmtType::FUNC_DEF; $1->push_back($2); $2->line = @2.first_line;}
-    
-variable_def: VAR ID COLON type ASSIGN or_or_expr SEMI { $$ = new VarDef($4, *$2, $6); }
+
+variable_def: VAR ID COLON type ASSIGN equal_expr SEMI { $$ = new VarDef($4, *$2, $6); }
 
 function_def: FUNC ID LPAREN def_args_list RPAREN COLON type LBRACE stmt_block RBRACE { $$ = new FuncDef(*$2, $7, $4, $9);  }
 
@@ -139,38 +135,23 @@ stmt_block: { $$ = new vector<Stmt*>();  }
     | stmt { $$ = new vector<Stmt*>(); $$->push_back($1); $1->line = @1.first_line;}
     | stmt_block stmt { $1->push_back($2); $2->line = @2.first_line;}
 
-stmt: or_or_expr SEMI { $1->stmtType = StmtType::EXPR; $$ = $1; }
+stmt: equal_expr SEMI { $1->stmtType = StmtType::EXPR; $$ = $1; }
     | assign_stmt SEMI { $1->stmtType = StmtType::ASSIGN; $$ = $1; }
     | variable_def { $1->stmtType = StmtType::VAR_DEF, $$ = $1; }
     | if_stmt { $1->stmtType = StmtType::IF, $$ = $1; }
     | for_stmt { $1->stmtType = StmtType::FOR, $$ = $1; }
     | return_stmt { $1->stmtType = StmtType::RETURN; $$ = $1; }
 
-return_stmt: RETURN or_or_expr SEMI { $$ = new Return($2); }
+return_stmt: RETURN equal_expr SEMI { $$ = new Return($2); }
 
-if_stmt: IF or_or_expr LBRACE stmt_block RBRACE { $$ = new If($2, $4);}
+if_stmt: IF equal_expr LBRACE stmt_block RBRACE { $$ = new If($2, $4);}
 
-for_stmt: FOR variable_def or_or_expr SEMI or_or_expr LBRACE stmt_block RBRACE { $$ = new For($2, $3, $5, $7); }
+for_stmt: FOR variable_def equal_expr SEMI equal_expr LBRACE stmt_block RBRACE { $$ = new For($2, $3, $5, $7); }
 
-assign_stmt: ID assignment_operator or_or_expr { $$ = new Assign($2, *$1, $3);}
+assign_stmt: ID ASSIGN equal_expr { $$ = new Assign(*$1, $3);}
 
-assignment_operator: ASSIGN { $$ = AssignOperation::ASSIGN; }
-    | MUL_ASSIGN { $$ = AssignOperation::MUL_ASSIGN; }
-    | DIV_ASSIGN { $$ = AssignOperation::DIV_ASSIGN; }
-    | MOD_ASSIGN { $$ = AssignOperation::MOD_ASSIGN; }
-    | ADD_ASSIGN { $$ = AssignOperation::ADD_ASSIGN; }
-    | SUB_ASSIGN { $$ = AssignOperation::SUB_ASSIGN; }
-    | AND_ASSIGN { $$ = AssignOperation::AND_ASSIGN; }
-    | OR_ASSIGN { $$ = AssignOperation::OR_ASSIGN; }
-
-or_or_expr: and_and_expr { $$ = $1; $$->line = @1.first_line; }
-    | or_or_expr AND_AND and_and_expr { $$ = new Expr(ExprType::OR_OR, $1, $3); $$->line = @1.first_line; }
-
-and_and_expr: equal_expr { $$ = $1; }
-    | and_and_expr AND_AND equal_expr { $$ = new Expr(ExprType::AND_AND, $1, $3); }
-
-equal_expr: compare_expr { $$ = $1; }
-    | equal_expr equal_op compare_expr { $$ = new Expr($2, $1, $3); }
+equal_expr: compare_expr { $$ = $1; $$->line = @1.first_line; }
+    | equal_expr equal_op compare_expr { $$ = new Expr($2, $1, $3); $$->line = @1.first_line; }
 
 equal_op: EQ { $$ = ExprType::EQ; }
     | NEQ { $$ = ExprType::NEQ; }
@@ -186,26 +167,20 @@ compare_op: LT { $$ = ExprType::LT; }
 add_expr: mul_expr { $$ = $1; }
     | add_expr add_op mul_expr  { $$ = new Expr($2, $1, $3); }
 
-add_op: ADD { $$ = ExprType::ADD; } 
-    | SUB { $$ = ExprType::SUB; } 
-    
+add_op: ADD { $$ = ExprType::ADD; }
+    | SUB { $$ = ExprType::SUB; }
+
 mul_expr: unary_expr { $$ = $1; }
     | mul_expr mul_op mul_expr { $$ = new Expr($2, $1, $3); }
-    | LPAREN or_or_expr RPAREN { $$ = $2; }
+    | LPAREN equal_expr RPAREN { $$ = $2; }
 
-mul_op: MUL { $$ = ExprType::MUL; } 
+mul_op: MUL { $$ = ExprType::MUL; }
     | DIV { $$ = ExprType::DIV; }
-    | MOD { $$ = ExprType::MOD; } 
 
 unary_expr: operand_expr { $$ = $1; }
     | unary_operator unary_expr  { $2->prefix = $1; $$ = $2;}
 
-unary_operator: MUL { $$ = Prefix::MUL; }
-    | ADD { $$ = Prefix::ADD; }
-    | SUB { $$ = Prefix::SUB; }
-    | NOT { $$ = Prefix::NOT; }
-    | AND { $$ = Prefix::AND; }
-    | INC { $$ = Prefix::INC; }
+unary_operator: INC { $$ = Prefix::INC; }
     | DEC { $$ = Prefix::DEC; }
 
 operand_expr: primary_expr { $$ = $1; }
@@ -214,16 +189,15 @@ operand_expr: primary_expr { $$ = $1; }
 postfix_expr: ID { $$ = new Id(*$1); }
     | ID LPAREN args_expr_list RPAREN { $$ = new Call(*$1, $3); }
     | postfix_expr INC { $1->postfix = Postfix::INC; }
-    | postfix_expr DEC { $1->postfix = Postfix::DEC; } 
+    | postfix_expr DEC { $1->postfix = Postfix::DEC; }
 
 args_expr_list: { $$ = new vector<ExprOp*>();  }
-    | or_or_expr { $$ = new vector<ExprOp*>(); $$->push_back($1); }
-    | args_expr_list COMMA or_or_expr { $1->push_back($3); }
+    | equal_expr { $$ = new vector<ExprOp*>(); $$->push_back($1); }
+    | args_expr_list COMMA equal_expr { $1->push_back($3); }
 
 primary_expr: CHAR { $$ = new Constant(ConstType::CHAR, *$1); }
     | NUMBER { $$ = new Constant(ConstType::NUMBER, *$1); }
     | STRING { $$ = new Constant(ConstType::STRING, *$1); }
-
 
 type: BOOL { $$ = SizeType::BOOL; }
     | U8 { $$ = SizeType::U8; }
@@ -235,5 +209,4 @@ type: BOOL { $$ = SizeType::BOOL; }
     | STRING_T { $$ = SizeType::STRING_T; }
     | VOID { $$ = SizeType::VOID; }
 %%
-
 

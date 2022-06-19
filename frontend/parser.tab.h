@@ -63,68 +63,48 @@ extern int yydebug;
     NUMBER = 259,
     STRING = 260,
     CHAR = 261,
-    PTR_T = 262,
-    INC = 263,
-    DEC = 264,
-    LPAREN = 265,
-    RPAREN = 266,
-    LBRACKET = 267,
-    RBRACKET = 268,
-    LBRACE = 269,
-    RBRACE = 270,
-    COMMA = 271,
-    DOT = 272,
-    AT = 273,
-    QUESTION = 274,
-    SEMI = 275,
-    COLON = 276,
-    NOT = 277,
-    MUL = 278,
-    DIV = 279,
-    MOD = 280,
-    AND = 281,
-    OR = 282,
-    ADD = 283,
-    SUB = 284,
-    XOR = 285,
-    EQ = 286,
-    NEQ = 287,
-    LT = 288,
-    GT = 289,
-    LTEQ = 290,
-    GTEQ = 291,
-    AND_AND = 292,
-    OR_OR = 293,
-    ASSIGN = 294,
-    ADD_ASSIGN = 295,
-    SUB_ASSIGN = 296,
-    OR_ASSIGN = 297,
-    AND_ASSIGN = 298,
-    XOR_ASSIGN = 299,
-    MUL_ASSIGN = 300,
-    DIV_ASSIGN = 301,
-    MOD_ASSIGN = 302,
-    OTHER = 303,
-    SPACE = 304,
-    BOOL = 305,
-    U8 = 306,
-    I8 = 307,
-    U16 = 308,
-    I16 = 309,
-    U32 = 310,
-    I32 = 311,
-    STRING_T = 312,
-    VOID = 313,
-    IMPORT = 314,
-    STRUCT = 315,
-    VAR = 316,
-    FUNC = 317,
-    RETURN = 318,
-    IF = 319,
-    ELSE = 320,
-    FOR = 321,
-    BREAK = 322,
-    CONTINUE = 323
+    INC = 262,
+    DEC = 263,
+    LPAREN = 264,
+    RPAREN = 265,
+    LBRACE = 266,
+    RBRACE = 267,
+    COMMA = 268,
+    DOT = 269,
+    QUESTION = 270,
+    SEMI = 271,
+    COLON = 272,
+    MUL = 273,
+    DIV = 274,
+    OR = 275,
+    ADD = 276,
+    SUB = 277,
+    EQ = 278,
+    NEQ = 279,
+    LT = 280,
+    GT = 281,
+    LTEQ = 282,
+    GTEQ = 283,
+    ASSIGN = 284,
+    OTHER = 285,
+    SPACE = 286,
+    BOOL = 287,
+    U8 = 288,
+    I8 = 289,
+    U16 = 290,
+    I16 = 291,
+    U32 = 292,
+    I32 = 293,
+    STRING_T = 294,
+    VOID = 295,
+    IMPORT = 296,
+    STRUCT = 297,
+    VAR = 298,
+    FUNC = 299,
+    RETURN = 300,
+    IF = 301,
+    ELSE = 302,
+    FOR = 303
   };
 #endif
 
@@ -132,14 +112,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 65 "parser.y"
+#line 62 "parser.y"
 
     string* val;
 
     SizeType sizeType;
     Prefix prefix;
     ExprType exprType;
-    AssignOperation assignOp;
 
     Constant* constant;
     Operand* operand;
@@ -160,7 +139,7 @@ union YYSTYPE
     vector<Stmt*>* stmtVec;
     vector<FuncArg*>* argVec;
 
-#line 164 "parser.tab.h"
+#line 143 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

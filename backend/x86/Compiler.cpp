@@ -302,8 +302,6 @@ AsmValue* Compiler::gen(Assign& assign)
         invalidConversionFrom(assign.line, typeSystem.getTypeName(exprType), typeSystem.getTypeName(sym.sizeType));
     }
 
-
-
     AsmValue* mem = new AsmValue(AsmOp::MEMORY);
     mem->index = x86::EBP;
     mem->offset = sym.offset;

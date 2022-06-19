@@ -14,10 +14,6 @@ using namespace std;
 
 namespace Backend {
 
-#define cast(type, var) \
-    dynamic_cast<type>(var)
-
-
 Compiler::Compiler()
 {
     scope.init();
@@ -74,11 +70,10 @@ AsmValue* Compiler::gen(Id& id)
         AsmValue* constant = new AsmValue(AsmOp::CONSTANT);
         constant->imm = 1;
 
-        if(id.postfix == Postfix::INC) {
+        if(id.postfix == Postfix::INC)
             code += emit.add(mem,constant);
-        } else {
+        else
             code += emit.sub(mem,constant);
-        }
     }
 
     delete mem;
@@ -99,9 +94,7 @@ AsmValue* Compiler::gen(Call& call)
         SizeType passedType = item->getType(typeSystem);
         SizeType definedType = function.argsTypes[argIndex++];
         if(!typeSystem.isCorrect(definedType, passedType))
-        {
             invalidArgType(call.line, typeSystem.getTypeName(definedType));
-        }
 
         AsmValue* arg = item->gen(*this);
 
@@ -128,17 +121,15 @@ AsmValue* Compiler::gen(Call& call)
     }
 
     if(callArgsCount < function.argsCount)
-    {
         tooFewArguments(call.line, call.name.c_str());
-    }
     else if(callArgsCount > function.argsCount)
-    {
         tooManyArguments(call.line, call.name.c_str());
-    }
+
     code += "call " + call.name + "\n";
 
+    //TODO: ???
     AsmValue* edx = new AsmValue(AsmOp::REGISTER);
-    edx->index = 12;
+    edx->index = Reg::EDX;
 
     return edx;
 }
@@ -266,10 +257,7 @@ AsmValue* Compiler::gen(VarDef& var)
 
     SizeType exprType = var.right->getType(typeSystem);
     if(!typeSystem.isCorrect(var.sizeType, exprType))
-    {
         invalidConversionFrom(var.line, typeSystem.getTypeName(exprType), typeSystem.getTypeName(var.sizeType));
-    }
-
 
     scope.table.addVar(var.left, var.sizeType, '-');
     Symbol sym = scope.table.get(var.left);
@@ -319,7 +307,6 @@ AsmValue* Compiler::gen(Assign& assign)
 
 AsmValue* Compiler::gen(Return& ret)
 {
-
     AsmValue* r = ret.value->gen(*this);
     AsmValue* edx = new AsmValue(AsmOp::REGISTER);
     edx->index = 12;
@@ -375,9 +362,6 @@ AsmValue* Compiler::gen(For& forStmt)
 
     // TODO: fix
     forStmt.expr->gen(*this);
-//    asmVal->imm = 1;
-//    asmVal->type = AsmOp::CONSTANT;
-//    code += emit.add(init, asmVal);
 
     asmVal->type = AsmOp::STRING;
     asmVal->val = l1;
@@ -402,9 +386,8 @@ AsmValue* Compiler::gen(If& ifStmt)
 {
     AsmValue* label = ifStmt.condition->gen(*this);
 
-    for(auto& stmts : *(ifStmt.stmts)) {
+    for(auto& stmts : *(ifStmt.stmts))
         stmts->gen(*this);
-    }
 
     code += label->val + ":\n";
 }
@@ -417,16 +400,12 @@ void Compiler::initBuildInFunctions()
     argsType.push_back(SizeType::U32);
     argsType.push_back(SizeType::STRING_T);
     scope.funcTable.addFunc("sys_write", 2, argsType, SizeType::VOID);
-
 }
-
 
 void Compiler::start(vector<Stmt*> v)
 {
     for(auto stmt : v)
-    {
         stmt->gen(*this);
-    }
 }
 
 AsmValue* Compiler::loadOp(AsmValue* val)
@@ -438,7 +417,6 @@ AsmValue* Compiler::loadOp(AsmValue* val)
     return r;
 }
 
-
 void Compiler::createASM()
 {
     ofstream file;
@@ -446,10 +424,11 @@ void Compiler::createASM()
     string buf;
     rt0.open("internal/rt0.s");
     file.open ("output.txt");
-    while (getline (rt0, buf)) {
+    while (getline (rt0, buf))
       file << buf << "\n";
-    }
+
     rt0.close();
+
     file << code;
     file << "\n";
     file << data;

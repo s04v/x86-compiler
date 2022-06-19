@@ -225,8 +225,11 @@ INST_REG_MEM(imul)
 INST_REG_REG_IMM(imul)
 INST_REG_MEM_IMM(imul)
 
+INST_OP1(idiv)
 INST_REG(idiv)
 INST_MEM(idiv)
+INST_STR(idiv) // idle
+INST_IMM(idiv) // idle
 
 INST_OP1(push)
 INST_REG(push)

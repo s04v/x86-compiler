@@ -44,6 +44,8 @@ private:
     };
 
 public:
+    bool isAvailable(int r);
+
     int alloc8l();
     int alloc8h();
     int alloc16();

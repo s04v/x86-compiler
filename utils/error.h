@@ -7,7 +7,7 @@ using namespace std;
 
 inline void invalidConversionFrom(int line, string t1, string t2)
 {
-    printf("line %d: invalid conversion from '%s' to '%s'", var.line, t1, t2);
+    printf("line %d: invalid conversion from '%s' to '%s'", line, t1, t2);
     exit(1);
 }
 

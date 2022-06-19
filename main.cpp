@@ -27,17 +27,17 @@ int main(int argc,char* argv[])
         std::cout << "File not found" << std::endl;
         exit(1);
     }
-    symbolNotDefined(1, "foo");
+//    symbolNotDefined(1, "foo");
 
-//    yyparse();
+    yyparse();
 
-//    x86::Compiler compiler;
-//    compiler.start(*root);
-//    compiler.createASM();
+    x86::Compiler compiler;
+    compiler.start(*root);
+    compiler.createASM();
 
-//    system("nasm -felf32 output.txt");
-//    system("ld -m elf_i386 output.o");
-//    system("./a.out");
+    system("nasm -felf32 output.txt");
+    system("ld -m elf_i386 output.o");
+    system("./a.out");
 
     return 0;
 }

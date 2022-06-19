@@ -5,6 +5,12 @@ using namespace std;
 
 namespace x86 {
 
+bool Register::isAvailable(int r)
+{
+    return reg[r];
+}
+
+
 int Register::alloc8l() 
 {
     for (int i = 3; i < 16; i += 4)

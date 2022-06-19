@@ -186,11 +186,35 @@ AsmValue* Compiler::gen(Expr &expr)
 
         break;
     }
-    case ExprType::DIV:
-    case ExprType::MOD:
-        // TODO:
-        //        code += emit.div(op1, op2);
+//    case ExprType::MOD:
+    case ExprType::DIV: {
+        AsmValue* tmpReg = new AsmValue(AsmOp::REGISTER);
+
+        AsmValue* eax = new AsmValue(AsmOp::REGISTER);
+        tmpReg->index = Reg::EAX;
+
+        bool useTmp = !(op1->index == Reg::EAX);
+        if(useTmp) {
+            tmpReg->index = reg.alloc32();
+            code += emit.mov(tmpReg, eax);
+            code += emit.mov(eax, op1);
+        }
+
+        AsmValue* divider = new AsmValue(AsmOp::REGISTER);
+        divider->index = reg.alloc32();
+        cout <<  divider->index << endl;
+        code += emit.mov(divider, op2);
+        code += emit.idiv(divider);
+
+        if(useTmp) {
+            code += emit.mov(divider, eax);
+            code += emit.mov(eax, tmpReg);
+            reg.free(tmpReg->index);
+        }
+
+        reg.free(divider->index);
         break;
+    }
     case ExprType::EQ:
     case ExprType::NEQ:
     case ExprType::LT:
@@ -362,8 +386,8 @@ void Compiler::initBuildInFunctions()
     vector<SizeType> argsType;
 
     //sys_srite
-    argsType.push_back(SizeType::STRING_T);
     argsType.push_back(SizeType::U32);
+    argsType.push_back(SizeType::STRING_T);
     scope.funcTable.addFunc("sys_write", 2, argsType, SizeType::VOID);
 
 }

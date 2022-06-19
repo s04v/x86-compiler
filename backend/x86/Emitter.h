@@ -108,9 +108,11 @@ public:
     DEF_INST_REG_REG_IMM(imul)
     DEF_INST_REG_MEM_IMM(imul)
 
+    DEF_INST_OP1(idiv)
     DEF_INST_REG(idiv)
     DEF_INST_MEM(idiv)
-    
+    DEF_INST_STR(idiv) // idle
+    DEF_INST_IMM(idiv) // idle
 // TODO
     DEF_INST_REG(inot)
     DEF_INST_MEM(inot)

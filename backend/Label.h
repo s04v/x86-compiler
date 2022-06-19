@@ -2,6 +2,9 @@
 #include <string>
 
 using namespace std;
+
+namespace Backend {
+
 class Label
 {
     int count = 0;
@@ -20,6 +23,7 @@ public:
         s += to_string(count++);
         return s;
     }
-
 };
+
+}
 

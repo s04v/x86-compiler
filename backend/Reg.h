@@ -4,7 +4,7 @@
 
 using namespace std;
 
-namespace x86{
+namespace Backend{
 
 enum Reg {
     EAX, AX, AH, AL,
@@ -14,8 +14,6 @@ enum Reg {
     ESP, SP, SPL,
     EBP, BP, BPL
 };
-
-    
 
 class Register {
 private:

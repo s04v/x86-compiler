@@ -5,7 +5,7 @@
 
 
 using namespace std;
-namespace x86 {
+namespace Backend {
 
 class SymbolTable {
     map<string, Symbol> table;
@@ -14,8 +14,8 @@ public:
     int lastOffset;
     int plusOffset = 0;
     int minusOffset = 0;
-    SymbolTable();
 
+    SymbolTable();
     bool exists(string name);
     void addVar(string name, SizeType size, char sign);
     Symbol get(string name);

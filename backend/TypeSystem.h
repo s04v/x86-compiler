@@ -12,7 +12,7 @@ class Id;
 class Constant;
 class Call;
 
-namespace x86 {
+namespace Backend {
 
 class TypeSystem {
     // possibleCast[to][from]

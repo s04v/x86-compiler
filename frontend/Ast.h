@@ -28,7 +28,7 @@ public:
     unsigned int line;
 
     Stmt() {}
-    virtual AsmValue* gen(x86::Compiler& compiler) = 0;
+    virtual Backend::AsmValue* gen(Backend::Compiler& compiler) = 0;
     virtual ~Stmt() = default;
 };
 
@@ -40,7 +40,7 @@ public:
     vector<Stmt*>* stmts;
 
     If(ExprOp* c, vector<Stmt*>* s ) : condition(c), stmts(s) {}
-    virtual AsmValue* gen(x86::Compiler& compiler) override {  compiler.gen(*this); }
+    virtual Backend::AsmValue* gen(Backend::Compiler& compiler) override {  compiler.gen(*this); }
 };
 
 class For : public Stmt {
@@ -51,7 +51,7 @@ public:
     vector<Stmt*>* stmts;
 
     For(VarDef* i, ExprOp* c, ExprOp* e, vector<Stmt*>* s) : init(i), condition(c), expr(e), stmts(s) {}
-    virtual AsmValue* gen(x86::Compiler& compiler) override {  compiler.gen(*this); }
+    virtual Backend::AsmValue* gen(Backend::Compiler& compiler) override {  compiler.gen(*this); }
 
 };
 
@@ -68,7 +68,7 @@ public:
     ExprOp* value;
 
     Return(ExprOp* v) : value(v) {}
-    virtual AsmValue* gen(x86::Compiler& compiler) override { return compiler.gen(*this); }
+    virtual Backend::AsmValue* gen(Backend::Compiler& compiler) override { return compiler.gen(*this); }
 };
 
 class FuncDef : public Stmt {
@@ -79,7 +79,7 @@ public:
     vector<Stmt*>* stmts;
 
     FuncDef(string n, SizeType r, vector<FuncArg*>* a, vector<Stmt*>* s) : name(n), returnType(r), args(a), stmts(s) {}
-    virtual AsmValue* gen(x86::Compiler& compiler) override { compiler.gen(*this); }
+    virtual Backend::AsmValue* gen(Backend::Compiler& compiler) override { compiler.gen(*this); }
 };
 
 class Operand;
@@ -90,7 +90,7 @@ public:
     ExprOp* right;
 
     Assign(string l, ExprOp* r) : left(l),right(r) {}
-    virtual AsmValue* gen(x86::Compiler& compiler) override { compiler.gen(*this); }
+    virtual Backend::AsmValue* gen(Backend::Compiler& compiler) override { compiler.gen(*this); }
 };
 
 class VarDef : public Stmt {
@@ -100,7 +100,7 @@ public:
     ExprOp* right;
 
     VarDef(SizeType t, string l, ExprOp* r) : sizeType(t), left(l), right(r) {}
-    virtual AsmValue* gen(x86::Compiler& compiler)  override { compiler.gen(*this); }
+    virtual Backend::AsmValue* gen(Backend::Compiler& compiler)  override { compiler.gen(*this); }
 };
 
 struct Expr_t{
@@ -132,8 +132,8 @@ public:
     ExprOpType type;
 
     ExprOp() {}
-    virtual AsmValue* gen(x86::Compiler& compiler) override {}
-    virtual SizeType getType(x86::TypeSystem& typeSystem) = 0;
+    virtual Backend::AsmValue* gen(Backend::Compiler& compiler) override {}
+    virtual SizeType getType(Backend::TypeSystem& typeSystem) = 0;
     virtual ~ExprOp() {}
 };
 
@@ -148,8 +148,8 @@ public:
 
     Expr() {}
     Expr(ExprType t, ExprOp* l, ExprOp* r) : exprType(t), left(l), right(r) {}
-    virtual AsmValue* gen(x86::Compiler& compiler) override { return compiler.gen(*this); }
-    virtual SizeType getType(x86::TypeSystem& typeSystem) override  { return typeSystem.getType(*this); }
+    virtual Backend::AsmValue* gen(Backend::Compiler& compiler) override { return compiler.gen(*this); }
+    virtual SizeType getType(Backend::TypeSystem& typeSystem) override  { return typeSystem.getType(*this); }
     virtual ~Expr() { }
 };
 
@@ -191,8 +191,8 @@ public:
     Postfix postfix;
 
     Operand () {}
-    virtual AsmValue* gen(x86::Compiler& compiler) override { return {};  }
-    virtual SizeType getType(x86::TypeSystem& typeSystem)  { return {}; }
+    virtual Backend::AsmValue* gen(Backend::Compiler& compiler) override { return {};  }
+    virtual SizeType getType(Backend::TypeSystem& typeSystem)  { return {}; }
     virtual ~Operand() = default;
 };
 
@@ -217,8 +217,8 @@ public:
             val = val.substr(1, val.size() - 2);
     }
 
-    virtual AsmValue* gen(x86::Compiler& compiler) override { return compiler.gen(*this); }
-    virtual SizeType getType(x86::TypeSystem& typeSystem) override { return typeSystem.getType(*this); }
+    virtual Backend::AsmValue* gen(Backend::Compiler& compiler) override { return compiler.gen(*this); }
+    virtual SizeType getType(Backend::TypeSystem& typeSystem) override { return typeSystem.getType(*this); }
 };
 
 class Id : public Operand {
@@ -226,8 +226,8 @@ public:
     string name;
 
     Id(string n) : name(n) {}
-    virtual AsmValue* gen(x86::Compiler& compiler) override { return compiler.gen(*this); }
-    virtual SizeType getType(x86::TypeSystem& typeSystem) override { return typeSystem.getType(*this); }
+    virtual Backend::AsmValue* gen(Backend::Compiler& compiler) override { return compiler.gen(*this); }
+    virtual SizeType getType(Backend::TypeSystem& typeSystem) override { return typeSystem.getType(*this); }
 };
 
 
@@ -237,6 +237,6 @@ public:
     vector<ExprOp*>* args;
 
     Call(string n, vector<ExprOp*>* a) : name(n), args(a) {}
-    virtual AsmValue* gen(x86::Compiler& compiler) override { return compiler.gen(*this); }
-    virtual SizeType getType(x86::TypeSystem& typeSystem) override { return typeSystem.getType(*this); }
+    virtual Backend::AsmValue* gen(Backend::Compiler& compiler) override { return compiler.gen(*this); }
+    virtual SizeType getType(Backend::TypeSystem& typeSystem) override { return typeSystem.getType(*this); }
 };

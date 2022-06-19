@@ -30,9 +30,7 @@ class Call;
 class If;
 class For;
 
-
-
-namespace x86 {
+namespace Backend {
 
 class Compiler {
 private:
@@ -48,7 +46,6 @@ public:
     string code = "";
 
     Compiler();
-
     AsmValue* gen(Constant& constant);
     AsmValue* gen(Id& id);
     AsmValue* gen(Call& call);
@@ -62,15 +59,11 @@ public:
 
     void initBuildInFunctions();
 
-    void start(vector<Stmt*> v);
-
     AsmValue* loadOp(AsmValue* op);
     string saveString(string src);
     void createASM();
-
+    void start(vector<Stmt*> v);
     void printData() { cout << data << endl; }
-
-
 };
 }
 #endif

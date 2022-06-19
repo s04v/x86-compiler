@@ -3,7 +3,7 @@
 #include "../frontend/Ast.h"
 #include "../utils/error.h"
 
-namespace x86 {
+namespace Backend {
 
 TypeSystem::TypeSystem() {}
 
@@ -112,6 +112,5 @@ char* TypeSystem::getTypeName(SizeType type)
         return "invalid type name";
     }
 }
-
 
 }

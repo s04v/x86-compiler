@@ -30,7 +30,7 @@ int main(int argc,char* argv[])
 
     yyparse();
 
-    x86::Compiler compiler;
+    Backend::Compiler compiler;
     compiler.start(*root);
     compiler.createASM();
 

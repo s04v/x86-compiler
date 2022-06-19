@@ -1,4 +1,5 @@
 #pragma once
+
 struct SizeType_t {
     enum Type {
         BOOL,

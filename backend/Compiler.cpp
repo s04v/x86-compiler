@@ -12,7 +12,7 @@
 
 using namespace std;
 
-namespace x86 {
+namespace Backend {
 
 #define cast(type, var) \
     dynamic_cast<type>(var)
@@ -48,7 +48,7 @@ AsmValue* Compiler::gen(Id& id)
 
     Symbol sym = scope.table.get(id.name);
     AsmValue* mem = new AsmValue(AsmOp::MEMORY);
-    mem->index = x86::EBP;
+    mem->index = Backend::EBP;
     mem->offset = sym.offset;
     mem->memSize= sym.sizeType;
 
@@ -275,7 +275,7 @@ AsmValue* Compiler::gen(VarDef& var)
     Symbol sym = scope.table.get(var.left);
 
     AsmValue* mem = new AsmValue(AsmOp::MEMORY);
-    mem->index = x86::EBP;
+    mem->index = Backend::EBP;
     mem->offset = sym.offset;
     mem->memSize = var.sizeType;
 
@@ -303,7 +303,7 @@ AsmValue* Compiler::gen(Assign& assign)
     }
 
     AsmValue* mem = new AsmValue(AsmOp::MEMORY);
-    mem->index = x86::EBP;
+    mem->index = Backend::EBP;
     mem->offset = sym.offset;
     mem->memSize = sym.sizeType;
 

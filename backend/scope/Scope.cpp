@@ -6,7 +6,7 @@
 
 using namespace std;
 
-namespace x86 {
+namespace Backend {
 
 Scope::Scope() {}
 

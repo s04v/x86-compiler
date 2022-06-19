@@ -4,6 +4,7 @@
 #include "SizeType.h"
 using namespace std;
 
+namespace Backend {
 
 struct AsmOpType_t {
     enum Type {
@@ -30,6 +31,9 @@ public:
     AsmValue() {}
     AsmValue(AsmOp t) : type(t) {}
 };
+
+}
+
 
 
 

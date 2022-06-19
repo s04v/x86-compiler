@@ -8,7 +8,7 @@
 
 using namespace std;
 
-namespace x86 {
+namespace Backend {
 
 class Function {
 public:
@@ -21,12 +21,12 @@ public:
 
 class FunctionTable {
     map<string, Function> functions;
+
 public:
     FunctionTable();
     bool exists(string name);
     void addFunc(string name, int argsCount, vector<SizeType> argsTypes, SizeType returnType);
     Function get(string name);
-
 };
 
 }

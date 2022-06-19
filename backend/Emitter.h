@@ -7,7 +7,7 @@
 
 using namespace std;
 
-namespace x86{
+namespace Backend {
 
 #define DEF_INST_OP1(name) \
     string name(AsmValue* v);
@@ -113,10 +113,8 @@ public:
     DEF_INST_MEM(idiv)
     DEF_INST_STR(idiv) // idle
     DEF_INST_IMM(idiv) // idle
-// TODO
-    DEF_INST_REG(inot)
-    DEF_INST_MEM(inot)
 
+    // TODO
     DEF_INST_OP1(push)
     DEF_INST_REG(push)
     DEF_INST_STR(push)

@@ -8,7 +8,7 @@
 
 using namespace std;
 
-namespace x86 {
+namespace Backend {
 
 FunctionTable::FunctionTable() {}
 

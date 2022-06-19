@@ -6,18 +6,18 @@
 
 using namespace std;
 
-namespace x86 {
+namespace Backend {
 
 class Scope {
     stack<SymbolTable> stackTables;
+
 public:
     SymbolTable table;
     FunctionTable funcTable;
-    Scope();
 
+    Scope();
     void init();
     void extend();
     void pop();
-
 };
 }

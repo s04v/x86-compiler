@@ -3,13 +3,12 @@
 
 using namespace std;
 
-namespace x86 {
+namespace Backend {
 
 bool Register::isAvailable(int r)
 {
     return reg[r];
 }
-
 
 int Register::alloc8l() 
 {
@@ -79,7 +78,6 @@ string Register::get8lFrom(int r)
         return name[r+3];
     return name[r+2];
 }
-
 
 const char* Register::getName(int r)
 {

@@ -152,7 +152,7 @@ if_stmt: IF or_or_expr LBRACE stmt_block RBRACE { $$ = new If($2, $4);}
 
 for_stmt: FOR variable_def or_or_expr SEMI or_or_expr LBRACE stmt_block RBRACE { $$ = new For($2, $3, $5, $7); }
 
-assign_stmt: operand_expr assignment_operator or_or_expr { $$ = new Assign($2, $1, $3);}
+assign_stmt: ID assignment_operator or_or_expr { $$ = new Assign($2, *$1, $3);}
 
 assignment_operator: ASSIGN { $$ = AssignOperation::ASSIGN; }
     | MUL_ASSIGN { $$ = AssignOperation::MUL_ASSIGN; }

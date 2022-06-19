@@ -20,6 +20,7 @@ class Stmt;
 class Return;
 class FuncDef;
 class VarDef;
+class Assign;
 class ExprOp;
 class Expr;
 class Operand;
@@ -28,6 +29,7 @@ class Constant;
 class Call;
 class If;
 class For;
+
 
 
 namespace x86 {
@@ -52,6 +54,7 @@ public:
     AsmValue* gen(Call& call);
     AsmValue* gen(Expr& expr);
     AsmValue* gen(VarDef& var);
+    AsmValue* gen(Assign& var);
     AsmValue* gen(Return& ret);
     AsmValue* gen(FuncDef& func);
     AsmValue* gen(If& ifStmt);

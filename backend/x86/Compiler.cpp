@@ -149,20 +149,20 @@ AsmValue* Compiler::gen(Expr &expr)
 
     AsmValue* v1 = expr.left->gen(*this);
     if(v1->type == AsmOp::CONSTANT || v1->type == AsmOp::MEMORY)
-        if(!isForCondition) // TODO: fix
+        if(!isForCondition)
             op1 = loadOp(v1);
          else
-            op1= v1;
+            op1 = v1;
     else
         op1 = v1;
 
     AsmValue* v2 = expr.right->gen(*this);
     op2 = v2;
 
-    // check types
     SizeType exprType = typeSystem.getType(expr);
 
-    switch (expr.exprType) {
+    switch (expr.exprType)
+    {
     case ExprType::ADD:
         code += emit.add(op1, op2);
         break;
@@ -186,7 +186,6 @@ AsmValue* Compiler::gen(Expr &expr)
 
         break;
     }
-//    case ExprType::MOD:
     case ExprType::DIV: {
         AsmValue* tmpReg = new AsmValue(AsmOp::REGISTER);
 
@@ -290,7 +289,38 @@ AsmValue* Compiler::gen(VarDef& var)
     return mem;
 }
 
-AsmValue* Compiler::gen(Return& ret) {
+AsmValue* Compiler::gen(Assign& assign)
+{
+    if(!scope.table.exists(assign.left))
+        symbolNotDefined(assign.line, assign.left);
+
+    Symbol sym = scope.table.get(assign.left);
+
+    SizeType exprType = assign.right->getType(typeSystem);
+    if(!typeSystem.isCorrect(sym.sizeType, exprType))
+    {
+        invalidConversionFrom(assign.line, typeSystem.getTypeName(exprType), typeSystem.getTypeName(sym.sizeType));
+    }
+
+
+
+    AsmValue* mem = new AsmValue(AsmOp::MEMORY);
+    mem->index = x86::EBP;
+    mem->offset = sym.offset;
+    mem->memSize = sym.sizeType;
+
+    AsmValue* value = assign.right->gen(*this);
+
+    code += emit.mov(mem, value);
+
+    if(value->type == AsmOp::REGISTER)
+        reg.free(value->index);
+
+    return mem;
+}
+
+AsmValue* Compiler::gen(Return& ret)
+{
 
     AsmValue* r = ret.value->gen(*this);
     AsmValue* edx = new AsmValue(AsmOp::REGISTER);

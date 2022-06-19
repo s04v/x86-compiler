@@ -3,4 +3,6 @@ func main(): void {
     for var i: u32 = 0; i < size; i++ {
         sys_write("hello",5);
     }
+
+    size = 5;
 }

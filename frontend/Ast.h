@@ -106,11 +106,11 @@ class Operand;
 class Assign : public Stmt{
 public:
     AssignOperation type;
-    Operand* left;
+    string left;
     ExprOp* right;
 
-    Assign(AssignOperation t, Operand* l, ExprOp* r) : type(t), left(l),right(r) {};
-    virtual AsmValue* gen(x86::Compiler& compiler) override {};
+    Assign(AssignOperation t, string l, ExprOp* r) : type(t), left(l),right(r) {};
+    virtual AsmValue* gen(x86::Compiler& compiler) override { compiler.gen(*this); };
 };
 
 class VarDef : public Stmt {

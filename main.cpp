@@ -27,7 +27,6 @@ int main(int argc,char* argv[])
         std::cout << "File not found" << std::endl;
         exit(1);
     }
-//    symbolNotDefined(1, "foo");
 
     yyparse();
 

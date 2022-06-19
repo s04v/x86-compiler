@@ -1,6 +1,7 @@
 #include "TypeSystem.h"
 #include "SizeType.h"
 #include "../../frontend/Ast.h"
+#include "../../utils/error.h"
 
 namespace x86 {
 
@@ -32,8 +33,7 @@ SizeType TypeSystem::getType(Expr& expr)
 
     if(!possibleCast[left][right])
     {
-        printf("line %d: incorect type in expr", expr.line);
-        exit(1);
+       incorretType(expr.line);
     }
 
     return left;
@@ -71,7 +71,6 @@ bool TypeSystem::isCorrect(SizeType type, Expr& expr)
 
 bool TypeSystem::isCorrect(SizeType type, ExprOp& exprOp)
 {
-    cout << "true";
     return possibleCast[type][getType(exprOp)];
 }
 
@@ -101,13 +100,10 @@ char* TypeSystem::getTypeName(SizeType type)
         return "u32";
         break;
     case SizeType::NUMBER:
-        return "number_constant";
+        return "number";
         break;
     case SizeType::STRING_T:
         return "string";
-        break;
-    case SizeType::NUMBER_T:
-        return "number";
         break;
     case SizeType::VOID:
         return "void";

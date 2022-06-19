@@ -44,7 +44,7 @@ AsmValue* Compiler::gen(Constant &constant)
 AsmValue* Compiler::gen(Id& id)
 {
     if(!scope.table.exists(id.name))
-        errorReport("Variable is not defined!");
+        symbolNotDefined(id.line, id.name);
 
     Symbol sym = scope.table.get(id.name);
     AsmValue* mem = new AsmValue(AsmOp::MEMORY);
@@ -100,8 +100,7 @@ AsmValue* Compiler::gen(Call& call)
         SizeType definedType = function.argsTypes[argIndex++];
         if(!typeSystem.isCorrect(definedType, passedType))
         {
-            printf("line %d: invalid argument type, expect '%s'\n", call.line, typeSystem.getTypeName(definedType));
-            exit(1);
+            invalidArgType(call.line, typeSystem.getTypeName(definedType));
         }
 
         AsmValue* arg = item->gen(*this);
@@ -130,13 +129,11 @@ AsmValue* Compiler::gen(Call& call)
 
     if(callArgsCount < function.argsCount)
     {
-        printf("line %d: too few arguments to function '%s'\n", call.line, call.name.c_str());
-        exit(1);
+        tooFewArguments(call.line, call.name.c_str());
     }
     else if(callArgsCount > function.argsCount)
     {
-        printf("line %d: too many arguments to function '%s'\n", call.line, call.name.c_str());
-        exit(1);
+        tooManyArguments(call.line, call.name.c_str());
     }
     code += "call " + call.name + "\n";
 
@@ -242,18 +239,12 @@ AsmValue* Compiler::gen(Expr &expr)
 AsmValue* Compiler::gen(VarDef& var)
 {
     if(scope.table.exists(var.left))
-    {
-        cout << "var exists" << endl;
-        exit(-1);
-    }
-    // check types
+        varAlreadyDeclared(var.line, var.left);
 
     SizeType exprType = var.right->getType(typeSystem);
-//    cout << var.sizeType << endl << exprType << endl;
     if(!typeSystem.isCorrect(var.sizeType, exprType))
     {
-        printf("line %d: invalid conversion from '%s' to '%s'", var.line, typeSystem.getTypeName(exprType), typeSystem.getTypeName(var.sizeType));
-        exit(1);
+        invalidConversionFrom(var.line, typeSystem.getTypeName(exprType), typeSystem.getTypeName(var.sizeType));
     }
 
 
@@ -288,10 +279,7 @@ AsmValue* Compiler::gen(Return& ret) {
 AsmValue* Compiler::gen(FuncDef& func)
 {
     if(scope.funcTable.exists(func.name))
-    {
-        printf("%s function on line %d already defined", func.name.c_str(), func.line);
-        exit(1);
-    }
+        funcAlreadyDeclared(func.line, func.name.c_str());
 
     scope.init();
     code += func.name + ":\n";
@@ -353,7 +341,7 @@ AsmValue* Compiler::gen(For& forStmt)
     code.pop_back();
     code.pop_back();
 
-    // add property label
+    // add label
     code += l2 + "\n";
 
 }
@@ -383,8 +371,6 @@ void Compiler::initBuildInFunctions()
 
 void Compiler::start(vector<Stmt*> v)
 {
-
-
     for(auto stmt : v)
     {
         stmt->gen(*this);

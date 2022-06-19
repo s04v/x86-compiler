@@ -39,7 +39,7 @@ num:
 push ebp
 mov ebp, esp
 sub esp, 16
-mov DWORD [ebp-4], S0
+mov DWORD [ebp-4], 10
 nop
 leave
 ret
@@ -56,4 +56,3 @@ ret
 
 
 section .data
-S0 db "12"

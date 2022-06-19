@@ -78,7 +78,6 @@ L?\"(\\.|[^\\"\n])*\"	yylval.val = new string(yytext); return STRING;
 "u32"                   yylval.val = new string(yytext); return U32;
 "i32"                   yylval.val = new string(yytext); return I32;
 "string"                yylval.val = new string(yytext); return STRING_T;
-"number"                yylval.val = new string(yytext); return NUMBER_T;
 "void"                  yylval.val = new string(yytext); return VOID;
 
 "import "               yylval.val = new string(yytext); return IMPORT;

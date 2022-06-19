@@ -316,7 +316,6 @@ const char* Emitter::getMemSize(SizeType s)
         case SizeType::U32:
         case SizeType::I32:
         case SizeType::STRING_T:
-        case SizeType::NUMBER_T:
             return "DWORD";
         default:
             return "invalid ptr";
@@ -336,7 +335,6 @@ const char* Emitter::getReg(int r, SizeType s)
             return reg.getName(r + 1);
         case SizeType::U32:
         case SizeType::I32:
-        case SizeType::NUMBER_T:
             return reg.getName(r);
         default:
             return "invalid reg";

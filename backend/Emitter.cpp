@@ -3,7 +3,7 @@
 #include <stdarg.h>
 #include "Emitter.h"
 #include "Reg.h"
-#include "../../utils/int2str.h"
+#include "../utils/int2str.h"
 #include "AsmValue.h"
 #include "SizeType.h"
 

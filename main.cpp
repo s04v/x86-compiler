@@ -4,16 +4,16 @@
 #include "frontend/parser.tab.h"
 #include "frontend/Ast.h"
 
-#include "backend/x86/Emitter.h"
-#include "backend/x86/Reg.h"
-#include "backend/x86/Compiler.h"
-#include "backend/x86/scope/Scope.h"
+#include "backend/Emitter.h"
+#include "backend/Reg.h"
+#include "backend/Compiler.h"
+#include "backend/scope/Scope.h"
 #include "utils/int2str.h"
 #include "utils/error.h"
 
-#include "backend/x86/Label.h"
+#include "backend/Label.h"
 
-#include "backend/x86/SizeType.h"
+#include "backend/SizeType.h"
 
 using namespace std;
 

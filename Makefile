@@ -123,194 +123,194 @@ compiler/fast:
 	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/build
 .PHONY : compiler/fast
 
-backend/x86/Compiler.o: backend/x86/Compiler.cpp.o
+backend/Compiler.o: backend/Compiler.cpp.o
 
-.PHONY : backend/x86/Compiler.o
-
-# target to build an object file
-backend/x86/Compiler.cpp.o:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Compiler.cpp.o
-.PHONY : backend/x86/Compiler.cpp.o
-
-backend/x86/Compiler.i: backend/x86/Compiler.cpp.i
-
-.PHONY : backend/x86/Compiler.i
-
-# target to preprocess a source file
-backend/x86/Compiler.cpp.i:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Compiler.cpp.i
-.PHONY : backend/x86/Compiler.cpp.i
-
-backend/x86/Compiler.s: backend/x86/Compiler.cpp.s
-
-.PHONY : backend/x86/Compiler.s
-
-# target to generate assembly for a file
-backend/x86/Compiler.cpp.s:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Compiler.cpp.s
-.PHONY : backend/x86/Compiler.cpp.s
-
-backend/x86/Emitter.o: backend/x86/Emitter.cpp.o
-
-.PHONY : backend/x86/Emitter.o
+.PHONY : backend/Compiler.o
 
 # target to build an object file
-backend/x86/Emitter.cpp.o:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Emitter.cpp.o
-.PHONY : backend/x86/Emitter.cpp.o
+backend/Compiler.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/Compiler.cpp.o
+.PHONY : backend/Compiler.cpp.o
 
-backend/x86/Emitter.i: backend/x86/Emitter.cpp.i
+backend/Compiler.i: backend/Compiler.cpp.i
 
-.PHONY : backend/x86/Emitter.i
+.PHONY : backend/Compiler.i
 
 # target to preprocess a source file
-backend/x86/Emitter.cpp.i:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Emitter.cpp.i
-.PHONY : backend/x86/Emitter.cpp.i
+backend/Compiler.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/Compiler.cpp.i
+.PHONY : backend/Compiler.cpp.i
 
-backend/x86/Emitter.s: backend/x86/Emitter.cpp.s
+backend/Compiler.s: backend/Compiler.cpp.s
 
-.PHONY : backend/x86/Emitter.s
+.PHONY : backend/Compiler.s
 
 # target to generate assembly for a file
-backend/x86/Emitter.cpp.s:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Emitter.cpp.s
-.PHONY : backend/x86/Emitter.cpp.s
+backend/Compiler.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/Compiler.cpp.s
+.PHONY : backend/Compiler.cpp.s
 
-backend/x86/Reg.o: backend/x86/Reg.cpp.o
+backend/Emitter.o: backend/Emitter.cpp.o
 
-.PHONY : backend/x86/Reg.o
+.PHONY : backend/Emitter.o
 
 # target to build an object file
-backend/x86/Reg.cpp.o:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Reg.cpp.o
-.PHONY : backend/x86/Reg.cpp.o
+backend/Emitter.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/Emitter.cpp.o
+.PHONY : backend/Emitter.cpp.o
 
-backend/x86/Reg.i: backend/x86/Reg.cpp.i
+backend/Emitter.i: backend/Emitter.cpp.i
 
-.PHONY : backend/x86/Reg.i
+.PHONY : backend/Emitter.i
 
 # target to preprocess a source file
-backend/x86/Reg.cpp.i:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Reg.cpp.i
-.PHONY : backend/x86/Reg.cpp.i
+backend/Emitter.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/Emitter.cpp.i
+.PHONY : backend/Emitter.cpp.i
 
-backend/x86/Reg.s: backend/x86/Reg.cpp.s
+backend/Emitter.s: backend/Emitter.cpp.s
 
-.PHONY : backend/x86/Reg.s
+.PHONY : backend/Emitter.s
 
 # target to generate assembly for a file
-backend/x86/Reg.cpp.s:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/Reg.cpp.s
-.PHONY : backend/x86/Reg.cpp.s
+backend/Emitter.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/Emitter.cpp.s
+.PHONY : backend/Emitter.cpp.s
 
-backend/x86/TypeSystem.o: backend/x86/TypeSystem.cpp.o
+backend/Reg.o: backend/Reg.cpp.o
 
-.PHONY : backend/x86/TypeSystem.o
+.PHONY : backend/Reg.o
 
 # target to build an object file
-backend/x86/TypeSystem.cpp.o:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/TypeSystem.cpp.o
-.PHONY : backend/x86/TypeSystem.cpp.o
+backend/Reg.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/Reg.cpp.o
+.PHONY : backend/Reg.cpp.o
 
-backend/x86/TypeSystem.i: backend/x86/TypeSystem.cpp.i
+backend/Reg.i: backend/Reg.cpp.i
 
-.PHONY : backend/x86/TypeSystem.i
+.PHONY : backend/Reg.i
 
 # target to preprocess a source file
-backend/x86/TypeSystem.cpp.i:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/TypeSystem.cpp.i
-.PHONY : backend/x86/TypeSystem.cpp.i
+backend/Reg.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/Reg.cpp.i
+.PHONY : backend/Reg.cpp.i
 
-backend/x86/TypeSystem.s: backend/x86/TypeSystem.cpp.s
+backend/Reg.s: backend/Reg.cpp.s
 
-.PHONY : backend/x86/TypeSystem.s
+.PHONY : backend/Reg.s
 
 # target to generate assembly for a file
-backend/x86/TypeSystem.cpp.s:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/TypeSystem.cpp.s
-.PHONY : backend/x86/TypeSystem.cpp.s
+backend/Reg.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/Reg.cpp.s
+.PHONY : backend/Reg.cpp.s
 
-backend/x86/scope/FunctionTable.o: backend/x86/scope/FunctionTable.cpp.o
+backend/TypeSystem.o: backend/TypeSystem.cpp.o
 
-.PHONY : backend/x86/scope/FunctionTable.o
+.PHONY : backend/TypeSystem.o
 
 # target to build an object file
-backend/x86/scope/FunctionTable.cpp.o:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/scope/FunctionTable.cpp.o
-.PHONY : backend/x86/scope/FunctionTable.cpp.o
+backend/TypeSystem.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/TypeSystem.cpp.o
+.PHONY : backend/TypeSystem.cpp.o
 
-backend/x86/scope/FunctionTable.i: backend/x86/scope/FunctionTable.cpp.i
+backend/TypeSystem.i: backend/TypeSystem.cpp.i
 
-.PHONY : backend/x86/scope/FunctionTable.i
+.PHONY : backend/TypeSystem.i
 
 # target to preprocess a source file
-backend/x86/scope/FunctionTable.cpp.i:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/scope/FunctionTable.cpp.i
-.PHONY : backend/x86/scope/FunctionTable.cpp.i
+backend/TypeSystem.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/TypeSystem.cpp.i
+.PHONY : backend/TypeSystem.cpp.i
 
-backend/x86/scope/FunctionTable.s: backend/x86/scope/FunctionTable.cpp.s
+backend/TypeSystem.s: backend/TypeSystem.cpp.s
 
-.PHONY : backend/x86/scope/FunctionTable.s
+.PHONY : backend/TypeSystem.s
 
 # target to generate assembly for a file
-backend/x86/scope/FunctionTable.cpp.s:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/scope/FunctionTable.cpp.s
-.PHONY : backend/x86/scope/FunctionTable.cpp.s
+backend/TypeSystem.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/TypeSystem.cpp.s
+.PHONY : backend/TypeSystem.cpp.s
 
-backend/x86/scope/Scope.o: backend/x86/scope/Scope.cpp.o
+backend/scope/FunctionTable.o: backend/scope/FunctionTable.cpp.o
 
-.PHONY : backend/x86/scope/Scope.o
+.PHONY : backend/scope/FunctionTable.o
 
 # target to build an object file
-backend/x86/scope/Scope.cpp.o:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/scope/Scope.cpp.o
-.PHONY : backend/x86/scope/Scope.cpp.o
+backend/scope/FunctionTable.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/scope/FunctionTable.cpp.o
+.PHONY : backend/scope/FunctionTable.cpp.o
 
-backend/x86/scope/Scope.i: backend/x86/scope/Scope.cpp.i
+backend/scope/FunctionTable.i: backend/scope/FunctionTable.cpp.i
 
-.PHONY : backend/x86/scope/Scope.i
+.PHONY : backend/scope/FunctionTable.i
 
 # target to preprocess a source file
-backend/x86/scope/Scope.cpp.i:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/scope/Scope.cpp.i
-.PHONY : backend/x86/scope/Scope.cpp.i
+backend/scope/FunctionTable.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/scope/FunctionTable.cpp.i
+.PHONY : backend/scope/FunctionTable.cpp.i
 
-backend/x86/scope/Scope.s: backend/x86/scope/Scope.cpp.s
+backend/scope/FunctionTable.s: backend/scope/FunctionTable.cpp.s
 
-.PHONY : backend/x86/scope/Scope.s
+.PHONY : backend/scope/FunctionTable.s
 
 # target to generate assembly for a file
-backend/x86/scope/Scope.cpp.s:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/scope/Scope.cpp.s
-.PHONY : backend/x86/scope/Scope.cpp.s
+backend/scope/FunctionTable.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/scope/FunctionTable.cpp.s
+.PHONY : backend/scope/FunctionTable.cpp.s
 
-backend/x86/scope/SymbolTable.o: backend/x86/scope/SymbolTable.cpp.o
+backend/scope/Scope.o: backend/scope/Scope.cpp.o
 
-.PHONY : backend/x86/scope/SymbolTable.o
+.PHONY : backend/scope/Scope.o
 
 # target to build an object file
-backend/x86/scope/SymbolTable.cpp.o:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/scope/SymbolTable.cpp.o
-.PHONY : backend/x86/scope/SymbolTable.cpp.o
+backend/scope/Scope.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/scope/Scope.cpp.o
+.PHONY : backend/scope/Scope.cpp.o
 
-backend/x86/scope/SymbolTable.i: backend/x86/scope/SymbolTable.cpp.i
+backend/scope/Scope.i: backend/scope/Scope.cpp.i
 
-.PHONY : backend/x86/scope/SymbolTable.i
+.PHONY : backend/scope/Scope.i
 
 # target to preprocess a source file
-backend/x86/scope/SymbolTable.cpp.i:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/scope/SymbolTable.cpp.i
-.PHONY : backend/x86/scope/SymbolTable.cpp.i
+backend/scope/Scope.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/scope/Scope.cpp.i
+.PHONY : backend/scope/Scope.cpp.i
 
-backend/x86/scope/SymbolTable.s: backend/x86/scope/SymbolTable.cpp.s
+backend/scope/Scope.s: backend/scope/Scope.cpp.s
 
-.PHONY : backend/x86/scope/SymbolTable.s
+.PHONY : backend/scope/Scope.s
 
 # target to generate assembly for a file
-backend/x86/scope/SymbolTable.cpp.s:
-	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/x86/scope/SymbolTable.cpp.s
-.PHONY : backend/x86/scope/SymbolTable.cpp.s
+backend/scope/Scope.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/scope/Scope.cpp.s
+.PHONY : backend/scope/Scope.cpp.s
+
+backend/scope/SymbolTable.o: backend/scope/SymbolTable.cpp.o
+
+.PHONY : backend/scope/SymbolTable.o
+
+# target to build an object file
+backend/scope/SymbolTable.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/scope/SymbolTable.cpp.o
+.PHONY : backend/scope/SymbolTable.cpp.o
+
+backend/scope/SymbolTable.i: backend/scope/SymbolTable.cpp.i
+
+.PHONY : backend/scope/SymbolTable.i
+
+# target to preprocess a source file
+backend/scope/SymbolTable.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/scope/SymbolTable.cpp.i
+.PHONY : backend/scope/SymbolTable.cpp.i
+
+backend/scope/SymbolTable.s: backend/scope/SymbolTable.cpp.s
+
+.PHONY : backend/scope/SymbolTable.s
+
+# target to generate assembly for a file
+backend/scope/SymbolTable.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/backend/scope/SymbolTable.cpp.s
+.PHONY : backend/scope/SymbolTable.cpp.s
 
 frontend/lex.yy.o: frontend/lex.yy.c.o
 
@@ -402,27 +402,27 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... compiler"
-	@echo "... backend/x86/Compiler.o"
-	@echo "... backend/x86/Compiler.i"
-	@echo "... backend/x86/Compiler.s"
-	@echo "... backend/x86/Emitter.o"
-	@echo "... backend/x86/Emitter.i"
-	@echo "... backend/x86/Emitter.s"
-	@echo "... backend/x86/Reg.o"
-	@echo "... backend/x86/Reg.i"
-	@echo "... backend/x86/Reg.s"
-	@echo "... backend/x86/TypeSystem.o"
-	@echo "... backend/x86/TypeSystem.i"
-	@echo "... backend/x86/TypeSystem.s"
-	@echo "... backend/x86/scope/FunctionTable.o"
-	@echo "... backend/x86/scope/FunctionTable.i"
-	@echo "... backend/x86/scope/FunctionTable.s"
-	@echo "... backend/x86/scope/Scope.o"
-	@echo "... backend/x86/scope/Scope.i"
-	@echo "... backend/x86/scope/Scope.s"
-	@echo "... backend/x86/scope/SymbolTable.o"
-	@echo "... backend/x86/scope/SymbolTable.i"
-	@echo "... backend/x86/scope/SymbolTable.s"
+	@echo "... backend/Compiler.o"
+	@echo "... backend/Compiler.i"
+	@echo "... backend/Compiler.s"
+	@echo "... backend/Emitter.o"
+	@echo "... backend/Emitter.i"
+	@echo "... backend/Emitter.s"
+	@echo "... backend/Reg.o"
+	@echo "... backend/Reg.i"
+	@echo "... backend/Reg.s"
+	@echo "... backend/TypeSystem.o"
+	@echo "... backend/TypeSystem.i"
+	@echo "... backend/TypeSystem.s"
+	@echo "... backend/scope/FunctionTable.o"
+	@echo "... backend/scope/FunctionTable.i"
+	@echo "... backend/scope/FunctionTable.s"
+	@echo "... backend/scope/Scope.o"
+	@echo "... backend/scope/Scope.i"
+	@echo "... backend/scope/Scope.s"
+	@echo "... backend/scope/SymbolTable.o"
+	@echo "... backend/scope/SymbolTable.i"
+	@echo "... backend/scope/SymbolTable.s"
 	@echo "... frontend/lex.yy.o"
 	@echo "... frontend/lex.yy.i"
 	@echo "... frontend/lex.yy.s"

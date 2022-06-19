@@ -1,10 +1,10 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "../backend/x86/TypeSystem.h"
-#include "../backend/x86/Compiler.h"
-#include "../backend/x86/AsmValue.h"
-#include "../backend/x86/SizeType.h"
+#include "../backend/TypeSystem.h"
+#include "../backend/Compiler.h"
+#include "../backend/AsmValue.h"
+#include "../backend/SizeType.h"
 
 using namespace std;
 

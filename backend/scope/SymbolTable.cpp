@@ -3,7 +3,7 @@
 #include "SymbolTable.h"
 #include "Symbol.h"
 #include "../SizeType.h"
-#include "../../../utils/error.h"
+#include "../../utils/error.h"
 
 using namespace std;
 

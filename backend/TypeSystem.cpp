@@ -1,7 +1,7 @@
 #include "TypeSystem.h"
 #include "SizeType.h"
-#include "../../frontend/Ast.h"
-#include "../../utils/error.h"
+#include "../frontend/Ast.h"
+#include "../utils/error.h"
 
 namespace x86 {
 

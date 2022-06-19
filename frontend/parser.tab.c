@@ -72,7 +72,7 @@
     #include <iostream>
     #include <vector>
     #include "Ast.h"
-    #include "../backend/x86/SizeType.h"
+    #include "../backend/SizeType.h"
 
 
     using namespace std;
@@ -150,7 +150,7 @@ extern int yydebug;
     #include <string>
     #include <vector>
     #include "Ast.h"
-    #include "../backend/x86/SizeType.h"
+    #include "../backend/SizeType.h"
 
 
 #line 157 "parser.tab.c"

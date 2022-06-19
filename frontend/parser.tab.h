@@ -49,7 +49,7 @@ extern int yydebug;
     #include <string>
     #include <vector>
     #include "Ast.h"
-    #include "../backend/x86/SizeType.h"
+    #include "../backend/SizeType.h"
 
 
 #line 56 "parser.tab.h"

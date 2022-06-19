@@ -9,11 +9,11 @@ set(CMAKE_C_COMPILER g++)
 add_executable(compiler main.cpp
                         frontend/lex.yy.c
                         frontend/parser.tab.c
-                        backend/x86/Emitter.cpp
-                        backend/x86/Reg.cpp
-                        backend/x86/Compiler.cpp
-                        backend/x86/TypeSystem.cpp
-                        backend/x86/scope/SymbolTable.cpp
-                        backend/x86/scope/FunctionTable.cpp
-                        backend/x86/scope/Scope.cpp
+                        backend/Emitter.cpp
+                        backend/Reg.cpp
+                        backend/Compiler.cpp
+                        backend/TypeSystem.cpp
+                        backend/scope/SymbolTable.cpp
+                        backend/scope/FunctionTable.cpp
+                        backend/scope/Scope.cpp
                         )

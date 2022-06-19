@@ -1,6 +1,6 @@
-#include "../../frontend/Ast.h"
-#include "../../utils/error.h"
-#include "../../utils/int2str.h"
+#include "../frontend/Ast.h"
+#include "../utils/error.h"
+#include "../utils/int2str.h"
 #include "AsmValue.h"
 #include "Compiler.h"
 #include "SizeType.h"
@@ -65,8 +65,8 @@ AsmValue* Compiler::gen(Id& id)
     }
 
     AsmValue* r = new AsmValue(AsmOp::REGISTER);
-    r->index = reg.alloc32();
-    r->val = reg.getName(r->index);
+    r->index = regAllocator.alloc32();
+    r->val = regAllocator.getName(r->index);
     code += emit.mov(r, mem);
 
     if(id.postfix != 0)
@@ -118,7 +118,7 @@ AsmValue* Compiler::gen(Call& call)
                 break;
             case AsmOp::REGISTER:
                 code += emit.push(arg);
-                reg.free(arg->index);
+                regAllocator.free(arg->index);
                 break;
             default:
                 break;
@@ -177,11 +177,11 @@ AsmValue* Compiler::gen(Expr &expr)
         }
 
         AsmValue* result = new AsmValue(AsmOp::REGISTER);
-        result->index = reg.alloc32();
+        result->index = regAllocator.alloc32();
 
         code += emit.imul(result, op1, op2);
 
-        reg.free(op1->index);
+        regAllocator.free(op1->index);
         op1 = result;
 
         break;
@@ -194,13 +194,13 @@ AsmValue* Compiler::gen(Expr &expr)
 
         bool useTmp = !(op1->index == Reg::EAX);
         if(useTmp) {
-            tmpReg->index = reg.alloc32();
+            tmpReg->index = regAllocator.alloc32();
             code += emit.mov(tmpReg, eax);
             code += emit.mov(eax, op1);
         }
 
         AsmValue* divider = new AsmValue(AsmOp::REGISTER);
-        divider->index = reg.alloc32();
+        divider->index = regAllocator.alloc32();
         cout <<  divider->index << endl;
         code += emit.mov(divider, op2);
         code += emit.idiv(divider);
@@ -208,10 +208,10 @@ AsmValue* Compiler::gen(Expr &expr)
         if(useTmp) {
             code += emit.mov(divider, eax);
             code += emit.mov(eax, tmpReg);
-            reg.free(tmpReg->index);
+            regAllocator.free(tmpReg->index);
         }
 
-        reg.free(divider->index);
+        regAllocator.free(divider->index);
         break;
     }
     case ExprType::EQ:
@@ -255,7 +255,7 @@ AsmValue* Compiler::gen(Expr &expr)
     }
 
     if(v2->type == AsmOp::REGISTER)
-        reg.free(v2->index);
+        regAllocator.free(v2->index);
     return op1;
 }
 
@@ -284,7 +284,7 @@ AsmValue* Compiler::gen(VarDef& var)
     code += emit.mov(mem, value);
 
     if(value->type == AsmOp::REGISTER)
-        reg.free(value->index);
+        regAllocator.free(value->index);
 
     return mem;
 }
@@ -312,7 +312,7 @@ AsmValue* Compiler::gen(Assign& assign)
     code += emit.mov(mem, value);
 
     if(value->type == AsmOp::REGISTER)
-        reg.free(value->index);
+        regAllocator.free(value->index);
 
     return mem;
 }
@@ -432,8 +432,8 @@ void Compiler::start(vector<Stmt*> v)
 AsmValue* Compiler::loadOp(AsmValue* val)
 {
     AsmValue* r = new AsmValue(AsmOp::REGISTER);
-    r->index = reg.alloc32();
-    r->val = reg.getName(r->index);
+    r->index = regAllocator.alloc32();
+    r->val = regAllocator.getName(r->index);
     code += emit.mov(r, val);
     return r;
 }

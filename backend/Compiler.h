@@ -37,7 +37,7 @@ namespace x86 {
 class Compiler {
 private:
     Emitter emit;
-    Register reg;
+    Register regAllocator;
     Scope scope;
     Label label;
     TypeSystem typeSystem;

@@ -3,7 +3,7 @@
     #include <iostream>
     #include <vector>
     #include "Ast.h"
-    #include "../backend/x86/SizeType.h"
+    #include "../backend/SizeType.h"
 
 
     using namespace std;
@@ -39,7 +39,7 @@
     #include <string>
     #include <vector>
     #include "Ast.h"
-    #include "../backend/x86/SizeType.h"
+    #include "../backend/SizeType.h"
 
 }
 %token ID NUMBER STRING CHAR

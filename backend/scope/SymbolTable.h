@@ -20,4 +20,5 @@ public:
     void addVar(string name, SizeType size, char sign);
     Symbol get(string name);
 };
+
 }

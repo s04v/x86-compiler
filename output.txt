@@ -35,18 +35,18 @@ sys_write:
 
 
 
-main:
+f:
 push ebp
 mov ebp, esp
 sub esp, 16
 mov eax, 10
-mov ebx, 5
+mov ebx, 2
 idiv ebx
 mov DWORD [ebp-4], eax
 mov DWORD [ebp-8], 0
 jmp .L0
 .L1:
-push 5
+push 12
 push S2
 call sys_write
 mov eax, DWORD [ebp-8]
@@ -63,4 +63,4 @@ ret
 
 
 section .data
-S2 db "hello"
+S2 db "hello, world"

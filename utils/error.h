@@ -4,6 +4,11 @@
 #include <iostream>
 
 using namespace std;
+inline void funcMainNotFound()
+{
+    printf("function \033[1;37m'main'\033[0m not found");
+    exit(1);
+}
 
 inline void invalidConversionFrom(int line, string t1, string t2)
 {

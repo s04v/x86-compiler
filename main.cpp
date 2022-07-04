@@ -34,7 +34,7 @@ int main(int argc,char* argv[])
     compiler.start(*root);
     compiler.createASM();
 
-    system("nasm -felf32 output.txt");
+    system("nasm -felf32 output.asm");
     system("ld -m elf_i386 output.o");
     system("./a.out");
 

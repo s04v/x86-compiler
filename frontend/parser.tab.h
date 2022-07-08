@@ -85,26 +85,27 @@ extern int yydebug;
     GT = 281,
     LTEQ = 282,
     GTEQ = 283,
-    ASSIGN = 284,
-    OTHER = 285,
-    SPACE = 286,
-    BOOL = 287,
-    U8 = 288,
-    I8 = 289,
-    U16 = 290,
-    I16 = 291,
-    U32 = 292,
-    I32 = 293,
-    STRING_T = 294,
-    VOID = 295,
-    IMPORT = 296,
-    STRUCT = 297,
-    VAR = 298,
-    FUNC = 299,
-    RETURN = 300,
-    IF = 301,
-    ELSE = 302,
-    FOR = 303
+    AND = 284,
+    ASSIGN = 285,
+    OTHER = 286,
+    SPACE = 287,
+    BOOL = 288,
+    U8 = 289,
+    I8 = 290,
+    U16 = 291,
+    I16 = 292,
+    U32 = 293,
+    I32 = 294,
+    STRING_T = 295,
+    VOID = 296,
+    IMPORT = 297,
+    STRUCT = 298,
+    VAR = 299,
+    FUNC = 300,
+    RETURN = 301,
+    IF = 302,
+    ELSE = 303,
+    FOR = 304
   };
 #endif
 
@@ -112,7 +113,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 62 "parser.y"
+#line 63 "parser.y"
 
     string* val;
 
@@ -139,7 +140,7 @@ union YYSTYPE
     vector<Stmt*>* stmtVec;
     vector<FuncArg*>* argVec;
 
-#line 143 "parser.tab.h"
+#line 144 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

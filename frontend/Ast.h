@@ -115,6 +115,8 @@ struct Expr_t{
         GTEQ,
         EQ,
         NEQ,
+        AND,
+        OR
     };
 };
 

@@ -1,8 +1,8 @@
-func f(): void {
-    var size: u32 = 10 / 2;
-    for var i: u32 = 0; i < size; i++ {
-        sys_write("hello, world",12);
+func main(): void {
+    var size: u32 = 8;
+    var q: u32 = 1;
+    if size == 1 or q == 0 or q == 1 {
+        sys_write("hello",5);
     }
-
-    size = 5;
 }
+

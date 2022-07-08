@@ -48,6 +48,10 @@ L?\"(\\.|[^\\"\n])*\"	yylval.val = new string(yytext); return STRING;
 "<="                    yylval.val = new string(yytext); return LTEQ;
 ">="                    yylval.val = new string(yytext); return GTEQ;
 
+"and"                   yylval.val = new string(yytext); return AND;
+"or"                    yylval.val = new string(yytext); return OR;
+
+
 "="                     yylval.val = new string(yytext); return ASSIGN;
 "++"                    yylval.val = new string(yytext); return INC;
 "--"                    yylval.val = new string(yytext); return DEC;

@@ -127,7 +127,6 @@ AsmValue* Compiler::gen(Call& call)
 
     code += "call " + call.name + "\n";
 
-    //TODO: ???
     AsmValue* edx = new AsmValue(AsmOp::REGISTER);
     edx->index = Reg::EDX;
 
@@ -137,6 +136,49 @@ AsmValue* Compiler::gen(Call& call)
 AsmValue* Compiler::gen(Expr &expr)
 {
     AsmValue* op1, *op2;
+
+    switch (expr.exprType)
+    {
+    case ExprType::AND:
+    {
+        cout << "and test" << endl;
+        if(conditionalLabel.empty())
+        {
+            conditionalLabel = label.create();
+        }
+        expr.left->gen(*this);
+        expr.right->gen(*this);
+
+        op1 = new AsmValue();
+        op1->val = conditionalLabel;
+        return op1;
+        break;
+    }
+    case ExprType::OR:
+    {
+        if(conditionalLabel.empty())
+        {
+            conditionalLabel = label.create();
+        }
+        isForCondition = 1;
+        expr.left->gen(*this);
+
+        Expr* rightExpr = dynamic_cast<Expr*>(expr.right);
+
+        if(rightExpr->exprType != ExprType::OR)
+        {
+            isForCondition = 0;
+            preLable = conditionalLabel;
+            conditionalLabel = label.create();
+        }
+
+
+        op1 = expr.right->gen(*this);;
+        return op1;
+        break;
+    }
+    }
+
 
     AsmValue* v1 = expr.left->gen(*this);
     if(v1->type == AsmOp::CONSTANT || v1->type == AsmOp::MEMORY)
@@ -192,7 +234,6 @@ AsmValue* Compiler::gen(Expr &expr)
 
         AsmValue* divider = new AsmValue(AsmOp::REGISTER);
         divider->index = regAllocator.alloc32();
-        cout <<  divider->index << endl;
         code += emit.mov(divider, op2);
         code += emit.idiv(divider);
 
@@ -213,9 +254,18 @@ AsmValue* Compiler::gen(Expr &expr)
     case ExprType::GTEQ: {
         code += emit.cmp(op1, op2);
 
-        string labelName = label.create();
-        op1->val = labelName;
         op1->type = AsmOp::STRING; // TODO: change type
+
+        if(!conditionalLabel.empty())
+        {
+            op1->val = conditionalLabel;
+        }
+        else
+        {
+            string labelName = label.create();
+            op1->val = labelName;
+//            conditionalLabel = labelName;
+        }
 
         switch(expr.exprType)
         {
@@ -239,6 +289,14 @@ AsmValue* Compiler::gen(Expr &expr)
             code += emit.jl(op1); break;
         }
 
+        break;
+    }
+    case ExprType::AND:
+    {
+        break;
+    }
+    case ExprType::OR:
+    {
         break;
     }
     default:
@@ -384,12 +442,16 @@ AsmValue* Compiler::gen(For& forStmt)
 
 AsmValue* Compiler::gen(If& ifStmt)
 {
-    AsmValue* label = ifStmt.condition->gen(*this);
+    AsmValue* conditional = ifStmt.condition->gen(*this);
+
+
+    if(!preLable.empty())
+        code += preLable + ":\n";
 
     for(auto& stmts : *(ifStmt.stmts))
         stmts->gen(*this);
 
-    code += label->val + ":\n";
+    code += conditional->val + ":\n";
 }
 
 void Compiler::initBuildInFunctions()
@@ -423,7 +485,7 @@ void Compiler::createASM()
     ifstream rt0;
     string buf;
     rt0.open("internal/rt0.s");
-    file.open ("output.txt");
+    file.open("output.asm");
     while (getline (rt0, buf))
       file << buf << "\n";
 

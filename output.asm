@@ -35,32 +35,30 @@ sys_write:
 
 
 
-f:
+main:
 push ebp
 mov ebp, esp
 sub esp, 16
-mov eax, 10
-mov ebx, 2
-idiv ebx
-mov DWORD [ebp-4], eax
-mov DWORD [ebp-8], 0
-jmp .L0
-.L1:
-push 12
+mov DWORD [ebp-4], 8
+mov DWORD [ebp-8], 1
+mov eax, DWORD [ebp-4]
+cmp eax, 1
+je .L0
+mov ebx, DWORD [ebp-8]
+cmp ebx, 0
+je .L0
+mov ecx, DWORD [ebp-8]
+cmp ecx, 1
+jne .L1
+.L0:
+push 5
 push S2
 call sys_write
-mov eax, DWORD [ebp-8]
-add DWORD [ebp-8], 1
-.L0:
-mov ebx, DWORD [ebp-8]
-mov ecx, DWORD [ebp-4]
-cmp ebx, ecx
-jl .L1
-mov DWORD [ebp-4], 5
+.L1:
 nop
 leave
 ret
 
 
 section .data
-S2 db "hello, world"
+S2 db "hello"

@@ -40,7 +40,13 @@ private:
     Label label;
     TypeSystem typeSystem;
 
+    string conditionalLabel;
+    string preLable;
+
     bool isForCondition = 0;
+
+    bool logicalOR = 0;
+    bool logicalAND = 0;
 public:
     string data = "";
     string code = "";
